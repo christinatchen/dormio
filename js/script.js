@@ -226,7 +226,7 @@ $(function(){
 
   $("#start_timer").click(function(){
    
-    // Validations
+        // Validations
     
     //if dream subject is empty, alert
     if ($.trim($("#dream-subject").val()) == '') {
@@ -244,26 +244,26 @@ $(function(){
 
       //if it isn't a number, alert user
       if (isNaN(+(thing))){
-        console.log("field not filled");
-        alert('Have to fill a valid ' + key);
-        recording = !recording;
-        return;
+      	 console.log("field not filled");
+      	 alert('Have to fill a valid ' + key);
+      	 recording = !recording;
+      	 return;
       }
     }
 
-    //if recordings are null
-    /**if ((prompt_msg_recording == null)){
-      alert ('Please record a prompt message');
-      recording != recording;
-      return;
+    if recordings are null
+    if ((sleep_msg_recording == null)){
+    	alert ('Please record a prompt message');
+    	recording != recording;
+    	return;
     }
 
     //if recordings are null
     if ((wakeup_msg_recording == null)){
-      alert ('Please record a wakeup message');
-      recording != recording;
-      return;
-    }**/
+    	alert ('Please record a wakeup message');
+    	recording != recording;
+    	return;
+    }
 
     $("#dream-subject").prop('disabled', true);
     for (var key in defaults) {
