@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>openSleep</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <script src="js/multithread.js"></script>
+  <script src="js/d3.v4.min.js"></script>
+  <script src="js/FileSaver.min.js"></script>
+  <script src="js/jszip.min.js"></script>
+  <script src="js/hr.js"></script>
+  <script src="js/script.js"></script>
+</head>
+
+<body>
+  <div id="title">openSleep</div>
+  <img src="img/zzz.svg" id="zzz">
+  
+  <div id="user">
+    <div id="user-dream-subject" class="user-elem">
+      <div class="user-label">Dream Subject</div>
+      <input type="text" name="dream_subject" id="dream-subject">
+    </div>
+   
+    <div id="user-time-until-sleep" class="user-elem">
+      <div class="user-label">Time Until Sleep (s)</div>
+      <input type="text" name="time_until_sleep" id="time-until-sleep">
+    </div>
+   
+    <div id="user-time-between-sleep" class="user-elem">
+      <div class="user-label">Time Between Sleeps (s)</div>
+      <input type="text" name="time_between_sleep" id="time-between-sleep">
+    </div>
+   
+    <div id="user-hypna-depth" class="user-elem">
+      <div class="user-label">Hypnagogic Depth</div>
+      <select id="hypna-depth">
+        <option value="light" selected>Light</option>
+        <option value="medium">Medium</option>
+        <option value="deep">Deep</option>
+      </select>
+<!--       <input type="text" name="hypna_latency" id="hypna-latency">
+ -->    </div>
+
+
+     <div id="user-hypna-latency" class="user-elem">
+      <input type="text" name="hypna_latency" id="hypna-latency">
+    </div>
+   
+    <div id="user-loops" class="user-elem">
+      <div class="user-label">Number of Dreams</div>
+      <input type="text" name="loops" id="loops">
+    </div>
+   
+    <div id="user-recording-time" class="user-elem">
+      <div class="user-label">Recording Time (s)</div>
+      <input type="text" name="recording_time" id="recording-time">
+    </div>
+
+    <div class="user-elem">
+        <div class="user-label">"Wakeup" Message</div>
+      <input type="submit" name="record_wakeup_message" id="record-wakeup-message" value="Record">
+    </div>
+   
+    <div class="user-elem">
+        <div class="user-label">"Prompt" Message</div>
+      <input type="submit" name="record_prompt_message" id="record-prompt-message" value="Record">
+    </div>
+  </div>
+</div>
+  
+  </div>
+  <div class="buttons">
+    <span id="start_buttons">
+      <button id="start_timer">Start Timer Session</button>
+    </span>
+
+    <span id="session_buttons">
+      <button id="stop_session" style="background:rgba(255, 0, 0, .4);">Stop Session</button>
+      <button id="wakeup">Wakeup</button>
+    </span>
+  </div>
+
+<p></p>
+</body>
+<script src="js/WebAudioRecorder.min.js"></script>
+</html>

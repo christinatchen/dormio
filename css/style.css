@@ -1,0 +1,207 @@
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+#yo {
+    position: absolute;
+    width: calc(600px * .5);
+    height: calc(930px * .5);
+}
+
+#lab {
+    position: absolute;
+    height: 80%;
+    left: 50%;
+    margin-left: calc(-932px/2);
+}
+
+.line-flex {
+  fill: none;
+  stroke: #0B6623;
+  stroke-width: 1.5px;
+}
+
+.line-hr {
+  fill: none;
+  stroke: #FF0000;
+  stroke-width: 1.5px;
+}
+.axis-hr text{
+  fill: #FF0000;
+}
+
+.line-eda {
+  fill: none;
+  stroke: #0000FF;
+  stroke-width: 1.5px;
+}
+.axis-eda text{
+  fill: #0000FF;
+}
+
+.circle-flex {
+  fill: #fff;
+  stroke: #0B6623;
+  stroke-width: 3px;
+}
+.circle-hr {
+  fill: #fff;
+  stroke: #FF0000;
+  stroke-width: 3px;
+}
+.circle-eda {
+  fill: #fff;
+  stroke: #0000FF;
+  stroke-width: 3px;
+}
+
+.line-wakeup {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.5);
+  stroke-width: 3px;
+  stroke-dasharray: 10,10;
+}
+
+.rect-calibration {
+  fill: rgba(0, 0, 0, 0.2);
+  stroke: none;
+}
+
+#channels {
+  width: 200px;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: rgba(0, 0, 0, .1);
+}
+
+.channel {
+  width: 200px;
+  height: 200px;
+  text-align: center;
+  background: rgba(0, 0, 0, .1);
+}
+
+.channel-name {
+  padding-top: 30px;
+  font-weight: 700;
+}
+
+.channel-value {
+  padding-top: 40px;
+  font-weight: 300;
+}
+
+#channel-flex {
+  background: rgba(11, 102, 35, 0.1);
+}
+#channel-bpm {
+  background: rgba(255, 0, 0, 0.1);
+}
+#channel-eda {
+  background: rgba(0, 0, 255, 0.1);
+}
+
+#channels input[type=text] {
+  text-align: center;
+  width: 50px;
+  background: rgba(0, 0, 0, .1);
+  margin-top: 33px;
+  padding: 5px;
+  font-size:16px;
+  font-weight:300;
+  font-family: 'Roboto', sans-serif;
+}
+#channels input[type=text]:focus {
+  background:rgba(0, 0, 0, .3);
+}
+#title {
+  font-size: 60px;
+  margin: 20px 0px 20px 20px;
+  font-weight: 100;
+}
+
+#plot {
+  width: calc(100% - 200px);
+  height: 600px;
+}
+
+.buttons {
+  margin-top: 50px;
+  width: calc(100% - 200px);
+  text-align:center;
+}
+.buttons button {
+    width: 200px;
+    height: 50px;
+    margin: 5px 15px;
+    padding:5px 15px;
+    background:rgba(0, 0, 0, .1);
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+}
+.buttons button:hover {
+    background:rgba(0, 0, 0, .3);
+}
+
+#zzz {
+  height: 50px;
+  position: absolute;
+  top: 10px;
+  left: 265px;
+  /*transform: scale(-1, 1);
+  -webkit-transform: scale(-1, 1);
+  -moz-transform: scale(-1, 1);*/
+}
+
+#user {
+  position: absolute;
+  top: 10px;
+  left: 350px;
+}
+.user-elem {
+  float: left;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+.user-elem:nth-child(5n) {
+  clear: left;
+}
+.user-label {
+  font-size: 13px;
+}
+
+input {
+  width: 140px;
+}
+select {
+  width: 100px;
+}
+#hypna-latency {
+  width:36px;
+  background:rgba(0, 0, 0, .1);
+}
+
+#submit {
+  margin-top: 20px;
+}
+
+#recording {
+  height: 20px;
+  width: 20px;
+  border-radius: 15px;
+  background: rgba(0,0,0,0.1);
+  float: right;
+  margin: 0px 0px 0px 10px;
+}
+
+#bluetooth_help {
+  padding: 5px;
+}
