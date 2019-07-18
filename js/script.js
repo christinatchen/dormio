@@ -1,4 +1,3 @@
-//bluetooth stuff
 log = function(str) {
   console.log('[' + new Date().toUTCString() + '] ' + str);
 }
@@ -16,11 +15,11 @@ var hypnaDepth = {
   'deep' : 90
 }
 var defaults = {
-  "time-until-sleep": 600,
-  "time-between-sleep" : 340,
-  "hypna-latency" : hypnaDepth['light'],
   "loops" : 3,
-  "recording-time" : 30
+  "hypna-latency" : 45,
+  "time-until-sleep": 15,
+  "time-between-sleep" : 7,
+  "recording-time" : 60
 }
 
 var num_threads = 2;
@@ -30,22 +29,27 @@ var nowDateObj;
 var nowDate;
 var nowTime;
 
-var playedPrompt = null;
+var timeUntilSleep;
+var timeBetweenSleep;
+var hypnaLatency;
+var recordingTime;
+var loops;
 
 function firstWakeup(){
 
+  $("#timer").hide();
+  $("#loop-clock-stuff").show();
+  console.log("did it work?")
+  document.getElementById("loops-remaining").innerHTML = "dreams left to catch: " + loops;
+  drawChart();
   if (prompt_msg_recording != null) {
       prompt_msg_player = new Audio(prompt_msg_recording.url)
       prompt_msg_player.play()
-      playedPrompt = true;
     }
-
-    var thing = parseInt($("#hypna-latency").val());
-
 
   var nextWakeupTimer = setTimeout(function(){
     startWakeup();
-  }, (thing + 10) * 1000);
+  }, (hypnaLatency + 10) * 1000);
 
 }
 
@@ -82,7 +86,7 @@ function startWakeup() {
   //end wake-up after recording time is over
   nextWakeupTimer = setTimeout(function() {
     endWakeup();
-  }, parseInt($("#recording-time").val()) * 1000);
+  }, recordingTime * 1000);
 }
 
 //end wakeup
@@ -100,16 +104,19 @@ function endWakeup() {
   }
 
   //if incomplete #loops, play go to sleep message
-  if (wakeups < parseInt($("#loops").val())) {
+  if (wakeups < loops) {
     if (prompt_msg_recording != null) {
       prompt_msg_player = new Audio(prompt_msg_recording.url)
       prompt_msg_player.play()
     }
 
+    document.getElementById("loops-remaining").innerHTML = "dreams left to catch: " + (loops-1);
+
+
     //do next wakeup after time between sleeps
     nextWakeupTimer = setTimeout(function() {
       startWakeup();
-    }, parseInt($("#time-between-sleep").val()) * 1000);
+    }, timeBetweenSleep * 1000);
 
     //if completed all loops, alarm and end session
   } else {
@@ -187,10 +194,9 @@ gong.addEventListener('ended',function() {
 
 $(function(){
   $("#session_buttons").hide();
+  $("#loop-clock-stuff").hide();
 
-  $("#hypna-depth").change(function() {
-    $("#hypna-latency").val(hypnaDepth[this.value]);
-  })
+  //initTimer("0000"); // other ways --> "0:15" "03:5" "5:2"
 
   for (var key in defaults){
     $("#" + key).val(defaults[key]);
@@ -225,12 +231,11 @@ $(function(){
 
 
   $("#start_timer").click(function(){
-   
-        // Validations
+    // Validations
     
     //if dream subject is empty, alert
     if ($.trim($("#dream-subject").val()) == '') {
-      alert('Have to fill Dream Subject!');
+      alert('Please fill in a dream subject.');
       recording = !recording;
       return;
     }
@@ -244,26 +249,26 @@ $(function(){
 
       //if it isn't a number, alert user
       if (isNaN(+(thing))){
-      	 console.log("field not filled");
-      	 alert('Have to fill a valid ' + key);
-      	 recording = !recording;
-      	 return;
+        console.log("field not filled");
+        alert('Please fill in a valid ' + key + ".");
+        recording = !recording;
+        return;
       }
     }
 
-    if recordings are null
-    if ((sleep_msg_recording == null)){
-    	alert ('Please record a prompt message');
-    	recording != recording;
-    	return;
+    //if recordings are null
+    /**if ((prompt_msg_recording == null)){
+      alert ('Please record a prompt message');
+      recording != recording;
+      return;
     }
 
     //if recordings are null
     if ((wakeup_msg_recording == null)){
-    	alert ('Please record a wakeup message');
-    	recording != recording;
-    	return;
-    }
+      alert ('Please record a wakeup message');
+      recording != recording;
+      return;
+    }**/
 
     $("#dream-subject").prop('disabled', true);
     for (var key in defaults) {
@@ -282,17 +287,33 @@ $(function(){
     fileReadOutput = $("#dream-subject").val() + "||||" + nowDate + "\n";
     fileParseOutput = $("#dream-subject").val() + "||||"
 
+    var timeUntilSleepMin = parseInt($("#time-until-sleep").val());
+    timeUntilSleep = timeUntilSleepMin * 60;
+    var timeUntilSleepString = timeUntilSleepMin + ":00";
+    console.log(timeUntilSleepString);
+
+    var timeBetweenSleepMin = parseInt($("#time-between-sleep").val());
+    timeUntilSleep = timeBetweenSleepMin * 60;
+
+
+    hypnaLatency = parseInt($("#hypna-latency").val());
+    recordingTime = parseInt($("#recording-time").val()); 
+
+    loops = parseInt($("#loops").val());
+ 
 
     log("Start Session");
 
     fileReadOutput += "Session Start: " + nowTime + "\n---------------------------------------------------\n";
 
+    initTimer(timeUntilSleepString);
+    console.log('why');
+
     playPrompt();
-    //}
 
     nextWakeupTimer = setTimeout(function() {
       firstWakeup();
-    }, parseInt($("#time-until-sleep").val()) * 1000);
+    }, timeUntilSleep * 1000);
   });
 
   $("#stop_session").click(function(){
@@ -412,4 +433,271 @@ function getAudio(blob, encoding, filename) {
 //Plays the sound
 function play(url) {
   new Audio(url).play();
+}
+
+// Path to arrow images
+  var arrowImage = './img/dropdown.svg'; // Regular arrow
+  // var arrowImageOver = './img/select_arrow_over.gif';  // Mouse over
+  // var arrowImageDown = './img/select_arrow_down.gif';  // Mouse down
+
+  
+  var selectBoxIds = 0;
+  var currentlyOpenedOptionBox = false;
+  var editableSelect_activeArrow = false;
+  
+
+  
+  // function selectBox_switchImageUrl()
+  // {
+  //   if(this.src.indexOf(arrowImage)>=0){
+  //     this.src = this.src.replace(arrowImage,arrowImageOver); 
+  //   }else{
+  //     this.src = this.src.replace(arrowImageOver,arrowImage);
+  //   }
+  // }
+  
+  function selectBox_showOptions()
+  {
+    if(editableSelect_activeArrow && editableSelect_activeArrow!=this){
+      editableSelect_activeArrow.src = arrowImage;
+      
+    }
+    editableSelect_activeArrow = this;
+    
+    var numId = this.id.replace(/[^\d]/g,'');
+    var optionDiv = document.getElementById('selectBoxOptions' + numId);
+    if(optionDiv.style.display=='block'){
+      optionDiv.style.display='none';
+      if(navigator.userAgent.indexOf('MSIE')>=0)document.getElementById('selectBoxIframe' + numId).style.display='none';
+      //this.src = arrowImageOver;  
+    }else{      
+      optionDiv.style.display='block';
+      if(navigator.userAgent.indexOf('MSIE')>=0)document.getElementById('selectBoxIframe' + numId).style.display='block';
+      //this.src = arrowImageDown;  
+      if(currentlyOpenedOptionBox && currentlyOpenedOptionBox!=optionDiv)currentlyOpenedOptionBox.style.display='none'; 
+      currentlyOpenedOptionBox= optionDiv;      
+    }
+  }
+  
+  function selectOptionValue()
+  {
+    var parentNode = this.parentNode.parentNode;
+    var textInput = parentNode.getElementsByTagName('INPUT')[0];
+    textInput.value = this.innerHTML; 
+    this.parentNode.style.display='none'; 
+    //document.getElementById('arrowSelectBox' + parentNode.id.replace(/[^\d]/g,'')).src = arrowImageOver;
+    
+    if(navigator.userAgent.indexOf('MSIE')>=0)document.getElementById('selectBoxIframe' + parentNode.id.replace(/[^\d]/g,'')).style.display='none';
+    
+  }
+
+  var activeOption;
+  function highlightSelectBoxOption()
+  {
+    if(this.style.backgroundColor=='#316AC5'){
+      this.style.backgroundColor='';
+      this.style.color='';
+    }else{
+      this.style.backgroundColor='#316AC5';
+      this.style.color='#FFF';      
+    } 
+    
+    if(activeOption){
+      activeOption.style.backgroundColor='';
+      activeOption.style.color='';      
+    }
+    activeOption = this;
+    
+  }
+  
+  function createEditableSelect(dest)
+  {
+
+    dest.className='selectBoxInput';    
+    var div = document.createElement('DIV');
+    // div.style.styleFloat = 'left';
+    // div.style.position = 'relative';
+    div.id = 'selectBox' + selectBoxIds;
+    var parent = dest.parentNode;
+    parent.insertBefore(div,dest);
+    div.appendChild(dest);  
+    div.className='selectBox';
+    div.style.zIndex = 10000 - selectBoxIds;
+
+    var img = document.createElement('IMG');
+    img.src = arrowImage;
+    img.className = 'selectBoxArrow';
+    
+    // img.onmouseover = selectBox_switchImageUrl;
+    // img.onmouseout = selectBox_switchImageUrl;
+    img.onclick = selectBox_showOptions;
+    img.id = 'arrowSelectBox' + selectBoxIds;
+
+    div.appendChild(img);
+    
+    var optionDiv = document.createElement('DIV');
+    optionDiv.id = 'selectBoxOptions' + selectBoxIds;
+    optionDiv.className='selectBoxOptionContainer';
+    optionDiv.style.width = div.offsetWidth-2 + 'px';
+    div.appendChild(optionDiv);
+    
+    if(navigator.userAgent.indexOf('MSIE')>=0){
+      var iframe = document.createElement('<IFRAME src="about:blank" frameborder=0>');
+      iframe.style.width = optionDiv.style.width;
+      iframe.style.height = optionDiv.offsetHeight + 'px';
+      iframe.style.display='none';
+      iframe.id = 'selectBoxIframe' + selectBoxIds;
+      div.appendChild(iframe);
+    }
+    
+    if(dest.getAttribute('selectBoxOptions')){
+      var options = dest.getAttribute('selectBoxOptions').split(';');
+      var optionsTotalHeight = 0;
+      var optionArray = new Array();
+      for(var no=0;no<options.length;no++){
+        var anOption = document.createElement('DIV');
+        anOption.innerHTML = options[no];
+        anOption.className='selectBoxAnOption';
+        anOption.onclick = selectOptionValue;
+        anOption.style.width = optionDiv.style.width.replace('px','') - 2 + 'px'; 
+        anOption.onmouseover = highlightSelectBoxOption;
+        optionDiv.appendChild(anOption);  
+        optionsTotalHeight = optionsTotalHeight + anOption.offsetHeight;
+        optionArray.push(anOption);
+      }
+      if(optionsTotalHeight > optionDiv.offsetHeight){        
+        for(var no=0;no<optionArray.length;no++){
+          optionArray[no].style.width = optionDiv.style.width.replace('px','') - 22 + 'px';   
+        } 
+      }   
+      optionDiv.style.display='none';
+      optionDiv.style.visibility='visible';
+    }
+    
+    selectBoxIds = selectBoxIds + 1;
+  } 
+
+//define the chart package
+//google.charts.load('current', {'packages':['corechart']});
+//set what is supposed to happen when the page loads. You typically want a state of the chart to show on load, but in this case, there is no data on load.
+//google.charts.setOnLoadCallback(drawChart);
+     
+//submit requires text inputs to use parseInt to work as numbers
+function drawChart() {
+  hyp = parseInt(document.getElementById('hypna-latency').value);
+  rc = parseInt(document.getElementById('recording-time').value);
+  tbs = parseInt(document.getElementById('time-between-sleep').value);
+
+  tbsMin = tbs * 60;
+
+  fullClock = hyp + rc + tbsMin;
+  console.log(fullClock);
+  document.getElementById("tick").style = 'animation: rotate ' + fullClock + 's infinite linear';
+
+  //replace data with variable names
+  var data = google.visualization.arrayToDataTable([
+    ['Cycle', 'Sleep'],
+    ['hypna latency',     hyp],
+    ['recording time',     rc],
+    ['time between sleep',  tbsMin],
+        ]);
+    var options = {
+      legend: {position: 'labeled'},
+      pieSliceText: 'none',
+      chartArea: {width:'80%',height:'85%'},
+      colors: ['#680099', '#372975','#75296c'],
+      // enableInteractivity: false
+        };
+    
+    //the id is the DOM location to draw the chart    
+    var chart = new google.visualization.PieChart(document.getElementById('loop-clock'));
+    chart.draw(data, options);
+  }
+
+TweenLite.defaultEase = Expo.easeOut;
+
+var reloadBtn = document.querySelector('.reload');
+
+var timerEl = document.querySelector('.timer');
+
+function initTimer (t) {
+   
+   var self = this,
+       timerEl = document.querySelector('.timer'),
+       minutesGroupEl = timerEl.querySelector('.minutes-group'),
+       secondsGroupEl = timerEl.querySelector('.seconds-group'),
+
+       minutesGroup = {
+          firstNum: minutesGroupEl.querySelector('.first'),
+          secondNum: minutesGroupEl.querySelector('.second')
+       },
+
+       secondsGroup = {
+          firstNum: secondsGroupEl.querySelector('.first'),
+          secondNum: secondsGroupEl.querySelector('.second')
+       };
+
+   var time = {
+      min: t.split(':')[0],
+      sec: t.split(':')[1]
+   };
+
+   var timeNumbers;
+
+   function updateTimer() {
+
+      var timestr;
+      var date = new Date();
+
+      date.setHours(0);
+      date.setMinutes(time.min);
+      date.setSeconds(time.sec);
+
+      var newDate = new Date(date.valueOf() - 1000);
+      var temp = newDate.toTimeString().split(" ");
+      var tempsplit = temp[0].split(':');
+
+      time.min = tempsplit[1];
+      time.sec = tempsplit[2];
+
+      timestr = time.min + time.sec + '';
+      timeNumbers = timestr.split('');
+      updateTimerDisplay(timeNumbers);
+
+      if(timestr === '0000')
+         countdownFinished();
+
+      if(timestr != '0000')
+         setTimeout(updateTimer, 1000);
+
+   }
+
+   function updateTimerDisplay(arr) {
+
+      animateNum(minutesGroup.firstNum, arr[0]);
+      animateNum(minutesGroup.secondNum, arr[1]);
+      animateNum(secondsGroup.firstNum, arr[2]);
+      animateNum(secondsGroup.secondNum, arr[3]);
+
+   }
+
+   function animateNum (group, arrayValue) {
+
+      TweenMax.killTweensOf(group.querySelector('.number-grp-wrp'));
+      TweenMax.to(group.querySelector('.number-grp-wrp'), 1, {
+         y: - group.querySelector('.num-' + arrayValue).offsetTop
+      });
+
+   }
+   
+   setTimeout(updateTimer, 1000);
+
+}
+
+function countdownFinished() {
+   setTimeout(function () {
+      TweenMax.set(reloadBtn, { scale: 0.8, display: 'block' });
+      TweenMax.to(timerEl, 1, { opacity: 0.2 });
+      TweenMax.to(reloadBtn, 0.5, { scale: 1, opacity: 1 }); 
+   }, 1000);
 }
