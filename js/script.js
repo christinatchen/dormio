@@ -203,32 +203,54 @@ $(function(){
   }
 
 
-  $("#record-wakeup-message").click(function() {
+   $("#record-wakeup-message").click(function() {
     if(!is_recording_wake) {
-      console.log("starting to record wake message")
-      $('#record-wakeup-message').val("Stop")
-      startRecording("wakeup.mp3", "wakeup")
+      console.log("starting to record wake message");
+      document.getElementById("recording-circle-wakeup").style.background = "rgba(255, 0, 0, 0.5)";
+      $('#record-wakeup-message').val("stop");
+      startRecording("wakeup.mp3", "wakeup");
       is_recording_wake = true;
     } else {
-      $('#record-wakeup-message').val("Record")
-      stopRecording()
+      $('#record-wakeup-message').val("record")
+      document.getElementById("recording-circle-wakeup").style.background = "rgba(0, 0, 0, 0.1)";
+      stopRecording();
       is_recording_wake = false;
     }
   });
 
-  $("#record-prompt-message").click(function() {
-    if(!is_recording_prompt) {
-      console.log("starting to record sleep message")
-      $('#record-prompt-message').val("Stop")
-      startRecording("prompt.mp3", "prompt")
-      is_recording_prompt = true;
-    } else {
-      $('#record-prompt-message').val("Record")
-      stopRecording()
-      is_recording_prompt = false;
+  $("#listen-wakeup-message").click(function() {
+        if(wakeup_msg_recording != null){
+      wakeup_msg_player = new Audio(wakeup_msg_recording.url)
+      wakeup_msg_player.play()
     }
   });
 
+  $("#clear-wakeup-message").click(function() {
+    wakeup_msg_recording = null;
+  });
+
+  $("#record-sleep-message").click(function() {
+    if(!is_recording_sleep) {
+      console.log("starting to record sleep message");
+      document.getElementById("recording-circle-sleep").style.background = "rgba(255, 0, 0, 0.5)";
+      $('#record-sleep-message').val("stop");
+      startRecording("sleep.mp3", "sleep");
+      is_recording_sleep = true;
+    } else {
+      $('#record-sleep-message').val("record");
+      document.getElementById("recording-circle-sleep").style.background = "rgba(0, 0, 0, 0.1)";
+      stopRecording();
+      is_recording_sleep = false;
+    }
+  });
+
+    $("#listen-sleep-message").click(function() {
+      playPrompt();
+  });
+
+  $("#clear-sleep-message").click(function() {
+    sleep_msg_recording = null;
+  });
 
   $("#start_timer").click(function(){
     // Validations
