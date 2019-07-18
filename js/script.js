@@ -42,10 +42,7 @@ function firstWakeup(){
   console.log("did it work?")
   document.getElementById("loops-remaining").innerHTML = "dreams left to catch: " + loops;
   drawChart();
-  if (prompt_msg_recording != null) {
-      prompt_msg_player = new Audio(prompt_msg_recording.url)
-      prompt_msg_player.play()
-    }
+  playPrompt();
 
   var nextWakeupTimer = setTimeout(function(){
     startWakeup();
@@ -116,9 +113,9 @@ function endWakeup() {
 
   //if incomplete #loops, play go to sleep message
   if (wakeups < loops) {
-    if (prompt_msg_recording != null) {
-      prompt_msg_player = new Audio(prompt_msg_recording.url)
-      prompt_msg_player.play()
+    if (sleep_msg_recording != null) {
+      sleep_msg_player = new Audio(sleep_msg_recording.url)
+      sleep_msg_player.play()
     }
 
     document.getElementById("loops-remaining").innerHTML = "dreams left to catch: " + (loops-wakeups);
@@ -166,8 +163,8 @@ function endSession() {
   if (wakeup_msg_recording) {
     audioZipFolder.file(wakeup_msg_recording.filename, wakeup_msg_recording.blob)
   }
-  if (prompt_msg_recording) {
-    audioZipFolder.file(prompt_msg_recording.filename, prompt_msg_recording.blob)
+  if (sleep_msg_recording) {
+    audioZipFolder.file(sleep_msg_recording.filename, sleep_msg_recording.blob)
   }
   for (var audioRec of audio_recordings) {
     console.log("zipping: ",audioRec)
@@ -190,7 +187,7 @@ function endSession() {
 var recording = false;
 var isConnected = false;
 
-var wakeup_msg_recording, prompt_msg_recording;
+var wakeup_msg_recording, sleep_msg_recording;
 var audio_recordings = []
 
 var is_recording_wake = false;
@@ -292,7 +289,7 @@ $(function(){
     }
 
     //if recordings are null
-    if ((prompt_msg_recording == null)){
+    if ((sleep_msg_recording == null)){
       alert ('Please record a prompt message');
       recording != recording;
       return;
@@ -433,8 +430,8 @@ function startRecording(filename, mode = "dream") {
         console.log("wakeup_msg_recording is now: ", wakeup_msg_recording)
         new Audio(audioRecording.url).play()
       } else if (mode == "sleep") {
-        prompt_msg_recording = audioRecording
-        console.log("prompt_msg_recording is now: ", prompt_msg_recording)
+        sleep_msg_recording = audioRecording
+        console.log("sleep_msg_recording is now: ", sleep_msg_recording)
         new Audio(audioRecording.url).play()
       } else {
         console.log("pushed new dream recording: ", audioRecording)
