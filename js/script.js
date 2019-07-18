@@ -121,7 +121,7 @@ function endWakeup() {
       prompt_msg_player.play()
     }
 
-    document.getElementById("loops-remaining").innerHTML = "dreams left to catch: " + (loops-1);
+    document.getElementById("loops-remaining").innerHTML = "dreams left to catch: " + (loops-wakeups);
 
 
     //do next wakeup after time between sleeps
@@ -131,6 +131,8 @@ function endWakeup() {
 
     //if completed all loops, alarm and end session
   } else {
+  	  document.getElementById("tick").style = 'animation: none';
+
     gongs = 0;
     gong.play();
 
