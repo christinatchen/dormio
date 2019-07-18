@@ -181,7 +181,7 @@ var wakeup_msg_recording, prompt_msg_recording;
 var audio_recordings = []
 
 var is_recording_wake = false;
-var is_recording_prompt = false;
+var is_recording_sleep = false;
 
 var gongs = 0;
 var gong = new Audio('audio/gong.wav');
