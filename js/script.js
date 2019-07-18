@@ -40,13 +40,13 @@ function firstWakeup(){
   $("#timer").hide();
   $("#loop-clock-stuff").show();
   console.log("did it work?")
-  document.getElementById("loops-remaining").innerHTML = "dreams left to catch: " + loops;
+  //document.getElementById("loops-remaining").innerHTML = "dreams left to catch: " + loops;
   drawChart();
   playPrompt();
 
   var nextWakeupTimer = setTimeout(function(){
     startWakeup();
-  }, (hypnaLatency + 10) * 1000);
+  }, (hypnaLatency) * 1000);
 
 }
 
@@ -118,7 +118,7 @@ function endWakeup() {
       sleep_msg_player.play()
     }
 
-    document.getElementById("loops-remaining").innerHTML = "dreams left to catch: " + (loops-wakeups);
+    //document.getElementById("loops-remaining").innerHTML = "dreams left to catch: " + (loops-wakeups);
 
 
     //do next wakeup after time between sleeps
@@ -321,11 +321,12 @@ $(function(){
 
     var timeUntilSleepMin = parseInt($("#time-until-sleep").val());
     timeUntilSleep = timeUntilSleepMin * 60;
+    
     var timeUntilSleepString = timeUntilSleepMin + ":00";
     console.log(timeUntilSleepString);
 
     var timeBetweenSleepMin = parseInt($("#time-between-sleep").val());
-    timeUntilSleep = timeBetweenSleepMin * 60;
+    timeBetweenSleep = timeBetweenSleepMin * 60;
 
 
     hypnaLatency = parseInt($("#hypna-latency").val());
