@@ -257,7 +257,7 @@ $(function(){
     }
 
     //if recordings are null
-    *if ((prompt_msg_recording == null)){
+    if ((prompt_msg_recording == null)){
       alert ('Please record a prompt message');
       recording != recording;
       return;
@@ -268,7 +268,7 @@ $(function(){
       alert ('Please record a wakeup message');
       recording != recording;
       return;
-    }*
+    }
 
     $("#dream-subject").prop('disabled', true);
     for (var key in defaults) {
