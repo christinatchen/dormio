@@ -31,6 +31,15 @@ var hypnaLatency;
 var recordingTime;
 var loops;
 
+var recording = false;
+var isConnected = false;
+
+var wakeup_msg_recording, sleep_msg_recording;
+var audio_recordings = []
+
+var is_recording_wake = false;
+var is_recording_sleep = false;
+
 // ==================================================
 //        on page load, do this
 //==================================================
@@ -375,15 +384,6 @@ function endSession() {
   log("End Session");
 }
 
-var recording = false;
-var isConnected = false;
-
-var wakeup_msg_recording, sleep_msg_recording;
-var audio_recordings = []
-
-var is_recording_wake = false;
-var is_recording_sleep = false;
-
 var gongs = 0;
 var gong = new Audio('audio/gong.wav');
 gong.addEventListener('ended',function() {
@@ -468,7 +468,7 @@ function startRecording(filename, mode = "dream") {
 
 
    recorder.onComplete = function(recorder, blob) {
-      console.log("Recording.oncCmplete called")
+      console.log("Recording.onComplete called")
       audioRecording = getAudio(blob, recorder.encoding, filename);
 
       if (mode == "wakeup") {
