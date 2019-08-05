@@ -238,6 +238,7 @@ function playPrompt(){
       sleep_msg_player = new Audio(sleep_msg_recording.url)
       sleep_msg_player.play()
     }else{
+    	console.log(sleep_msg_recording);
     	console.log("no sleep recording");
     }
 }
@@ -312,10 +313,7 @@ function endWakeup() {
 
   //if incomplete #loops, play go to sleep message
   if (wakeups < loops) {
-    if (sleep_msg_recording != null) {
-      sleep_msg_player = new Audio(sleep_msg_recording.url)
-      sleep_msg_player.play()
-    }
+    playPrompt();
 
     document.getElementById("loops-remaining").innerHTML = "<h3>dreams left to catch: " + (loops-wakeups) + "</h3>";
 
@@ -475,14 +473,18 @@ function startRecording(filename, mode = "dream") {
         wakeup_msg_recording = audioRecording
         console.log("wakeup_msg_recording is now: ", wakeup_msg_recording)
         new Audio(audioRecording.url).play()
+
       } else if (mode == "sleep") {
         sleep_msg_recording = audioRecording
         console.log("sleep_msg_recording is now: ", sleep_msg_recording)
         new Audio(audioRecording.url).play()
+
       } else {
         console.log("pushed new dream recording: ", audioRecording)
         audio_recordings.push(audioRecording);
       }
+
+      console.log(sleep_msg_recording);
   }
       recorder.startRecording();
   console.log("Audio Recording Started");
