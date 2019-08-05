@@ -228,6 +228,8 @@ function playPrompt(){
     if (sleep_msg_recording != null) {
       sleep_msg_player = new Audio(sleep_msg_recording.url)
       sleep_msg_player.play()
+    }else{
+    	console.log("no sleep recording");
     }
 }
 
