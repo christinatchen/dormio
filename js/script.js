@@ -141,7 +141,7 @@ $("#start_timer").click(function(){
       }
     }
 
-    if recordings are empty, alert user
+    // if recordings are empty, alert user
 
     if ((sleep_msg_recording == null)){
       alert ('Please record a prompt message');
