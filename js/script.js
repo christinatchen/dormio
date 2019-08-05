@@ -152,17 +152,17 @@ $("#start_timer").click(function(){
 
     // if recordings are empty, alert user
 
-    // if ((sleep_msg_recording == null)){
-    //   alert ('Please record a prompt message');
-    //   recording != recording;
-    //   return;
-    // }
+    if ((sleep_msg_recording == null)){
+      alert ('Please record a prompt message');
+      recording != recording;
+      return;
+    }
 
-    // if ((wakeup_msg_recording == null)){
-    //   alert ('Please record a wakeup message');
-    //   recording != recording;
-    //   return;
-    // }
+    if ((wakeup_msg_recording == null)){
+      alert ('Please record a wakeup message');
+      recording != recording;
+      return;
+    }
 
 
     //everything is filled in correctly, so we can begin!!
@@ -525,8 +525,6 @@ function drawChart() {
   hyp = parseInt(document.getElementById('hypna-latency').value);
   rc = parseInt(document.getElementById('recording-time').value);
   tbs = parseInt(document.getElementById('time-between-sleep').value);
-
-  tbsSec = tbs * 60;
 
   //get the full number of minutes for the loop
   fullClock = hypnaLatency + recordingTime + timeBetweenSleep;
