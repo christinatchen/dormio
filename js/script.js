@@ -9,15 +9,11 @@ var fileParseOutput = "";
 var nextWakeupTimer = null;
 var wakeups = 0;
 
-var hypnaDepth = {
-  'light' : 30,
-  'medium' : 60,
-  'deep' : 90
-}
 var defaults = {
   "loops" : 3,
-  "hypna-latency" : 45,
-  "time-until-sleep": 15,
+  "hypna-latency" : 3,
+  "time-until-sleep-min": 10,
+  "time-until-sleep-max": 15,
   "time-between-sleep" : 7,
   "recording-time" : 60
 }
@@ -35,12 +31,215 @@ var hypnaLatency;
 var recordingTime;
 var loops;
 
+// ==================================================
+//        on page load, do this
+//==================================================
+
+  //initTimer("0000"); // other ways --> "0:15" "03:5" "5:2"
+
+
+$(function(){
+
+  //hide currently unnecessary components
+  $("#loop-clock-container").hide();
+  $("#session-buttons").hide();
+  $("#new-button").hide();
+
+  //pull out form 
+  setTimeout(openForm, 1000);
+
+  //populate the form with default elements
+  for (var key in defaults){
+    $("#" + key).val(defaults[key]);
+  }
+
+  //make record sleep buttons work
+
+    $("#record-sleep-message").click(function() {
+
+    if(!is_recording_sleep) {
+      console.log("starting to record sleep message");
+      document.getElementById("record-sleep-message").style.background = "rgba(255, 0, 0, 0.3)";
+      $('#record-sleep-message').val("stop");
+      startRecording("sleep.mp3", "sleep");
+      is_recording_sleep = true;
+
+    } else {
+      $('#record-sleep-message').val("record");
+      document.getElementById("record-sleep-message").style.background = "transparent";
+      stopRecording();
+      is_recording_sleep = false;
+    }
+     });
+
+    $("#listen-sleep-message").click(function() {
+      playPrompt();
+  });
+
+  $("#clear-sleep-message").click(function() {
+    sleep_msg_recording = null;
+  });
+
+  //make record wakeup buttons work
+   $("#record-wakeup-message").click(function() {
+    if(!is_recording_wake) {
+      console.log("starting to record wake message");
+      document.getElementById("record-wakeup-message").style.background = "rgba(255, 0, 0, 0.3)";
+      $('#record-wakeup-message').val("stop");
+      startRecording("wakeup.mp3", "wakeup");
+      is_recording_wake = true;
+    } else {
+      $('#record-wakeup-message').val("record")
+      document.getElementById("record-wakeup-message").style.background = "transparent";
+      stopRecording();
+      is_recording_wake = false;
+    }
+  });
+
+  $("#listen-wakeup-message").click(function() {
+        if(wakeup_msg_recording != null){
+      wakeup_msg_player = new Audio(wakeup_msg_recording.url)
+      wakeup_msg_player.play()
+    }
+  });
+
+  $("#clear-wakeup-message").click(function() {
+    wakeup_msg_recording = null;
+});
+
+// ======================================================
+//        when start timer button is pressed, do this
+//=======================================================
+
+$("#start_timer").click(function(){
+    
+    // Validations that everything is filled
+
+    
+    //if dream subject is empty, alert user
+
+    if ($.trim($("#dream-subject").val()) == '') {
+      alert('Please fill in a dream subject.');
+      recording = !recording;
+      return;
+    }
+
+    //if any fields are empty, alert
+
+    for (var key in defaults) {
+      var tag = "#" + key;
+
+      //get number value of input field
+      var thing = parseInt($(tag).val());
+
+      //if it isn't a number, alert user
+      if (isNaN(+(thing))){
+        console.log("field not filled");
+        alert('Please fill in a valid ' + key + ".");
+        recording = !recording;
+        return;
+      }
+    }
+
+    if recordings are empty, alert user
+
+    if ((sleep_msg_recording == null)){
+      alert ('Please record a prompt message');
+      recording != recording;
+      return;
+    }
+
+    if ((wakeup_msg_recording == null)){
+      alert ('Please record a wakeup message');
+      recording != recording;
+      return;
+    }
+
+
+    //everything is filled in correctly, so we can begin!!
+
+
+    //disable the input fields during the session
+    $("#dream-subject").prop('disabled', true);
+    for (var key in defaults) {
+      $("#" + key).prop('disabled', true);
+    }
+
+    //hide the start button so people don't click it again if they ever open the form
+    $("#start-button-container").hide();
+
+    //roll back the complete form to the side
+    setTimeout(closeForm, 1000);
+
+    //get the time and date of the click to write the start date/time
+    nowDateObj = new Date();
+    nowDate = nowDateObj.getFullYear()+'-'+(nowDateObj.getMonth()+1)+'-'+nowDateObj.getDate();
+    nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
+
+    //write the date and time to necessary files
+    fileReadOutput = $("#dream-subject").val() + "||||" + nowDate + "\n";
+    fileParseOutput = $("#dream-subject").val() + "||||";
+    log("Start Session");
+    fileReadOutput += "Session Start: " + nowTime + "\n---------------------------------------------------\n";
+
+    //start recording
+    recording = true;
+
+    //parse the user's time until sleep
+    var timeUntilSleepMin = parseInt($("#time-until-sleep-min").val());
+    var timeUntilSleepMax = parseInt($("#time-until-sleep-max").val());
+
+    //pick random number in the range they provided
+    var timeUntilSleepRandom = getRandomInt(timeUntilSleepMin, timeUntilSleepMax); 
+    console.log(timeUntilSleepRandom);
+
+    //convert to seconds
+    timeUntilSleep = timeUntilSleepRandom * 60;
+    
+    //convert to a string for the countdown timer
+    var timeUntilSleepString = timeUntilSleepRandom + ":00";
+
+    //parse time between sleep and convert to seconds
+    var timeBetweenSleepMin = parseInt($("#time-between-sleep").val());
+    timeBetweenSleep = timeBetweenSleepMin * 60;
+
+    //parse hypna latency, recording time and #loops
+    hypnaLatency = parseInt($("#hypna-latency").val()) * 60;
+    recordingTime = parseInt($("#recording-time").val()); 
+    loops = parseInt($("#loops").val());
+
+    //start countdown timer for time until sleep
+    initTimer(timeUntilSleepString);
+    $("#session-buttons").show();
+
+    //play prompt
+    playPrompt();
+
+    nextWakeupTimer = setTimeout(function() {
+      firstWakeup();
+    }, timeUntilSleep * 1000);
+  });
+
+function playPrompt(){
+
+    log("playPrompt");
+
+    //play prompt again
+    if (sleep_msg_recording != null) {
+      sleep_msg_player = new Audio(sleep_msg_recording.url)
+      sleep_msg_player.play()
+    }
+}
+
 function firstWakeup(){
 
-  $("#timer").hide();
-  $("#loop-clock-stuff").show();
-  console.log("did it work?")
-  //document.getElementById("loops-remaining").innerHTML = "dreams left to catch: " + loops;
+  //hide the first countdown timer
+  $("#countdown-timer").hide();
+
+  //show the loop-clock
+  $("#loop-clock-container").show();
+  document.getElementById("loops-remaining").innerHTML = "<h3>dreams left to catch: " + loops + "</h3>";
+
   drawChart();
   playPrompt();
 
@@ -50,21 +249,10 @@ function firstWakeup(){
 
 }
 
-function playPrompt(){
-
-    log("playPrompt");
-
-    //play prompt again
-		if (sleep_msg_recording != null) {
-      sleep_msg_player = new Audio(sleep_msg_recording.url)
-      sleep_msg_player.play()
-    }
-}
-
 //wake up
 function startWakeup() {
-  //change button color
-  $("#wakeup").css("background-color", "rgba(0, 255, 0, .4)");
+  // //change button color
+  // $("#wakeup").css("background-color", "rgba(0, 255, 0, .4)");
 
   //increment wakeups and log
   wakeups += 1;
@@ -101,7 +289,7 @@ function startWakeup() {
 function endWakeup() {
 
   //change button color
-  $("#wakeup").css("background-color", "rgba(0, 0, 0, .1)")
+  // $("#wakeup").css("background-color", "rgba(0, 0, 0, .1)")
 
   //log end
   log("endWakeup #" + wakeups + "/" + $("#loops").val())
@@ -118,7 +306,7 @@ function endWakeup() {
       sleep_msg_player.play()
     }
 
-    //document.getElementById("loops-remaining").innerHTML = "dreams left to catch: " + (loops-wakeups);
+    document.getElementById("loops-remaining").innerHTML = "<h3>dreams left to catch: " + (loops-wakeups) + "</h3>";
 
 
     //do next wakeup after time between sleeps
@@ -144,8 +332,14 @@ function endWakeup() {
 function endSession() {
 
   //hide buttons
-  $("#session_buttons").hide();
-  $("#start_buttons").show();
+  $("#session-buttons").hide();
+  $("#countdown-timer").hide();
+  $("#loop-clock-container").hide();
+
+  console.log("hidden");
+
+  $("#new-button").show();
+
   recording = false;
 
   nowDateObj = new Date();
@@ -177,11 +371,6 @@ function endSession() {
   });
 
   log("End Session");
-
-  $("#dream-subject").prop('disabled', false);
-  for (var key in defaults) {
-    $("#" + key).prop('disabled', false);
-  }
 }
 
 var recording = false;
@@ -202,152 +391,6 @@ gong.addEventListener('ended',function() {
   }
 })
 
-$(function(){
-  $("#session_buttons").hide();
-  $("#loop-clock-stuff").hide();
-
-  //initTimer("0000"); // other ways --> "0:15" "03:5" "5:2"
-
-  for (var key in defaults){
-    $("#" + key).val(defaults[key]);
-  }
-
-
-   $("#record-wakeup-message").click(function() {
-    if(!is_recording_wake) {
-      console.log("starting to record wake message");
-      document.getElementById("recording-circle-wakeup").style.background = "rgba(255, 0, 0, 0.5)";
-      $('#record-wakeup-message').val("stop");
-      startRecording("wakeup.mp3", "wakeup");
-      is_recording_wake = true;
-    } else {
-      $('#record-wakeup-message').val("record")
-      document.getElementById("recording-circle-wakeup").style.background = "rgba(0, 0, 0, 0.1)";
-      stopRecording();
-      is_recording_wake = false;
-    }
-  });
-
-  $("#listen-wakeup-message").click(function() {
-        if(wakeup_msg_recording != null){
-      wakeup_msg_player = new Audio(wakeup_msg_recording.url)
-      wakeup_msg_player.play()
-    }
-  });
-
-  $("#clear-wakeup-message").click(function() {
-    wakeup_msg_recording = null;
-  });
-
-  $("#record-sleep-message").click(function() {
-    if(!is_recording_sleep) {
-      console.log("starting to record sleep message");
-      document.getElementById("recording-circle-sleep").style.background = "rgba(255, 0, 0, 0.5)";
-      $('#record-sleep-message').val("stop");
-      startRecording("sleep.mp3", "sleep");
-      is_recording_sleep = true;
-    } else {
-      $('#record-sleep-message').val("record");
-      document.getElementById("recording-circle-sleep").style.background = "rgba(0, 0, 0, 0.1)";
-      stopRecording();
-      is_recording_sleep = false;
-    }
-  });
-
-    $("#listen-sleep-message").click(function() {
-      playPrompt();
-  });
-
-  $("#clear-sleep-message").click(function() {
-    sleep_msg_recording = null;
-  });
-
-  $("#start_timer").click(function(){
-    // Validations
-    
-    //if dream subject is empty, alert
-    if ($.trim($("#dream-subject").val()) == '') {
-      alert('Please fill in a dream subject.');
-      recording = !recording;
-      return;
-    }
-
-    //if any fields are empty, alert
-    for (var key in defaults) {
-      var tag = "#" + key;
-
-      //get number value of input field
-      var thing = parseInt($(tag).val());
-
-      //if it isn't a number, alert user
-      if (isNaN(+(thing))){
-        console.log("field not filled");
-        alert('Please fill in a valid ' + key + ".");
-        recording = !recording;
-        return;
-      }
-    }
-
-    //if recordings are null
-    if ((sleep_msg_recording == null)){
-      alert ('Please record a prompt message');
-      recording != recording;
-      return;
-    }
-
-    //if recordings are null
-    if ((wakeup_msg_recording == null)){
-      alert ('Please record a wakeup message');
-      recording != recording;
-      return;
-    }
-
-    $("#dream-subject").prop('disabled', true);
-    for (var key in defaults) {
-      $("#" + key).prop('disabled', true);
-    }
-
-    $("#start_buttons").hide();
-    $("#session_buttons").show();
-
-    recording = true;
-
-    nowDateObj = new Date();
-    nowDate = nowDateObj.getFullYear()+'-'+(nowDateObj.getMonth()+1)+'-'+nowDateObj.getDate();
-    nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
-
-    fileReadOutput = $("#dream-subject").val() + "||||" + nowDate + "\n";
-    fileParseOutput = $("#dream-subject").val() + "||||"
-
-    var timeUntilSleepMin = parseInt($("#time-until-sleep").val());
-    timeUntilSleep = timeUntilSleepMin * 60;
-    
-    var timeUntilSleepString = timeUntilSleepMin + ":00";
-    console.log(timeUntilSleepString);
-
-    var timeBetweenSleepMin = parseInt($("#time-between-sleep").val());
-    timeBetweenSleep = timeBetweenSleepMin * 60;
-
-
-    hypnaLatency = parseInt($("#hypna-latency").val());
-    recordingTime = parseInt($("#recording-time").val()); 
-
-    loops = parseInt($("#loops").val());
- 
-
-    log("Start Session");
-
-    fileReadOutput += "Session Start: " + nowTime + "\n---------------------------------------------------\n";
-
-    initTimer(timeUntilSleepString);
-    console.log('why');
-
-    playPrompt();
-
-    nextWakeupTimer = setTimeout(function() {
-      firstWakeup();
-    }, timeUntilSleep * 1000);
-  });
 
   $("#stop_session").click(function(){
     endSession();
@@ -468,148 +511,6 @@ function play(url) {
   new Audio(url).play();
 }
 
-// Path to arrow images
-  var arrowImage = './img/dropdown.svg'; // Regular arrow
-  // var arrowImageOver = './img/select_arrow_over.gif';  // Mouse over
-  // var arrowImageDown = './img/select_arrow_down.gif';  // Mouse down
-
-  
-  var selectBoxIds = 0;
-  var currentlyOpenedOptionBox = false;
-  var editableSelect_activeArrow = false;
-  
-
-  
-  // function selectBox_switchImageUrl()
-  // {
-  //   if(this.src.indexOf(arrowImage)>=0){
-  //     this.src = this.src.replace(arrowImage,arrowImageOver); 
-  //   }else{
-  //     this.src = this.src.replace(arrowImageOver,arrowImage);
-  //   }
-  // }
-  
-  function selectBox_showOptions()
-  {
-    if(editableSelect_activeArrow && editableSelect_activeArrow!=this){
-      editableSelect_activeArrow.src = arrowImage;
-      
-    }
-    editableSelect_activeArrow = this;
-    
-    var numId = this.id.replace(/[^\d]/g,'');
-    var optionDiv = document.getElementById('selectBoxOptions' + numId);
-    if(optionDiv.style.display=='block'){
-      optionDiv.style.display='none';
-      if(navigator.userAgent.indexOf('MSIE')>=0)document.getElementById('selectBoxIframe' + numId).style.display='none';
-      //this.src = arrowImageOver;  
-    }else{      
-      optionDiv.style.display='block';
-      if(navigator.userAgent.indexOf('MSIE')>=0)document.getElementById('selectBoxIframe' + numId).style.display='block';
-      //this.src = arrowImageDown;  
-      if(currentlyOpenedOptionBox && currentlyOpenedOptionBox!=optionDiv)currentlyOpenedOptionBox.style.display='none'; 
-      currentlyOpenedOptionBox= optionDiv;      
-    }
-  }
-  
-  function selectOptionValue()
-  {
-    var parentNode = this.parentNode.parentNode;
-    var textInput = parentNode.getElementsByTagName('INPUT')[0];
-    textInput.value = this.innerHTML; 
-    this.parentNode.style.display='none'; 
-    //document.getElementById('arrowSelectBox' + parentNode.id.replace(/[^\d]/g,'')).src = arrowImageOver;
-    
-    if(navigator.userAgent.indexOf('MSIE')>=0)document.getElementById('selectBoxIframe' + parentNode.id.replace(/[^\d]/g,'')).style.display='none';
-    
-  }
-
-  var activeOption;
-  function highlightSelectBoxOption()
-  {
-    if(this.style.backgroundColor=='#316AC5'){
-      this.style.backgroundColor='';
-      this.style.color='';
-    }else{
-      this.style.backgroundColor='#316AC5';
-      this.style.color='#FFF';      
-    } 
-    
-    if(activeOption){
-      activeOption.style.backgroundColor='';
-      activeOption.style.color='';      
-    }
-    activeOption = this;
-    
-  }
-  
-  function createEditableSelect(dest)
-  {
-
-    dest.className='selectBoxInput';    
-    var div = document.createElement('DIV');
-    // div.style.styleFloat = 'left';
-    // div.style.position = 'relative';
-    div.id = 'selectBox' + selectBoxIds;
-    var parent = dest.parentNode;
-    parent.insertBefore(div,dest);
-    div.appendChild(dest);  
-    div.className='selectBox';
-    div.style.zIndex = 10000 - selectBoxIds;
-
-    var img = document.createElement('IMG');
-    img.src = arrowImage;
-    img.className = 'selectBoxArrow';
-    
-    // img.onmouseover = selectBox_switchImageUrl;
-    // img.onmouseout = selectBox_switchImageUrl;
-    img.onclick = selectBox_showOptions;
-    img.id = 'arrowSelectBox' + selectBoxIds;
-
-    div.appendChild(img);
-    
-    var optionDiv = document.createElement('DIV');
-    optionDiv.id = 'selectBoxOptions' + selectBoxIds;
-    optionDiv.className='selectBoxOptionContainer';
-    optionDiv.style.width = div.offsetWidth-2 + 'px';
-    div.appendChild(optionDiv);
-    
-    if(navigator.userAgent.indexOf('MSIE')>=0){
-      var iframe = document.createElement('<IFRAME src="about:blank" frameborder=0>');
-      iframe.style.width = optionDiv.style.width;
-      iframe.style.height = optionDiv.offsetHeight + 'px';
-      iframe.style.display='none';
-      iframe.id = 'selectBoxIframe' + selectBoxIds;
-      div.appendChild(iframe);
-    }
-    
-    if(dest.getAttribute('selectBoxOptions')){
-      var options = dest.getAttribute('selectBoxOptions').split(';');
-      var optionsTotalHeight = 0;
-      var optionArray = new Array();
-      for(var no=0;no<options.length;no++){
-        var anOption = document.createElement('DIV');
-        anOption.innerHTML = options[no];
-        anOption.className='selectBoxAnOption';
-        anOption.onclick = selectOptionValue;
-        anOption.style.width = optionDiv.style.width.replace('px','') - 2 + 'px'; 
-        anOption.onmouseover = highlightSelectBoxOption;
-        optionDiv.appendChild(anOption);  
-        optionsTotalHeight = optionsTotalHeight + anOption.offsetHeight;
-        optionArray.push(anOption);
-      }
-      if(optionsTotalHeight > optionDiv.offsetHeight){        
-        for(var no=0;no<optionArray.length;no++){
-          optionArray[no].style.width = optionDiv.style.width.replace('px','') - 22 + 'px';   
-        } 
-      }   
-      optionDiv.style.display='none';
-      optionDiv.style.visibility='visible';
-    }
-    
-    selectBoxIds = selectBoxIds + 1;
-  } 
-
 //define the chart package
 //google.charts.load('current', {'packages':['corechart']});
 //set what is supposed to happen when the page loads. You typically want a state of the chart to show on load, but in this case, there is no data on load.
@@ -621,24 +522,28 @@ function drawChart() {
   rc = parseInt(document.getElementById('recording-time').value);
   tbs = parseInt(document.getElementById('time-between-sleep').value);
 
-  tbsMin = tbs * 60;
+  tbsSec = tbs * 60;
 
-  fullClock = hyp + rc + tbsMin;
-  console.log(fullClock);
+  //get the full number of minutes for the loop
+  fullClock = hypnaLatency + recordingTime + timeBetweenSleep;
+  
   document.getElementById("tick").style = 'animation: rotate ' + fullClock + 's infinite linear';
 
   //replace data with variable names
   var data = google.visualization.arrayToDataTable([
     ['Cycle', 'Sleep'],
-    ['hypna latency',     hyp],
-    ['recording time',     rc],
-    ['time between sleep',  tbsMin],
+    ['hypna latency',     hypnaLatency],
+    ['recording time',     recordingTime],
+    ['time between sleep',  timeBetweenSleep],
         ]);
     var options = {
-      legend: {position: 'labeled'},
-      pieSliceText: 'none',
+      backgroundColor: "transparent",
+      // legend: '{position: 'labeled'}',
+      legend: 'none',
+      pieSliceText: 'label',
+      pieSliceTextStyle: {color: 'white', fontName: "Arial" , fontSize: "12"},
       chartArea: {width:'80%',height:'85%'},
-      colors: ['#680099', '#372975','#75296c'],
+      colors: ['#330036', '#4F0333','#4C0F47'],
       // enableInteractivity: false
         };
     
@@ -733,4 +638,31 @@ function countdownFinished() {
       TweenMax.to(timerEl, 1, { opacity: 0.2 });
       TweenMax.to(reloadBtn, 0.5, { scale: 1, opacity: 1 }); 
    }, 1000);
+}
+
+function countdownStopped() {
+   console.log(timeNumbers);
+}
+
+function openForm() {
+  document.getElementById("userform").style.width = "100%";
+  setTimeout(showCloser, 500);
+}
+
+function showCloser(){
+  document.getElementById("closer").style.display = "flex";
+  document.getElementById("closer").style.position = "fixed";
+  document.getElementById("closer").style.property = "justify-content: center";
+}
+
+function closeForm() {
+  document.getElementById("userform").style.width = "0%";
+  document.getElementById("closer").style.display = "none";
+
+}
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
