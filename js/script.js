@@ -107,118 +107,6 @@ $(function(){
     wakeup_msg_recording = null;
 });
 
-// ======================================================
-//        when start timer button is pressed, do this
-//=======================================================
-
-$("#start_timer").click(function(){
-    
-    // Validations that everything is filled
-
-    
-    //if dream subject is empty, alert user
-
-    if ($.trim($("#dream-subject").val()) == '') {
-      alert('Please fill in a dream subject.');
-      recording = !recording;
-      return;
-    }
-
-    //if any fields are empty, alert
-
-    for (var key in defaults) {
-      var tag = "#" + key;
-
-      //get number value of input field
-      var thing = parseInt($(tag).val());
-
-      //if it isn't a number, alert user
-      if (isNaN(+(thing))){
-        console.log("field not filled");
-        alert('Please fill in a valid ' + key + ".");
-        recording = !recording;
-        return;
-      }
-    }
-
-    // if recordings are empty, alert user
-
-    if ((sleep_msg_recording == null)){
-      alert ('Please record a prompt message');
-      recording != recording;
-      return;
-    }
-
-    if ((wakeup_msg_recording == null)){
-      alert ('Please record a wakeup message');
-      recording != recording;
-      return;
-    }
-
-
-    //everything is filled in correctly, so we can begin!!
-
-
-    //disable the input fields during the session
-    $("#dream-subject").prop('disabled', true);
-    for (var key in defaults) {
-      $("#" + key).prop('disabled', true);
-    }
-
-    //hide the start button so people don't click it again if they ever open the form
-    $("#start-button-container").hide();
-
-    //roll back the complete form to the side
-    setTimeout(closeForm, 1000);
-
-    //get the time and date of the click to write the start date/time
-    nowDateObj = new Date();
-    nowDate = nowDateObj.getFullYear()+'-'+(nowDateObj.getMonth()+1)+'-'+nowDateObj.getDate();
-    nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
-
-    //write the date and time to necessary files
-    fileReadOutput = $("#dream-subject").val() + "||||" + nowDate + "\n";
-    fileParseOutput = $("#dream-subject").val() + "||||";
-    log("Start Session");
-    fileReadOutput += "Session Start: " + nowTime + "\n---------------------------------------------------\n";
-
-    //start recording
-    recording = true;
-
-    //parse the user's time until sleep
-    var timeUntilSleepMin = parseInt($("#time-until-sleep-min").val());
-    var timeUntilSleepMax = parseInt($("#time-until-sleep-max").val());
-
-    //pick random number in the range they provided
-    var timeUntilSleepRandom = getRandomInt(timeUntilSleepMin, timeUntilSleepMax); 
-    console.log(timeUntilSleepRandom);
-
-    //convert to seconds
-    timeUntilSleep = timeUntilSleepRandom * 60;
-    
-    //convert to a string for the countdown timer
-    var timeUntilSleepString = timeUntilSleepRandom + ":00";
-
-    //parse time between sleep and convert to seconds
-    var timeBetweenSleepMin = parseInt($("#time-between-sleep").val());
-    timeBetweenSleep = timeBetweenSleepMin * 60;
-
-    //parse hypna latency, recording time and #loops
-    hypnaLatency = parseInt($("#hypna-latency").val()) * 60;
-    recordingTime = parseInt($("#recording-time").val()); 
-    loops = parseInt($("#loops").val());
-
-    //start countdown timer for time until sleep
-    initTimer(timeUntilSleepString);
-    $("#session-buttons").show();
-
-    //play prompt
-    playPrompt();
-
-    nextWakeupTimer = setTimeout(function() {
-      firstWakeup();
-    }, timeUntilSleep * 1000);
-  });
 
 function playPrompt(){
 
@@ -404,6 +292,119 @@ gong.addEventListener('ended',function() {
   })
 
 });
+
+// ======================================================
+//        when start timer button is pressed, do this
+//=======================================================
+
+$("#start_timer").click(function(){
+    
+    // Validations that everything is filled
+
+    
+    //if dream subject is empty, alert user
+
+    if ($.trim($("#dream-subject").val()) == '') {
+      alert('Please fill in a dream subject.');
+      recording = !recording;
+      return;
+    }
+
+    //if any fields are empty, alert
+
+    for (var key in defaults) {
+      var tag = "#" + key;
+
+      //get number value of input field
+      var thing = parseInt($(tag).val());
+
+      //if it isn't a number, alert user
+      if (isNaN(+(thing))){
+        console.log("field not filled");
+        alert('Please fill in a valid ' + key + ".");
+        recording = !recording;
+        return;
+      }
+    }
+
+    // if recordings are empty, alert user
+
+    if ((sleep_msg_recording == null)){
+      alert ('Please record a prompt message');
+      recording != recording;
+      return;
+    }
+
+    if ((wakeup_msg_recording == null)){
+      alert ('Please record a wakeup message');
+      recording != recording;
+      return;
+    }
+
+
+    //everything is filled in correctly, so we can begin!!
+
+
+    //disable the input fields during the session
+    $("#dream-subject").prop('disabled', true);
+    for (var key in defaults) {
+      $("#" + key).prop('disabled', true);
+    }
+
+    //hide the start button so people don't click it again if they ever open the form
+    $("#start-button-container").hide();
+
+    //roll back the complete form to the side
+    setTimeout(closeForm, 1000);
+
+    //get the time and date of the click to write the start date/time
+    nowDateObj = new Date();
+    nowDate = nowDateObj.getFullYear()+'-'+(nowDateObj.getMonth()+1)+'-'+nowDateObj.getDate();
+    nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
+
+    //write the date and time to necessary files
+    fileReadOutput = $("#dream-subject").val() + "||||" + nowDate + "\n";
+    fileParseOutput = $("#dream-subject").val() + "||||";
+    log("Start Session");
+    fileReadOutput += "Session Start: " + nowTime + "\n---------------------------------------------------\n";
+
+    //start recording
+    recording = true;
+
+    //parse the user's time until sleep
+    var timeUntilSleepMin = parseInt($("#time-until-sleep-min").val());
+    var timeUntilSleepMax = parseInt($("#time-until-sleep-max").val());
+
+    //pick random number in the range they provided
+    var timeUntilSleepRandom = getRandomInt(timeUntilSleepMin, timeUntilSleepMax); 
+    console.log(timeUntilSleepRandom);
+
+    //convert to seconds
+    timeUntilSleep = timeUntilSleepRandom * 60;
+    
+    //convert to a string for the countdown timer
+    var timeUntilSleepString = timeUntilSleepRandom + ":00";
+
+    //parse time between sleep and convert to seconds
+    var timeBetweenSleepMin = parseInt($("#time-between-sleep").val());
+    timeBetweenSleep = timeBetweenSleepMin * 60;
+
+    //parse hypna latency, recording time and #loops
+    hypnaLatency = parseInt($("#hypna-latency").val()) * 60;
+    recordingTime = parseInt($("#recording-time").val()); 
+    loops = parseInt($("#loops").val());
+
+    //start countdown timer for time until sleep
+    initTimer(timeUntilSleepString);
+    $("#session-buttons").show();
+
+    //play prompt
+    playPrompt();
+
+    nextWakeupTimer = setTimeout(function() {
+      firstWakeup();
+    }, timeUntilSleep * 1000);
+  });
 
 //event tagging
 document.addEventListener('keydown', function (event) {
