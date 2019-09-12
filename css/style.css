@@ -264,15 +264,19 @@ input[type=submit] {
 }
 
 #start-button-container{
-	height: 20%;
+	height: 50%;
 	padding: 1% 0% 1% 0%;
-	margin: 0% 0% 2% 0%;
+	margin-bottom: 5%;
 	/*margin-bottom: 60px;*/
 }
 
+#start-button-container h3{
+	padding: 0px;
+}
+
 #start_timer{
+	padding: 15px;
 	font-size: 20px;
-	height: 50%;
 	width: 100%;
 }
 
