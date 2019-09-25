@@ -200,13 +200,14 @@ $("#start_timer").click(function(){
 
     //pick random number in the range they provided
     var timeUntilSleepRandom = getRandomInt(timeUntilSleepMin, timeUntilSleepMax); 
-    console.log(timeUntilSleepRandom);
+    console.log("random chosen time: " + timeUntilSleepRandom);
 
     //convert to seconds
     timeUntilSleep = timeUntilSleepRandom * 60;
     
     //convert to a string for the countdown timer
     var timeUntilSleepString = timeUntilSleepRandom + ":00";
+    console.log(timeUntilSleepString);
 
     //parse time between sleep and convert to seconds
     var timeBetweenSleepMin = parseInt($("#time-between-sleep").val());
