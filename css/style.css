@@ -285,12 +285,12 @@ input[type=submit] {
 *================================*/
 
 .timer {
-  width: 550px;
+  width: 825px;
   height: 260px;
   display: inline-block;
   position: absolute;
   top: 30%;
-  left: 30%;
+  left: 20%;
   color: white;
   overflow: hidden;
 }

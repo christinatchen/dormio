@@ -152,17 +152,17 @@ $("#start_timer").click(function(){
 
     // if recordings are empty, alert user
 
-    if ((sleep_msg_recording == null)){
-      alert ('Please record a prompt message');
-      recording != recording;
-      return;
-    }
+    // if ((sleep_msg_recording == null)){
+    //   alert ('Please record a prompt message');
+    //   recording != recording;
+    //   return;
+    // }
 
-    if ((wakeup_msg_recording == null)){
-      alert ('Please record a wakeup message');
-      recording != recording;
-      return;
-    }
+    // if ((wakeup_msg_recording == null)){
+    //   alert ('Please record a wakeup message');
+    //   recording != recording;
+    //   return;
+    // }
 
 
     //everything is filled in correctly, so we can begin!!
@@ -202,11 +202,36 @@ $("#start_timer").click(function(){
     var timeUntilSleepRandom = getRandomInt(timeUntilSleepMin, timeUntilSleepMax); 
     console.log("random chosen time: " + timeUntilSleepRandom);
 
-    //convert to seconds
+    //convert to seconds for the code to handle
     timeUntilSleep = timeUntilSleepRandom * 60;
+   // console.log(timeUntilSleep);
     
     //convert to a string for the countdown timer
-    var timeUntilSleepString = timeUntilSleepRandom + ":00";
+
+    if (timeUntilSleepRandom > 61){
+    	var timeUntilSleepDecimal = timeUntilSleepRandom/60 + "";
+
+    	var timeUntilSleepNum = Math.round(10 * timeUntilSleepDecimal)/10 + "";
+
+    	var res = timeUntilSleepNum.split(".");
+
+  	  	var hrString = res[0];
+
+  	  	var minString = "0." + res[1];
+  	  	console.log("minString" + minString)
+
+  	  	var minNum = parseFloat(minString) * 60;
+  	  	console.log("minNum" + minNum);
+
+
+   		var timeUntilSleepString = hrString + ":" + minNum + ":00";
+
+	}else{
+
+		var timeUntilSleepString = "00:" + timeUntilSleepRandom + ":00";
+	}
+    
+
     console.log(timeUntilSleepString);
 
     //parse time between sleep and convert to seconds
@@ -522,6 +547,7 @@ function play(url) {
 //google.charts.setOnLoadCallback(drawChart);
      
 //submit requires text inputs to use parseInt to work as numbers
+
 function drawChart() {
   hyp = parseInt(document.getElementById('hypna-latency').value);
   rc = parseInt(document.getElementById('recording-time').value);
@@ -555,6 +581,7 @@ function drawChart() {
     chart.draw(data, options);
   }
 
+
 TweenLite.defaultEase = Expo.easeOut;
 
 var reloadBtn = document.querySelector('.reload');
@@ -565,8 +592,14 @@ function initTimer (t) {
    
    var self = this,
        timerEl = document.querySelector('.timer'),
+       hoursGroupEl = timerEl.querySelector('.hours-group'),
        minutesGroupEl = timerEl.querySelector('.minutes-group'),
        secondsGroupEl = timerEl.querySelector('.seconds-group'),
+
+       hoursGroup = {
+       		firstNum: hoursGroupEl.querySelector('.first'),
+       		secondNum: hoursGroupEl.querySelector('.second')
+       },
 
        minutesGroup = {
           firstNum: minutesGroupEl.querySelector('.first'),
@@ -579,8 +612,9 @@ function initTimer (t) {
        };
 
    var time = {
-      min: t.split(':')[0],
-      sec: t.split(':')[1]
+   	  hr: t.split(':')[0],
+      min: t.split(':')[1],
+      sec: t.split(':')[2]
    };
 
    var timeNumbers;
@@ -590,35 +624,40 @@ function initTimer (t) {
       var timestr;
       var date = new Date();
 
-      date.setHours(0);
+      date.setHours(time.hr);
       date.setMinutes(time.min);
       date.setSeconds(time.sec);
 
       var newDate = new Date(date.valueOf() - 1000);
+
       var temp = newDate.toTimeString().split(" ");
+
       var tempsplit = temp[0].split(':');
 
+      time.hr = tempsplit[0];
       time.min = tempsplit[1];
       time.sec = tempsplit[2];
 
-      timestr = time.min + time.sec + '';
+      timestr = time.hr + time.min + time.sec + '';
       timeNumbers = timestr.split('');
       updateTimerDisplay(timeNumbers);
 
-      if(timestr === '0000')
+      if(timestr === '000000')
          countdownFinished();
 
-      if(timestr != '0000')
+      if(timestr != '000000')
          setTimeout(updateTimer, 1000);
 
    }
 
    function updateTimerDisplay(arr) {
 
-      animateNum(minutesGroup.firstNum, arr[0]);
-      animateNum(minutesGroup.secondNum, arr[1]);
-      animateNum(secondsGroup.firstNum, arr[2]);
-      animateNum(secondsGroup.secondNum, arr[3]);
+      animateNum(hoursGroup.firstNum, arr[0]);
+      animateNum(hoursGroup.secondNum, arr[1]);
+      animateNum(minutesGroup.firstNum, arr[2]);
+      animateNum(minutesGroup.secondNum, arr[3]);
+      animateNum(secondsGroup.firstNum, arr[4]);
+      animateNum(secondsGroup.secondNum, arr[5]);
 
    }
 
