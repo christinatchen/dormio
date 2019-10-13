@@ -1,232 +1,199 @@
 body {
     font-size:0.9em;
     line-height:130%;
-    font-family: 'Arimo', sans-serif;
-	background-image: url('../img/bg.png'); 
+    font-family: 'Roboto', sans-serif;
 }
 
-html, body { height: 100%; width: 100%; margin: 0; padding:0; }
-
-/*=================
-   scrollbar
-*=================*/
-
-/* width */
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1; 
-}
- 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888; 
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555; 
-}
-
-/*=================
-   atoms
-*=================*/
-
-input {
-    background-color: transparent;
-    border: 2px solid;
-    /*height: 20px;*/
-    /*width: 160px;*/
-    color: #fff;
-}
-
-input[type=text] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 15px 0;
-  box-sizing: border-box;
-  font-size: 18px;
-  border-radius: 5px;
-
-}
-
-input[type=submit] {
-	background-color: transparent;
-    border: 2px solid;
-    color: #fff;
-    padding:5px 15px; 
-    cursor:pointer;
-    -webkit-border-radius: 5px;
-    border-radius: 5px; 
-}
+html, body { height: 100%; width: 100%; margin: 0; }
 
 #container{
-  height: 100%;
-  width: 100%;
+	height: 100%;
 }
 
 #header {
+  /*background-image: url('../img/bg.png'); */
+  /*background-position: center;*/
+  background-color: #000;
   position: relative;
-  top: 0px;
-  left: 0px;
-  height: 12%;
-  border-bottom: 0.3px solid white;
+  top:0px;
+  left:0px;
+  margin:auto;
+  z-index:100000; 
   display: flex;
-  justify-content: space-between;
+  height: 12%;
 }
 
 #icon {
-  height: 100%;
+  height: 75px;
   top: 5%;
 }
 
-#links{
-	width: 10%;
-	display: flex;
-	margin-right: 2%;
-}
-
-#links img{
-	width: 100%;
-	padding: 1%;
-}
-
-
-#main{
-	display: flex;
-	width: 100%;
-	height: 88%;
-}
-
-#opener{
-	width: 2%;
-	background-color: #000;
-	height: 100%;
-	cursor: pointer;
-	border-left: 0.3px solid white;
-	border-right: 0.3px solid white;
-	display: flex;
-	justify-content: center;
-}
-
-#opener img{
-	width: 100%;
-}
-
 #content{
-  display: flex;
-  height: 100%;
-  width: 98%;
-  /*position: static;*/
-}
-
-/*=================
-   form stuff
-*=================*/
-
-.overlay {
-  width: 0;
-  height: 100%;
-  position: fixed;
-  z-index: 1;
-  background-color: rgb(0,0,0);
-  overflow-x: hidden;
-  transition: 0.5s;
-  display: flex;
-  /*overflow-y: scroll;*/
-
-}
-
-.overlay-content {
-  width: 98%;
-  height: 100%;
-  overflow-y: scroll;
-  background-image: url('../img/bg.png');
-  position: relative;
-  align-content: center;
-  flex-direction: column;
-  display: flex;
-  padding: 5% 15% 5% 15%;
-  color: white;
- }
-
-
-#closer{
-	width: 2%;
-	height: 100%;
-	right:0;
-	background-color: #000;
-	cursor: pointer;
-	border-left: 0.3px solid white;
-	border-right: 0.3px solid white;
-	display: none;
-}
-
-#closer img{
-	width: 100%;
-}
-
-.user-elem {
-  margin: 2% 0% 2% 0%;
-  width: 100%;
-}
-
-#dropdowns{
-	font-size: 30px;
-}
-
-#dropdowns input{
-	width: 10%;
-	padding: 8px 0px 8px 20px;
-	margin: 0px 3px 0px 3px;
-	font-size: 30px;
-	border-radius: 5px;
-}
-
-#dropdowns .user-elem{
-	margin: 5% 0% 3% 0%;
-}
-
-/*=================
-   recording stuff
-*=================*/
-
-.recording-container{
 	display: flex;
-	justify-content: space-between;
+	height: 85%;
 }
 
-.recording-elem{
-	width: 48%;
+#left{
+	width: 80%;
+	position: static;
+	display: flex;
 }
 
-.recording-content input:hover[type="submit"]{
-	background: rgba(255, 255, 255, 0.3);
+#plot {
+  width: 85%;
+  height: 100%;
+  margin-left: 2%;
+  margin-right: 2%;
 }
 
-.recording-content{
+#channels {
+  /*height: 20%;*/
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  height: 100%;
+}
+
+.channel {
+  height: 27%;
+  text-align: center;
+  display: flex;
+}
+
+.channel-icon{
+  width: 80%;
+}
+
+.channel-icon img{
+  margin-top: 20%;
+  margin-left: 30%;
+  width: 75%;
+}
+
+/*.channel-name {
+  padding-top: 30px;
+  font-weight: 700;
+}*/
+
+.channel-value {
+  /*padding-top: 10px;*/
+  font-weight: 300;
+  margin-left: 30%;
+}
+
+/*#channels input[type=text] {
+  text-align: center;
+  width: 50px;
+  background: rgba(0, 0, 0, .1);
+  margin-top: 33px;
+  padding: 5px;
+  font-size:16px;
+  font-weight:300;
+  font-family: 'Roboto', sans-serif;
+}
+
+#channels input[type=text]:focus {
+  background:rgba(0, 0, 0, .3);
+}*/
+
+.deltas{
+  display: flex;
+  height: 10%;
+  margin-left:10%;
+  /*display: block;*/
+}
+
+.deltas img{
+  width: 15%;
+}
+
+.deltas input[type=text]{
+  width: 30%;
+  padding: 0px;
+  text-align: center;
+  box-sizing: border-box;
+  margin-left: 5px;
+}
+
+#delta-hr{
+  border: 1px solid #D60808;
+}
+
+#delta-flex{
+  border: 1px solid #23E300;
+}
+
+#delta-eda{
+  border: 1px solid #0077E3;
+}
+
+#delta-labels{
+  display: flex;
+  margin-left: 15%;
+  margin-top: -8px;
+}
+
+.delta-label{
+  margin-left: 22%;
+  font-size: 8px;
+}
+
+.buttons-left {
+  margin-top: 10px;
+  width: 95%;
+  text-align:center;
+  height: 10%;
+}
+.buttons-left button {
+    width: 100%;
+    height: 100%;
+    margin: 5px 15px;
+    padding:5px 15px;
+    background:rgba(0, 0, 0, .1);
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+}
+.buttons-left button:hover {
+    background:rgba(0, 0, 0, .3);
+}
+
+#user {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 20%;
+  border-left: 1px solid;
+  height: 95%;
+  overflow-y: scroll;
+  align-content: center;
+  padding: 20px;
+}
+.user-elem {
+  padding: 3px;
+  /*margin-top: 5px;*/
+  width: 100%;
+  /*margin-left: 10px;*/
+}
+
+.user-label {
+  font-size: 11px;
+}
+
+.recording{
     width: 100%;
     display: flex;
-    padding-top: 3%;
 }
-.recording-content img{
-    width: 25%;
-}
-
-.recording-circle {
-  height: 15px;
-  width: 20px;
-  border-radius: 15px;
-  background: rgba(255,255,255,0.6);
-  /*float: right;*/
-  /*margin: 40px 0px 0px 20px;*/
+.recording img{
+    height: 80px;
 }
 
 .record-buttons{
-    width: 100%;
+    width: 50%;
     margin-top: 10px;
     display: flex;
     flex-direction: column;
@@ -234,244 +201,208 @@ input[type=submit] {
 
 .big-button{
   width: 100%;
-  height: 60%;
-  font-size:20px;
-  font-style: 'Arimo';
-  letter-spacing: 1px;
-  background-color: rgba(255,255,255, 0.5);
+  height: 50%;
 }
 
 .small-record-buttons{
     display: flex;
-    height: 40%;
-    padding-top: 1%;
+    height: 75%;
+    margin-top: 3%;
+}
+.small-record-buttons input [type=submit]{
+    width: 50%;
+    height: 100%;   
 }
 
 .small-button{
+  width: 49%;
+  height: 70%;
+  margin: 1%;
+}
+
+.buttons-right {
+  margin-top: 10px;
+  width: 75%;
+  text-align:center;
+}
+.buttons-right button {
     width: 100%;
-    height: 100%; 
-  	font-style: 'Arimo';
-  	letter-spacing: 1px;
-  	margin-top: 1%;
+    height: 100%;
+    margin: 5px 15px;
+    padding:5px 15px;
+    background:rgba(0, 0, 0, .1);
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+}
+.buttons button:hover {
+    background:rgba(0, 0, 0, .3);
 }
 
-.small-left-button{
-	margin-right: 0.5%;
-}
 
-.small-right-button{
-	margin-left: 0.5%;
-}
-
-#start-button-container{
-	height: 50%;
-	padding: 1% 0% 1% 0%;
-	margin-bottom: 5%;
-	/*margin-bottom: 60px;*/
-}
-
-#start-button-container h3{
-	padding: 0px;
-}
-
-#start_timer{
-	padding: 15px;
-	font-size: 20px;
-	width: 100%;
-}
-
-/*================================
-   countdown for time until sleep
-*================================*/
-
-.timer {
-  width: 550px;
-  height: 260px;
-  display: inline-block;
-  position: absolute;
-  top: 30%;
-  left: 30%;
-  color: white;
-  overflow: hidden;
-}
-
-.timer * {
-  cursor: default;
-}
-
-.timer h3 {
+input[type=text] {
   width: 100%;
-  font-size: 26px;
-  letter-spacing: 4px;
-  text-align: center;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
 }
 
-.timer--clock {
-  width: 100%;
-  height: 100%;
-  top: 50%;
+
+input[type=submit] {
+    padding:5px 15px; 
+    background:#ccc; 
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+}
+
+select {
+  width: 100px;
+}
+
+.recording-circle {
+  height: 15px;
+  width: 15px;
+  border-radius: 15px;
+  background: rgba(0,0,0,0.1);
+  /*float: right;*/
+  margin: 20px 0px 0px 20px;
+}
+
+#bluetooth_help {
+  padding: 5px;
+}
+
+#footer {
+  background-color: #A94399; 
   position: relative;
-  padding-left: 6px;
-  margin-top: -112px;
-  overflow: hidden;
-}
-.timer--clock .clock-display-grp {
-  width: 100%;
-  position: relative;
-}
-.timer--clock .clock-display-grp .number-grp {
-  width: auto;
-  display: block;
-  height: 156px;
-  float: left;
-  overflow: hidden;
-}
-.timer--clock .clock-display-grp .number-grp .number-grp-wrp {
-  width: 100%;
-  top: -130%;
-  position: relative;
-}
-.timer--clock .clock-display-grp .number-grp .number-grp-wrp .num {
-  width: 100%;
-  position: relative;
-  height: 156px;
-}
-.timer--clock .clock-display-grp .number-grp .number-grp-wrp .num p {
-  width: auto;
-  display: table;
-  font-size: 205px;
-  line-height: 150px;
-  font-weight: bold;
-}
-.timer--clock .clock-separator {
-  width: auto;
-  float: left;
-  display: block;
-  height: 156px;
-  top: -130%;
-}
-.timer--clock .clock-separator p {
-  width: auto;
-  display: table;
-  font-size: 205px;
-  line-height: 150px;
-  font-weight: bold;
-  margin: 0;
-  padding: 0;
+  top:0px;
+  left:0px;
+  margin:auto;
+  z-index:100000; 
+  display: flex;
+  height: 5%;
 }
 
-/*=================
-   loop clock
-*=================*/
+/*plot stuff*/
 
-#loop-clock-container{
-  width: 100%;
-  height: 90%;
-  position: relative;
+.line-flex {
+  fill: none;
+  stroke: #0B6623;
+  stroke-width: 1.5px;
 }
 
-#tick-container{
-  width: 100%;
-  height: 95%;
-  position: absolute;
-  z-index: 100000;
+.line-hr {
+  fill: none;
+  stroke: #FF0000;
+  stroke-width: 1.5px;
+}
+.axis-hr text{
+  fill: #FF0000;
 }
 
-#tick{
-  background-color: white;
-  height: 30%;
-  left: 50%;
-  position: absolute;
-  top: 23%;
-  transform-origin: 50% 100%;
-  width: 3px;
+.line-eda {
+  fill: none;
+  stroke: #0000FF;
+  stroke-width: 1.5px;
+}
+.axis-eda text{
+  fill: #0000FF;
 }
 
-#loop-clock{
-  width: 100%;
-  height: 80%;
-  position: absolute;
-  text-align: center;
+.circle-flex {
+  fill: #fff;
+  stroke: #0B6623;
+  stroke-width: 3px;
+}
+.circle-hr {
+  fill: #fff;
+  stroke: #FF0000;
+  stroke-width: 3px;
+}
+.circle-eda {
+  fill: #fff;
+  stroke: #0000FF;
+  stroke-width: 3px;
 }
 
-#loops-remaining{
-	color: white;
-	width: 100%;
-	height: 5%;
-	text-align: center;
-	/*position: fixed: bottom: 0;*/
+.line-wakeup {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.5);
+  stroke-width: 3px;
+  stroke-dasharray: 10,10;
 }
 
-#loops-remaining h3 {
-  width: 100%;
-  font-size: 26px;
-  letter-spacing: 4px;
-  text-align: center;
+.rect-calibration {
+  fill: rgba(0, 0, 0, 0.2);
+  stroke: none;
 }
 
-@keyframes rotate {
-  100% {
-    transform: rotateZ(360deg);
+.selectBoxArrow{
+    margin-top: 8px;
+    height: 75%;
+    float: left;
+    position: absolute;
+    right: 0px;
+  } 
+
+.time-units{
+  font-size: 20px;
+  margin-left: 125px;
+  margin-top: 40px;
+}
+  .selectBoxInput{
+    /*border:0px;
+    padding-left:1px;
+    height:16px;
+    position:absolute;
+    top:0px;
+    left:0px;*/
+
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
   }
-}
 
-#session-buttons{
-	width: 100%;
-	height: 8%;
-	padding: 2%;
-	display: flex;
-	justify-content: center;
-	position: fixed;
-	bottom: 0;
-}
+  .selectBox{
+    /*border:1px solid #7f9db9;*/
+    float: left;
+    position: relative;
+    width: 50%;
+    box-sizing: border-box;
+  
+  }
 
-.bottom-buttons button{
-	width: 20%;
-	height: 100%;
-	margin: 0% 2% 2% 2%;
-	text-align: center;
-	background: transparent;
-	border: 2px solid white;
-	cursor:pointer;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-}
-
-.bottom-buttons button:hover{
-	background: rgba(255, 255, 255, 0.3);
-}
-
-#new-button{
-	width: 100%;
-	height: 100%;
-	padding: 10%;
-	text-align: center;
-	color: white;
-	/*position: fixed;*/
-	/*bottom: 0;*/
-}
-
-#new-button button{
-	width: 50%;
-	height: 20%;
-	margin: 0% 2% 2% 2%;
-	text-align: center;
-	background: transparent;
-	border: 2px solid white;
-	cursor:pointer;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-}
-
-/*=================
-       tooltip
- *=================*/
+  .selectBoxOptionContainer{
+    position:absolute;
+    border:1px solid #7f9db9;
+    /*height:100px;*/
+    background-color:#FFF;
+    /*left:-1px;*/
+    top:50px;
+    visibility:hidden;
+    overflow:auto;
+  }
+  .selectBoxAnOption{
+    font-family:Roboto;
+    font-size:12px;
+    cursor:default;
+    margin:1px;
+    overflow:hidden;
+    white-space:nowrap;
+  }
+  .selectBoxIframe{
+    position:absolute;
+    background-color:#FFF;
+    border:0px;
+    z-index:999;
+  } 
 
   /* Tooltip container */
 .tooltip {
@@ -480,27 +411,27 @@ input[type=submit] {
 }
 
 .tooltip img{
-  width: 2%;
+  width: 5%;
   margin-left: 3px;
   margin-top: 2px;
 }
-/**/
+
 /* Tooltip text */
 .tooltip .tooltiptext {
   visibility: hidden;
-  width: 400px;
+  width: 200px;
   background-color: black;
   color: #fff;
   text-align: center;
-  padding: 20px;
+  padding: 10px;
   border-radius: 6px;
-  font-size: 18px;
-  line-height: 1.5;
 
   /* Position the tooltip text - see examples below! */
   position: absolute;
   top: 100%;
-  margin-left: -200px;  /*Use half of the width to center the tooltip */
+  right: 20%;
+  /*left: 20%; */
+  margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
