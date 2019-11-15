@@ -124,8 +124,8 @@ input[type=submit] {
 }
 
 #maintext{
-  padding: 3% 0% 0% 0%;
-  height: 60%;
+  padding: 5%;
+  height: 100%;
   text-align: center;
 }
 
@@ -148,7 +148,7 @@ h3{
 #maintext button{
   width: 30%;
   height: 25%;
-  margin: 3% 2% 2% 0%;
+  margin: 5% 3% 3% 2%;
   text-align: center;
   background: transparent;
   border: 2px solid white;
@@ -160,27 +160,6 @@ h3{
     color: white;
 }
 
-#studies{
-  /*padding: 5%;*/
-  height: 25%;
-  text-align: center;
-}
-
-
-#studies button{
-  width: 20%;
-  height: 25%;
-  margin: 1% 0% 0% 0%;
-  text-align: center;
-  background: transparent;
-  border: 1px solid white;
-  cursor:pointer;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  font-size: 10px;
-  font-weight: bold;
-  color: white;
-}
 
 /*=================
    form stuff
