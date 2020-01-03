@@ -1054,20 +1054,3 @@ function getAudio(blob, encoding, filename) {
 function play(url) {
   new Audio(url).play();
 }
-
-function openForm() {
-  document.getElementById("userform").style.width = "100%";
-  setTimeout(showCloser, 500);
-}
-
-function showCloser(){
-  document.getElementById("closer").style.display = "flex";
-  document.getElementById("closer").style.position = "fixed";
-  document.getElementById("closer").style.property = "justify-content: center";
-}
-
-function closeForm() {
-  document.getElementById("userform").style.width = "0%";
-  document.getElementById("closer").style.display = "none";
-
-}
