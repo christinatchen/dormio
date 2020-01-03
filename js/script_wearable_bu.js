@@ -758,14 +758,12 @@ function readAudioTxt(){
       if(xmlhttp.status===200){
         console.log(xmlhttp.response);
         console.log(xmlhttp.responseText);
-        txt=xmlhttp.response;
+        // txt=xmlhttp.response;
+        return xmlhttp.response + "";
       }
     }
   }
  xmlhttp.send(null);
-
- console.log(txt + "hello!");
- return txt;
 }
 
 function initializeWakeup(num){
