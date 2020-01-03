@@ -743,7 +743,7 @@ function playPrompt(){
 }
 
 var audioFileTxt = '';
-var parsedAudioFileTxt = '';
+var audioTxtResult = [];
 
 function readAudioTxt(){
 
@@ -762,8 +762,9 @@ function readAudioTxt(){
         console.log(xmlhttp.responseText);
         audioFileTxt=xmlhttp.responseText + "";
         audioFileTxt=audioFileTxt.replace(/<&#91;^>&#93;*>/g, "");
-        audioFileTxt = audioFileTxt.split(";");
-        console.log(audioFileTxt);
+
+        audioTxtResult = audioFileTxt.split(";");
+        console.log(audioTxtResult;
       }
     }
   }
