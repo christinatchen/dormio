@@ -252,8 +252,8 @@ $(document).ready(function()
 
 $(function(){
 
-  readAudioTxt();
-  showWakeup1();
+  // readAudioTxt();
+  // showWakeup1();
 
   //hide calibrate and stop session buttons on load
   $("#calibrate").hide()
@@ -297,6 +297,17 @@ $(function(){
       startCalibrating();
     }
   })
+
+  $("#confirm_wakeups").click(function() {
+
+    var numWakeups = $("#loops").val();
+    var originListTxt = readAudioTxt();
+    console.log(originListTxt);
+
+     // for (var i = 0; i < numWakeups; i++) {
+      //change inner html to display: block
+      //initialize it with parameter (i+1)
+  }
 
 // ==============================================================
 //        when start biosignal button is pressed, do this
@@ -751,9 +762,12 @@ function readAudioTxt(){
     }
   }
  xmlhttp.send(null);
+
+ return xmlhttp.response + "";
 }
 
-function showWakeup1(){
+function initializeWakeup(num){
+
   var mySellect = sellect("#wakeup-1", {
             originList: ['banana', 'apple', 'pineapple', 'papaya', 'grape', 'orange', 'grapefruit', 'guava', 'watermelon', 'melon'],
             destinationList: ['banana', 'papaya', 'grape']
