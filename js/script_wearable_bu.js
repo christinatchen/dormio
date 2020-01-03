@@ -784,7 +784,7 @@ function initializeWakeups(num){
 
   var mySellect = sellect(wakeupInputID, {
             //originList: ['banana', 'apple', 'pineapple', 'papaya', 'grape', 'orange', 'grapefruit', 'guava', 'watermelon', 'melon'],
-            originList = audioTxtResult,
+            originList : audioTxtResult,
             destinationList: []
         });  
         
