@@ -301,10 +301,12 @@ $(function(){
   $("#confirm_wakeups").click(function() {
 
     var numWakeups = $("#loops").val();
-    var originListTxt = readAudioTxt() + "";
-    console.log(originListTxt);
 
-     // for (var i = 0; i < numWakeups; i++) {
+
+     for (var i = 1; i < numWakeups + 1; i++) {
+      var wakeupID = "subject-wakeup-" + i;
+
+      document.getElementById(wakeupID).style.display = "block";
       //change inner html to display: block
       //initialize it with parameter (i+1)
   })
@@ -778,13 +780,15 @@ function readAudioTxt(){
 
 function initializeWakeups(num){
 
-  var mySellect = sellect("#wakeup-1", {
-            originList: ['banana', 'apple', 'pineapple', 'papaya', 'grape', 'orange', 'grapefruit', 'guava', 'watermelon', 'melon'],
-            destinationList: ['banana', 'papaya', 'grape']
+  var wakeupInputID = "wakeup-" + num;
+
+  var mySellect = sellect(wakeupInputID, {
+            //originList: ['banana', 'apple', 'pineapple', 'papaya', 'grape', 'orange', 'grapefruit', 'guava', 'watermelon', 'melon'],
+            originList = audioTxtResult,
+            destinationList: []
         });  
         
         mySellect.init();
-        console.log("selectBoxloaded");
 }
 
 //end session
