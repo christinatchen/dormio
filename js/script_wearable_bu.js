@@ -308,8 +308,8 @@ $(function(){
       //initializeWakeups(i + 1);
      var wakeupNum = i + 1
      var wakeupID = "subject-wakeup-" + wakeupNum;
-      console.log(wakeupID);
-     // document.getElementById(wakeupID).style.display = "block";
+     console.log(wakeupID);
+     document.getElementById(wakeupID).style.display = "block";
      console.log(i);
     }
   })
