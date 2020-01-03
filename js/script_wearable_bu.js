@@ -252,25 +252,8 @@ $(document).ready(function()
 
 $(function(){
 
-  console.log("peanuts");
-  var txt = '';
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.open("GET","audio.txt",true);
-  // console.log("audioText");
-
-
-  xmlhttp.responseType = 'text';
-
-  xmlhttp.onreadystatechange = function(){
-    if(xmlhttp.readyState===xmlhttp.DONE){
-      if(xmlhttp.status===200){
-        console.log(xmlhttp.response);
-        console.log(xmlhttp.responseText);
-      }
-    }
-  }
- xmlhttp.send(null);
-
+  readAudioTxt();
+  
   //hide calibrate and stop session buttons on load
   $("#calibrate").hide()
   $("#stop_session").hide()
@@ -745,6 +728,28 @@ function playPrompt(){
       sleep_msg_player = new Audio(sleep_msg_recording.url)
       sleep_msg_player.play()
     }
+}
+
+function readAudioTxt(){
+
+  console.log("peanuts");
+  var txt = '';
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("GET","audio.txt",true);
+  // console.log("audioText");
+
+
+  xmlhttp.responseType = 'text';
+
+  xmlhttp.onreadystatechange = function(){
+    if(xmlhttp.readyState===xmlhttp.DONE){
+      if(xmlhttp.status===200){
+        console.log(xmlhttp.response);
+        console.log(xmlhttp.responseText);
+      }
+    }
+  }
+ xmlhttp.send(null);
 }
 
 //end session
