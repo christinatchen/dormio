@@ -247,6 +247,11 @@ $(document).ready(function()
     }, 
     5000);
 
+});
+
+
+$(function(){
+
   console.log("peanuts");
   var txt = '';
   var xmlhttp = new XMLHttpRequest();
@@ -265,12 +270,6 @@ $(document).ready(function()
     }
   }
  xmlhttp.send(null);
-
-
-});
-
-
-$(function(){
 
   //hide calibrate and stop session buttons on load
   $("#calibrate").hide()
