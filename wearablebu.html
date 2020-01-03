@@ -345,7 +345,7 @@ function closeForm() {
 
 	xmlhttp.responseType = 'text';
 
-	xmlhttp.onload = function(){
+	xmlhttp.onreadystatechange = function(){
 		if(xmlhttp.readyState===xmlhttp.DONE){
 			if(xmlhttp.status===200){
 				console.log(xmlhttp.response);
