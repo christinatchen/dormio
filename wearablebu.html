@@ -339,15 +339,27 @@ function closeForm() {
 <script>
    var txt = '';
 	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.open("GET","audio.txt",true);
+
+
+	xmlhttp.responseType = 'text';
+
+	xmlhttp.onload = function(){
+		if(xmlhttp.readyState===xhr.DONE){
+			if(xmlhttp.status===200){
+				console.log(xmlhttp.response);
+            	console.log(xmlhttp.responseText);
+			}
+		}
+	}
 	
-	xmlhttp.onreadystatechange = function(){
-  if(xmlhttp.status == 200 && xmlhttp.readyState == 4){
-    txt = xmlhttp.responseText;
-    console.log(txt);
-  }
-};
-xmlhttp.open("GET","audio.txt",true);
-xmlhttp.send();
+// 	xmlhttp.onreadystatechange = function(){
+//   if(xmlhttp.status == 200 && xmlhttp.readyState == 4){
+//     txt = xmlhttp.responseText;
+//     console.log(txt);
+//   }
+// };
+ xmlhttp.send(null);
 
   </script>
 
