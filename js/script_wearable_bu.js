@@ -791,6 +791,7 @@ function initializeWakeups(num){
         });  
         
   mySellect.init();
+  console.log(wakeupInputID + " initialized")
 }
 
 //end session
