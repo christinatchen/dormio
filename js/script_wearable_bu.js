@@ -304,10 +304,10 @@ $(function(){
     console.log(numWakeups);
 
 
-     for (var i = 1; i < (numWakeups + 1); i++) {
-      initializeWakeups(i);
+     for (var i = 0; i < numWakeups; i++) {
+      initializeWakeups(i + 1);
 
-      var wakeupID = "subject-wakeup-" + i;
+      var wakeupID = "subject-wakeup-" + i + 1;
       console.log(wakeupID);
       document.getElementById(wakeupID).style.display = "block";
     }
@@ -789,9 +789,9 @@ function initializeWakeups(num){
             originList : audioTxtResult,
             destinationList: []
         });  
+  console.log(wakeupInputID + " initialized");
         
   mySellect.init();
-  console.log(wakeupInputID + " initialized")
 }
 
 //end session
