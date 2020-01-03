@@ -742,14 +742,14 @@ function playPrompt(){
     }
 }
 
+var txt = '';
 function readAudioTxt(){
 
   console.log("peanuts");
-  var txt = '';
+  // var txt = '';
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.open("GET","audio.txt",true);
   // console.log("audioText");
-
 
   xmlhttp.responseType = 'text';
 
@@ -758,8 +758,9 @@ function readAudioTxt(){
       if(xmlhttp.status===200){
         console.log(xmlhttp.response);
         console.log(xmlhttp.responseText);
-        // txt=xmlhttp.response;
-        return xmlhttp.response + "";
+        txt=xmlhttp.responseText + "";
+        txt=txt.replace(/<&#91;^>&#93;*>/g, "");
+        return txt;
       }
     }
   }
