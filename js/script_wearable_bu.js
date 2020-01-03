@@ -301,7 +301,7 @@ $(function(){
   $("#confirm_wakeups").click(function() {
 
     var numWakeups = $("#loops").val();
-    var originListTxt = readAudioTxt();
+    var originListTxt = readAudioTxt() + "";
     console.log(originListTxt);
 
      // for (var i = 0; i < numWakeups; i++) {
