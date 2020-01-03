@@ -764,7 +764,7 @@ function readAudioTxt(){
         audioFileTxt=audioFileTxt.replace(/<&#91;^>&#93;*>/g, "");
 
         audioTxtResult = audioFileTxt.split(";");
-        console.log(audioTxtResult;
+        console.log(audioTxtResult);
       }
     }
   }
