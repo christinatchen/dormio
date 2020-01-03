@@ -760,6 +760,7 @@ function readAudioTxt(){
         console.log(xmlhttp.responseText);
         txt=xmlhttp.responseText + "";
         txt=txt.replace(/<&#91;^>&#93;*>/g, "");
+        console.log(txt);
         return txt;
       }
     }
