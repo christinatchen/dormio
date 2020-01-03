@@ -337,21 +337,18 @@ function closeForm() {
 </script> -->
 
 <script>
-    $.get('audio/stimWords', (data) => 
-    {
-        console.log(data);
-        let listing = parseDirectoryListing(data);
-        $('body').append(JSON.stringify(listing));
-    });
+   var txt = '';
+	var xmlhttp = new XMLHttpRequest();
+	
+	xmlhttp.onreadystatechange = function(){
+  if(xmlhttp.status == 200 && xmlhttp.readyState == 4){
+    txt = xmlhttp.responseText;
+  }
+};
+xmlhttp.open("GET","audio.txt",true);
+xmlhttp.send();
+console.log(txt);
 
-    function parseDirectoryListing(text) 
-    {
-        let docs = text
-                     .match(/href="([\w]+)/g) // pull out the hrefs
-                     .map((x) => x.replace('href="', '')); // clean up
-        console.log(docs);
-        return docs;
-    }   
   </script>
 
 
