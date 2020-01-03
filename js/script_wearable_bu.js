@@ -742,7 +742,9 @@ function playPrompt(){
     }
 }
 
-var txt = '';
+var audioFileTxt = '';
+var parsedAudioFileTxt = '';
+
 function readAudioTxt(){
 
   console.log("peanuts");
@@ -758,17 +760,22 @@ function readAudioTxt(){
       if(xmlhttp.status===200){
         console.log(xmlhttp.response);
         console.log(xmlhttp.responseText);
-        txt=xmlhttp.responseText + "";
-        txt=txt.replace(/<&#91;^>&#93;*>/g, "");
-        console.log(txt);
-        return txt;
+        audioFileTxt=xmlhttp.responseText + "";
+        audioFileTxt=audioFileTxt.replace(/<&#91;^>&#93;*>/g, "");
+        audioFileTxt = audioFileTxt.split(";");
+        console.log(audioFileTxt);
       }
     }
   }
  xmlhttp.send(null);
 }
 
-function initializeWakeup(num){
+// function parseAudioTxt(){
+//   parsedAudioFileTxt = audioFileTxt.split(";");
+// }
+
+
+function initializeWakeups(num){
 
   var mySellect = sellect("#wakeup-1", {
             originList: ['banana', 'apple', 'pineapple', 'papaya', 'grape', 'orange', 'grapefruit', 'guava', 'watermelon', 'melon'],
