@@ -246,6 +246,26 @@ $(document).ready(function()
     alert("To begin, first set your desired thresholds for heart rate, muscle flex, and electrodermal activity on the right. Then, press 'Connect' to connect your dormio wearable device.\n\nNote: To enable Web Bluetooth API, copy chrome://flags/#enable-experimental-web-platform-features to your Chrome address bar.")
     }, 
     5000);
+
+  var txt = '';
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("GET","audio.txt",true);
+  // console.log("audioText");
+
+
+  xmlhttp.responseType = 'text';
+
+  xmlhttp.onreadystatechange = function(){
+    if(xmlhttp.readyState===xmlhttp.DONE){
+      if(xmlhttp.status===200){
+        console.log(xmlhttp.response);
+              console.log(xmlhttp.responseText);
+      }
+    }
+  }
+ xmlhttp.send(null);
+
+
 });
 
 
