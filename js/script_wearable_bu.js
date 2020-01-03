@@ -306,9 +306,9 @@ $(function(){
      for (var i = 1; i < numWakeups + 1; i++) {
       var wakeupID = "subject-wakeup-" + i;
 
+      initializeWakeups(i);
       document.getElementById(wakeupID).style.display = "block";
-      //change inner html to display: block
-      //initialize it with parameter (i+1)
+    }
   })
 
 // ==============================================================
