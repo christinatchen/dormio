@@ -11,6 +11,11 @@
 
 
   <link rel="stylesheet" type="text/css" href="css/style_wearable_bu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+  <link rel="stylesheet" href="dist/sellect.min.css">
+  
+  <script src="dist/sellect.min.js"></script>
+
   <script src="js/multithread.js"></script>
   <script src="js/d3.v4.min.js"></script>
   <script src="js/FileSaver.min.js"></script>
@@ -50,7 +55,7 @@
   				<div class="overlay-content">
 
   					<h1 style = "text-align: center; font-size: 60px">welcome to dormio.</h1>
-  					<h3 style = "text-align: center; font-size: 18px;">to begin this session of the bu study, fill out the following to customize your wearable dream incubation session.</h3>
+  					<h3 style = "text-align: center; font-size: 18px;">to begin, fill out the following to customize your wearable dream incubation session.</h3>
       
 			    	<!-- name? -->
 			    	<div id="user-name" class="user-elem">
@@ -61,7 +66,7 @@
 
       				<div id = "dropdowns">
       			
-      					<div id = "user-loops" class = "user-elem">
+      					<div id = "user-loops" class = "user-elem" style="border-bottom: 1px solid white;">
               				<label for="loops">you want to perform </label>
               				<input id = "loops" list="loops-list" name="loops">
  							<datalist id="loops-list">
@@ -72,33 +77,75 @@
               				<label> wakeups.</label>
               				<span class="tooltip">
                  				<img src = "img/tooltip.svg">
-                  				<span class="tooltiptext">This is how many times you want to wake up the subject.</span>
+                  				<span class="tooltiptext">This is how many times you want to wake up the subject. To be able to select which words appear upon wakeups, press the 'confirm wakeups' button below when you have confirmed the number of wakeups. To change it, retype the number of wakeups and press confirm again.</span>
                  			</span>
+                      <div style = "padding: 25px; text-align: center;"><input style = "width:75%;" type = "submit" id="num_wakeups" value = "confirm wakeups" onclick="populateWakeups();"></div>
             			</div>
 
+                  <div id = "wakeups">
+
+                    <div id='fileNames'></div>
+
             			<div id = "subject-wakeup-1" class = "user-elem">
-              				<label for="wakeup-1">Select the words to be played for Wakeup 1: </label>
-              				<!-- <input id = "loops" list="loops-list" name="loops">
- 							<datalist id="loops-list">
-    							<option value="3"></option>
-    							<option value="4"></option>
-    							<option value="5"></option>
-							</datalist>
-              				<label> wakeups.</label> -->
-              				<span class="tooltip">
-                 				<img src = "img/tooltip.svg">
-                  				<span class="tooltiptext">This is how many times you want to wake up the subject.</span>
-                 			</span>
+              				<label for="wakeup-1">Select the words to be played for wakeup 1: </label>
+              				<input type="text" id="wakeup-1">
             			</div>
+
+                  <div id = "subject-wakeup-2" class = "user-elem" style="display: none;">
+                      <label for="wakeup-2">Select the words to be played for wakeup 2: </label>
+                      <input type="text" id="wakeup-2">
+                  </div>
+
+                  <div id = "subject-wakeup-3" class = "user-elem" style="display: none;">
+                      <label for="wakeup-3">Select the words to be played for wakeup 3: </label>
+                      <input type="text" id="wakeup-3">
+                  </div>
+
+                  <div id = "subject-wakeup-4" class = "user-elem" style="display: none;">
+                      <label for="wakeup-4">Select the words to be played for wakeup 4: </label>
+                      <input type="text" id="wakeup-4">
+                  </div>
+
+                  <div id = "subject-wakeup-5" class = "user-elem" style="display: none;">
+                      <label for="wakeup-5">Select the words to be played for wakeup 5: </label>
+                      <input type="text" id="wakeup-5">
+                  </div>
+
+                  <div id = "subject-wakeup-6" class = "user-elem" style="display: none;">
+                      <label for="wakeup-6">Select the words to be played for wakeup 6: </label>
+                      <input type="text" id="wakeup-6">
+                  </div>
+
+                  <div id = "subject-wakeup-7" class = "user-elem" style="display: none;">
+                      <label for="wakeup-1">Select the words to be played for wakeup 7: </label>
+                      <input type="text" id="wakeup-7">
+                  </div>
+
+                  <div id = "subject-wakeup-8" class = "user-elem" style="display: none;">
+                      <label for="wakeup-8">Select the words to be played for wakeup 8: </label>
+                      <input type="text" id="wakeup-8">
+                  </div>
+
+                  <div id = "subject-wakeup-9" class = "user-elem" style="display: none;">
+                      <label for="wakeup-9">Select the words to be played for wakeup 9: </label>
+                      <input type="text" id="wakeup-9">
+                  </div>
+
+                  <div id = "subject-wakeup-10" class = "user-elem" style="display: none;">
+                      <label for="wakeup-10">Select the words to be played for wakeup 10: </label>
+                      <input type="text" id="wakeup-10">
+                  </div>
+
+                </div> <!--end wakeups-->
 
             			<div id = "user-hypna-latency" class = "user-elem">
               				<label for="hypna-latency">you want to stay in hypnagogia for </label>
               				<input id = "hypna-latency" list="hypna-latency-list" name="hypna_latency">
- 							<datalist id="hypna-latency-list">
-    							<option value="1"></option>
-    							<option value="2"></option>
-    							<option value="3"></option>
-							</datalist>
+ 							          <datalist id="hypna-latency-list">
+    						        	<option value="1"></option>
+    						        	<option value="2"></option>
+    						        	<option value="3"></option>
+						          	</datalist>
               				<label> minutes.</label>
               				<span class="tooltip">
                  				<img src = "img/tooltip.svg">
@@ -226,8 +273,35 @@
 	</div> <!-- end main -->
 </div><!-- end big container -->
 
+</body>
 
 <script src="js/WebAudioRecorder.min.js"></script>
+
+<script>
+
+  // populateWakeups(){
+
+  // var sellectBox;
+  // var numLoops= $("#loops").val()
+
+  // originList = [];
+  // destinationList:[];
+
+  // for(int i=0; i<numLoops; i++){
+
+  // }
+
+  // var sellectBox = sellect('wakeup-' + (i+1) + "'",{
+    // var sellectBox = sellect()
+    // originList: ['']
+    var mySellect = sellect("#wakeup-1", {
+            originList: ['banana', 'apple', 'pineapple', 'papaya', 'grape', 'orange', 'grapefruit', 'guava', 'watermelon', 'melon'],
+            destinationList: ['banana', 'papaya', 'grape']
+        });  
+        
+        mySellect.init();
+      
+    </script>
 
 <script>
 function openForm() {
@@ -236,9 +310,9 @@ function openForm() {
 }
 
 function showCloser(){
-	document.getElementById("closer").style.display = "flex";
-	document.getElementById("closer").style.position = "fixed";
-	document.getElementById("closer").style.property = "justify-content: center";
+  document.getElementById("closer").style.display = "flex";
+  document.getElementById("closer").style.position = "fixed";
+  document.getElementById("closer").style.property = "justify-content: center";
 }
 
 function closeForm() {
@@ -247,7 +321,18 @@ function closeForm() {
 
 }
 </script>
-</body>
+
+<script src="js/jquery.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () 
+    {
+        $.get("/audio/stimWords/", function(data) 
+        {
+            $("#fileNames").append(data);
+        });
+    })
+</script>
 
 
 

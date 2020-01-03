@@ -335,6 +335,10 @@ select {
   border-radius: 5px;
 }
 
+#wakeups input{
+  width: 100%;
+}
+
 #dropdowns .user-elem{
   margin: 5% 0% 3% 0%;
 }

@@ -1,7 +1,11 @@
-//bluetooth stuff
 log = function(str) {
   console.log('[' + new Date().toUTCString() + '] ' + str);
 }
+
+//bluetooth stuff
+
+var bluetoothDevice;
+var dataCharacteristic;
 
 function isWebBluetoothEnabled() {
   if (navigator.bluetooth) {
@@ -13,9 +17,6 @@ function isWebBluetoothEnabled() {
     return false;
   }
 }
-
-var bluetoothDevice;
-var dataCharacteristic;
 
 function requestDevice() {
   log('Requesting any Bluetooth Device...');
@@ -160,6 +161,22 @@ function onDisconnected() {
 
 //declare vars
 
+var fileReadOutput = "";
+var fileParseOutput = "";
+
+var nextWakeupTimer = null;
+var wakeups = 0;
+
+var defaults = {
+  "time-between-sleep" : 15,
+  "loops" : 3,
+  "calibration-time" : 20,
+  "recording-time" : 30,
+  "delta-eda" : 4,
+  "delta-flex": 5,
+  "delta-hr": 6
+}
+
 var flex = 0,
     hr = 0,
     oldHr = 0,
@@ -175,34 +192,9 @@ var bigBuffer = [];
 var bpmBuffer = [];
 var bpmInit = false;
 
-var fileReadOutput = "";
-var fileParseOutput = "";
-
 var meanEDA = null;
 var meanFlex = null;
 var meanHR = null;
-
-var nextWakeupTimer = null;
-var wakeups = 0;
-
-var hypnaDepth = {
-  'light' : 30,
-  'medium' : 60,
-  'deep' : 90
-}
-var defaults = {
-  "time-between-sleep" : 15,
-  "hypna-latency" : hypnaDepth['light'],
-  "loops" : 3,
-  "calibration-time" : 20,
-  "recording-time" : 30,
-  "delta-eda" : 4,
-  "delta-flex": 5,
-  "delta-hr": 6
-}
-
-var num_threads = 2;
-var MT = new Multithread(num_threads);
 
 var calibrationStatus = null;
 
@@ -214,6 +206,10 @@ var minTime;
 var maxTime;
 
 var startSleepDetectTime;
+
+var calibrateTimer = null;
+var countdown = 0;
+var countdownTimer = null;
 
 function addSign(x, mean) {
   var ret = x - mean;
@@ -238,110 +234,136 @@ function setBPM(_bpm) {
   }
 }
 
-function playPrompt(){
+// ==================================================
+//        on page load, do this
+//==================================================
 
-  log("playPrompt");
+$(document).ready(function()
+{
+	//initial alert instructions after page load
+    setTimeout(function()
+    {
+    alert("To begin, first set your desired thresholds for heart rate, muscle flex, and electrodermal activity on the right. Then, press 'Connect' to connect your dormio wearable device.\n\nNote: To enable Web Bluetooth API, copy chrome://flags/#enable-experimental-web-platform-features to your Chrome address bar.")
+    }, 
+    5000);
+});
 
-    //play prompt again
-		if (sleep_msg_recording != null) {
-      sleep_msg_player = new Audio(sleep_msg_recording.url)
-      sleep_msg_player.play()
+
+$(function(){
+
+  //hide calibrate and stop session buttons on load
+  $("#calibrate").hide()
+  $("#stop_session").hide()
+
+  //populate default variables
+  for (var key in defaults){
+    $("#" + key).val(defaults[key]);
+  }
+
+  //when connect button is clicked, do this
+
+  $('#connect').click(function() {
+
+  //read input from delta boxes
+  var inputDeltaEDA = parseInt($('#delta-eda').val());
+  var inputDeltaFlex = parseInt($('#delta-flex').val());
+  var inputDeltaHR = parseInt($('#delta-hr').val());
+
+    if (isWebBluetoothEnabled()) {
+      if (isConnected) {
+        onResetButtonClick();
+        $('#connect').val("Connect")
+      } else {
+        onReadBatteryLevelButtonClick();
+        $('#connect').val("Reset")
+        alert("Device is connected.")
+
+        //open form to continue process if connect is successful
+        openForm();
+      }
+
+      isConnected = !isConnected
     }
-}
+  });
 
-//wake up
-function startWakeup() {
+    $("#calibrate").click(function() {
+    if (calibrationStatus == "CALIBRATING") {
+      endCalibrating();
+    } else if (calibrationStatus == "CALIBRATED") {
+      startCalibrating();
+    }
+  })
 
-  //change button color
-  $("#wakeup").css("background-color", "rgba(0, 255, 0, .4)");
+// ==============================================================
+//        when start biosignal button is pressed, do this
+//===============================================================
 
-  //add wakeup event to plot
-  g.append("g")
-    .attr("clip-path", "url(#clip)")
-  .append("line")
-    .attr("x1", width)
-    .attr("y1", 0)
-    .attr("x2", width)
-    .attr("y2", height)
-    .attr("class", "line-wakeup")
-  .transition()
-    .duration(6650)
-    .ease(d3.easeLinear)
-    .attr("x1",-1)
-    .attr("x2",-1);
+$("#start_biosignal").click(function(){
 
-  //increment wakeups and log
-  wakeups += 1;
-  log("startWakeup #" + wakeups + "/" + $("#loops").val())
+    // Validations
+    
+    //if dream subject is empty, alert
+    if ($.trim($("#dream-subject").val()) == '') {
+      alert('Have to fill Dream Subject!');
+      recording = !recording;
+      return;
+    }
 
-  //record wakeup event onto files
-  if (recording) {
+    //if any fields are empty, alert
+    for (var key in defaults) {
+      var tag = "#" + key;
+
+      //get number value of input field
+      var thing = parseInt($(tag).val());
+
+      //if it isn't a number, alert user
+      if (isNaN(+(thing))){
+      	 console.log("field not filled");
+      	 alert('Have to fill a valid ' + key);
+      	 recording = !recording;
+      	 return;
+      }
+    }
+
+    //if device isn't connected on start, alert
+    // if (!isConnected){
+    //   alert('Dormio device is not connected');
+    //   recording != recording;
+    //   return;
+    // }
+
+
+    $("#dream-subject").prop('disabled', true);
+    for (var key in defaults) {
+      $("#" + key).prop('disabled', true);
+    }
+
+    $("#start_buttons").hide();
+    $("#session_buttons").show();
+
+    recording = true;
+
     nowDateObj = new Date();
+    nowDate = nowDateObj.getFullYear()+'-'+(nowDateObj.getMonth()+1)+'-'+nowDateObj.getDate();
     nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
 
-    fileReadOutput += "EVENT,wakeup | " + nowTime + "\n";
-    fileParseOutput += "EVENT,wakeup|"
+    fileReadOutput = $("#dream-subject").val() + "||||" + nowDate + "\n";
+    fileParseOutput = $("#dream-subject").val() + "||||"
 
-  }
 
-  //play wake up report message
-  if(wakeup_msg_recording != null){
-      wakeup_msg_player = new Audio(wakeup_msg_recording.url)
-      wakeup_msg_player.play()
+    log("Start Session");
 
-      //record dream report
-      wakeup_msg_player.onended = () => {
-          startRecording("dream_"+wakeups+"_"+new Date().toISOString() + '.mp3', "dream");
-      }
-  }
+    fileReadOutput += "Session Start: " + nowTime + "\n---------------------------------------------------\n";
 
-  //end wake-up after recording time is over
-  nextWakeupTimer = setTimeout(function() {
-    endWakeup();
-  }, parseInt($("#recording-time").val()) * 1000);
-}
+    $("#calibrate").show();
+    	startCalibrating();
+  	});
 
-//end wakeup
-function endWakeup() {
+  	$("#stop_session").click(function(){
+    	endSession();
+  	});
 
-  //change button color
-  $("#wakeup").css("background-color", "rgba(0, 0, 0, .1)")
-
-  //log end
-  log("endWakeup #" + wakeups + "/" + $("#loops").val())
-  
-  //stop recording dream report
-  if (wakeup_msg_recording) {
-    stopRecording();
-  }
-
-  //if incomplete #loops, play go to sleep message
-  if (wakeups < parseInt($("#loops").val())) {
-    
-    //play prompt again
-	if (sleep_msg_recording != null) {
-      sleep_msg_player = new Audio(sleep_msg_recording.url)
-      sleep_msg_player.play()
-    }
-
-    duringSleep();
-
-    //if completed all loops, alarm and end session
-  } else {
-    gongs = 0;
-    gong.play();
-
-    nextWakeupTimer = setTimeout(function() {
-      endSession();
-    }, 4000);
-  }
-}
-
-var calibrateTimer = null;
-var countdown = 0;
-var countdownTimer = null;
-
-//calibrate
+ //calibrate
 function startCalibrating() {
 
   //record calibrate event onto files
@@ -472,7 +494,6 @@ maxTime = parseInt($('#max-time').val());
     }
 }
 
-
 //if both windows are null, do nothing and guess sleep onset right away
 //if not, we wait for min time to start detecting sleep onset.
 //we allow detect sleep onset to continue for the time between maxtime and mintime
@@ -589,6 +610,95 @@ function endDetectSleepOnset(){
 
 }
 
+
+//wake up
+function startWakeup() {
+
+  //change button color
+  $("#wakeup").css("background-color", "rgba(0, 255, 0, .4)");
+
+  //add wakeup event to plot
+  g.append("g")
+    .attr("clip-path", "url(#clip)")
+  .append("line")
+    .attr("x1", width)
+    .attr("y1", 0)
+    .attr("x2", width)
+    .attr("y2", height)
+    .attr("class", "line-wakeup")
+  .transition()
+    .duration(6650)
+    .ease(d3.easeLinear)
+    .attr("x1",-1)
+    .attr("x2",-1);
+
+  //increment wakeups and log
+  wakeups += 1;
+  log("startWakeup #" + wakeups + "/" + $("#loops").val())
+
+  //record wakeup event onto files
+  if (recording) {
+    nowDateObj = new Date();
+    nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
+
+    fileReadOutput += "EVENT,wakeup | " + nowTime + "\n";
+    fileParseOutput += "EVENT,wakeup|"
+
+  }
+
+  //play wake up report message
+  if(wakeup_msg_recording != null){
+      wakeup_msg_player = new Audio(wakeup_msg_recording.url)
+      wakeup_msg_player.play()
+
+      //record dream report
+      wakeup_msg_player.onended = () => {
+          startRecording("dream_"+wakeups+"_"+new Date().toISOString() + '.mp3', "dream");
+      }
+  }
+
+  //end wake-up after recording time is over
+  nextWakeupTimer = setTimeout(function() {
+    endWakeup();
+  }, parseInt($("#recording-time").val()) * 1000);
+}
+
+//end wakeup
+function endWakeup() {
+
+  //change button color
+  $("#wakeup").css("background-color", "rgba(0, 0, 0, .1)")
+
+  //log end
+  log("endWakeup #" + wakeups + "/" + $("#loops").val())
+  
+  //stop recording dream report
+  if (wakeup_msg_recording) {
+    stopRecording();
+  }
+
+  //if incomplete #loops, play go to sleep message
+  if (wakeups < parseInt($("#loops").val())) {
+    
+    //play prompt again
+	if (sleep_msg_recording != null) {
+      sleep_msg_player = new Audio(sleep_msg_recording.url)
+      sleep_msg_player.play()
+    }
+
+    duringSleep();
+
+    //if completed all loops, alarm and end session
+  } else {
+    gongs = 0;
+    gong.play();
+
+    nextWakeupTimer = setTimeout(function() {
+      endSession();
+    }, 4000);
+  }
+}
+
 function duringSleep(){
 
   var timeBetween = parseInt($('#time-between-sleep').val());
@@ -604,6 +714,17 @@ function duringSleep(){
   var nextWakeupTimer = setTimeout(function(){
         startWakeup();
     }, nextWakeupTime * 1000);
+}
+
+function playPrompt(){
+
+  log("playPrompt");
+
+    //play prompt again
+		if (sleep_msg_recording != null) {
+      sleep_msg_player = new Audio(sleep_msg_recording.url)
+      sleep_msg_player.play()
+    }
 }
 
 //end session
@@ -682,122 +803,6 @@ gong.addEventListener('ended',function() {
   }
 })
 
-
-$(document).ready(function()
-{
-    setTimeout(function()
-    {
-    alert("To begin, first set your desired thresholds for heart rate, muscle flex, and electrodermal activity on the right. Then, press 'Connect' to connect your dormio wearable device.\n\nNote: To enable Web Bluetooth API, copy chrome://flags/#enable-experimental-web-platform-features to your Chrome address bar.")
-    }, 
-    2000);
-});
-
-
-$(function(){
-  $("#calibrate").hide()
-  $("#stop_session").hide()
-
-  for (var key in defaults){
-    $("#" + key).val(defaults[key]);
-  }
-
-
-  $('#connect').click(function() {
-
-  var inputDeltaEDA = parseInt($('#delta-eda').val());
-  var inputDeltaFlex = parseInt($('#delta-flex').val());
-  var inputDeltaHR = parseInt($('#delta-hr').val());
-
-    if (isWebBluetoothEnabled()) {
-      if (isConnected) {
-        onResetButtonClick();
-        $('#connect').val("Connect")
-      } else {
-        onReadBatteryLevelButtonClick();
-        $('#connect').val("Reset")
-        alert("Device is connected.")
-        openForm();
-      }
-
-      isConnected = !isConnected
-    }
-  });
-
-
-  $("#calibrate").click(function() {
-    if (calibrationStatus == "CALIBRATING") {
-      endCalibrating();
-    } else if (calibrationStatus == "CALIBRATED") {
-      startCalibrating();
-    }
-  })
-
-  $("#start_biosignal").click(function(){
-
-    // Validations
-    
-    //if dream subject is empty, alert
-    if ($.trim($("#dream-subject").val()) == '') {
-      alert('Have to fill Dream Subject!');
-      recording = !recording;
-      return;
-    }
-
-    //if any fields are empty, alert
-    for (var key in defaults) {
-      var tag = "#" + key;
-
-      //get number value of input field
-      var thing = parseInt($(tag).val());
-
-      //if it isn't a number, alert user
-      if (isNaN(+(thing))){
-      	 console.log("field not filled");
-      	 alert('Have to fill a valid ' + key);
-      	 recording = !recording;
-      	 return;
-      }
-    }
-
-    //if device isn't connected on start, alert
-    // if (!isConnected){
-    //   alert('Dormio device is not connected');
-    //   recording != recording;
-    //   return;
-    // }
-
-
-    $("#dream-subject").prop('disabled', true);
-    for (var key in defaults) {
-      $("#" + key).prop('disabled', true);
-    }
-
-    $("#start_buttons").hide();
-    $("#session_buttons").show();
-
-    recording = true;
-
-    nowDateObj = new Date();
-    nowDate = nowDateObj.getFullYear()+'-'+(nowDateObj.getMonth()+1)+'-'+nowDateObj.getDate();
-    nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
-
-    fileReadOutput = $("#dream-subject").val() + "||||" + nowDate + "\n";
-    fileParseOutput = $("#dream-subject").val() + "||||"
-
-
-    log("Start Session");
-
-    fileReadOutput += "Session Start: " + nowTime + "\n---------------------------------------------------\n";
-
-    $("#calibrate").show();
-    	startCalibrating();
-  	});
-
-  	$("#stop_session").click(function(){
-    	endSession();
-  	});
-
-      //....
 //plot stuff
   var n = 1000,
       dataFlex = d3.range(n).map(() => {return 0;});
