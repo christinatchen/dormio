@@ -307,6 +307,7 @@ $(function(){
       initializeWakeups(i);
 
       var wakeupID = "#subject-wakeup-" + i;
+      console.log(wakeupID);
       document.getElementById(wakeupID).style.display = "block";
     }
   })
