@@ -328,9 +328,10 @@ function closeForm() {
 <script type="text/javascript">
     $(document).ready(function () 
     {
-        $.get("/audio/stimWords/", function(data) 
+        $.get(".", function(data) 
         {
             $("#fileNames").append(data);
+            console.log(data);
         });
     })
 </script>
