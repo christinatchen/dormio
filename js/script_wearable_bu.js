@@ -307,7 +307,7 @@ $(function(){
      // for (var i = 0; i < numWakeups; i++) {
       //change inner html to display: block
       //initialize it with parameter (i+1)
-  }
+  })
 
 // ==============================================================
 //        when start biosignal button is pressed, do this
