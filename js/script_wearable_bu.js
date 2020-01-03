@@ -304,9 +304,9 @@ $(function(){
 
 
      for (var i = 1; i < numWakeups + 1; i++) {
-      var wakeupID = "subject-wakeup-" + i;
-
       initializeWakeups(i);
+
+      var wakeupID = "#subject-wakeup-" + i;
       document.getElementById(wakeupID).style.display = "block";
     }
   })
@@ -780,7 +780,7 @@ function readAudioTxt(){
 
 function initializeWakeups(num){
 
-  var wakeupInputID = "wakeup-" + num;
+  var wakeupInputID = "#wakeup-" + num;
 
   var mySellect = sellect(wakeupInputID, {
             //originList: ['banana', 'apple', 'pineapple', 'papaya', 'grape', 'orange', 'grapefruit', 'guava', 'watermelon', 'melon'],
@@ -788,7 +788,7 @@ function initializeWakeups(num){
             destinationList: []
         });  
         
-        mySellect.init();
+  mySellect.init();
 }
 
 //end session
