@@ -247,6 +247,7 @@ $(document).ready(function()
     }, 
     5000);
 
+  console.log("peanuts");
   var txt = '';
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.open("GET","audio.txt",true);
@@ -259,7 +260,7 @@ $(document).ready(function()
     if(xmlhttp.readyState===xmlhttp.DONE){
       if(xmlhttp.status===200){
         console.log(xmlhttp.response);
-              console.log(xmlhttp.responseText);
+        console.log(xmlhttp.responseText);
       }
     }
   }
