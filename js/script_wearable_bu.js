@@ -301,12 +301,13 @@ $(function(){
   $("#confirm_wakeups").click(function() {
 
     var numWakeups = $("#loops").val();
+    console.log(numWakeups);
 
 
-     for (var i = 1; i < numWakeups + 1; i++) {
+     for (var i = 1; i < (numWakeups + 1); i++) {
       initializeWakeups(i);
 
-      var wakeupID = "#subject-wakeup-" + i;
+      var wakeupID = "subject-wakeup-" + i;
       console.log(wakeupID);
       document.getElementById(wakeupID).style.display = "block";
     }
