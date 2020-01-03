@@ -253,7 +253,7 @@ $(document).ready(function()
 $(function(){
 
   readAudioTxt();
-  
+
   //hide calibrate and stop session buttons on load
   $("#calibrate").hide()
   $("#stop_session").hide()
@@ -750,6 +750,16 @@ function readAudioTxt(){
     }
   }
  xmlhttp.send(null);
+}
+
+function showWakeup1(){
+  var mySellect = sellect("#wakeup-1", {
+            originList: ['banana', 'apple', 'pineapple', 'papaya', 'grape', 'orange', 'grapefruit', 'guava', 'watermelon', 'melon'],
+            destinationList: ['banana', 'papaya', 'grape']
+        });  
+        
+        mySellect.init();
+        console.log("selectBoxloaded");
 }
 
 //end session
