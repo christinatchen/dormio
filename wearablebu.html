@@ -325,5 +325,27 @@ function closeForm() {
 
 <script src="js/jquery.js"></script>
 
+<script>
+
+  console.log("peanuts");
+  var txt = '';
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("GET","audio.txt",true);
+  // console.log("audioText");
+
+
+  xmlhttp.responseType = 'text';
+
+  xmlhttp.onreadystatechange = function(){
+    if(xmlhttp.readyState===xmlhttp.DONE){
+      if(xmlhttp.status===200){
+        console.log(xmlhttp.response);
+        console.log(xmlhttp.responseText);
+      }
+    }
+  }
+ xmlhttp.send(null);
+
+</script>
 
 </html>
