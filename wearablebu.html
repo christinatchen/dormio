@@ -190,6 +190,21 @@
                  			</span>
             			</div>
 
+            			<div id = "user-calibration-time" class = "user-elem">
+                      <label for="calibration time">you want to calibrate dormio for </label>
+                      <input id = "calibration-time" list="calibration-time-list" name="calibration_time">
+              <datalist id="calibration-time-list">
+                  <option value="3"></option>
+                  <option value="5"></option>
+                  <option value="7"></option>
+              </datalist>
+                      <label> minutes.</label>
+                      <span class="tooltip">
+                        <img src = "img/tooltip.svg">
+                          <span class="tooltiptext">This is how long dormio will spend calibrating your biosignals.</span>
+                      </span>
+                  </div>
+
             			<div id = "user-recording-time" class = "user-elem">
               				<label for="recording-time">you'll record your dream report for</label>
               				<input id = "recording-time" list="recording-time-list" name="recording_time">
@@ -204,6 +219,8 @@
                   				<span class="tooltiptext">This is how long Dormio will record your dream report for.</span>
                  			</span>
             			</div>
+
+
             		</div>  <!-- close dropdowns -->
 
             		<div id = "start-button-container" class =  "user-elem">
