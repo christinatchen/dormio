@@ -252,7 +252,7 @@ $(document).ready(function()
 
 $(function(){
 
-  // readAudioTxt();
+  readAudioTxt();
   // showWakeup1();
 
   //hide calibrate and stop session buttons on load
@@ -302,7 +302,7 @@ $(function(){
 
     var numWakeups = $("#loops").val();
     console.log(numWakeups);
-    readAudioTxt();
+    //readAudioTxt();
 
 
      for (var i = 0; i < numWakeups; i++) {
