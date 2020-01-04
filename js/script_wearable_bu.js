@@ -305,12 +305,13 @@ $(function(){
 
 
      for (var i = 0; i < numWakeups; i++) {
-      //initializeWakeups(i + 1);
+    initializeWakeups(i + 1);
+
      var wakeupNum = i + 1
      var wakeupID = "subject-wakeup-" + wakeupNum;
-     console.log(wakeupID);
+     //console.log(wakeupID);
      document.getElementById(wakeupID).style.display = "block";
-     console.log(i);
+     //console.log(i);
     }
   })
 
