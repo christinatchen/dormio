@@ -792,7 +792,7 @@ function initializeWakeups(num){
 
   //if parent is parentID, init, else return;
 
-  if(document.getElementById("wakeup-" +num).parentElement.classnName == "user-elem";){
+  if(document.getElementById("wakeup-" +num).parentElement.classnName == "user-elem"){
 
   var mySellect = sellect(wakeupInputID, {
             //originList: ['banana', 'apple', 'pineapple', 'papaya', 'grape', 'orange', 'grapefruit', 'guava', 'watermelon', 'melon'],
