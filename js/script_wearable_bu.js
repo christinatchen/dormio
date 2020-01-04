@@ -302,6 +302,7 @@ $(function(){
 
     var numWakeups = $("#loops").val();
     console.log(numWakeups);
+    readAudioTxt();
 
 
      for (var i = 0; i < numWakeups; i++) {
