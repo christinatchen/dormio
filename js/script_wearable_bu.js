@@ -788,11 +788,11 @@ function initializeWakeups(num){
   var initParentID = "subject-wakeup-" + num;
   var wakeupInputID = "#wakeup-" + num;
 
-  var currentParentID = document.getElementById("wakeup-" + num).parentElement.nodeName; 
+  var currentParentID = document.getElementById("wakeup-" + num).parentElement.className + ""; 
 
   //if parent is parentID, init, else return;
 
-  if(document.getElementById("wakeup-" +num).parentElement.classnName == "user-elem"){
+  if(currentParentID == "user-elem"){
 
   var mySellect = sellect(wakeupInputID, {
             //originList: ['banana', 'apple', 'pineapple', 'papaya', 'grape', 'orange', 'grapefruit', 'guava', 'watermelon', 'melon'],
