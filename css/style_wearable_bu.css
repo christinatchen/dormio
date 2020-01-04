@@ -324,11 +324,11 @@ select {
 }
 
 #dropdowns{
-  font-size: 30px;
+  font-size: 28px;
 }
 
 #dropdowns input{
-  width: 10%;
+  width: 15%;
   padding: 8px 0px 8px 20px;
   margin: 0px 3px 0px 3px;
   font-size: 30px;
