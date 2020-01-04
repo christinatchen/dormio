@@ -794,7 +794,6 @@ function initializeWakeups(num){
         });  
   console.log(wakeupInputID + " initialized");
   console.log(audioTxtResult);
-  console.log(originList);
         
   mySellect.init();
 }
