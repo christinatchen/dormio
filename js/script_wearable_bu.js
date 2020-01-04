@@ -311,7 +311,6 @@ $(function(){
      var wakeupNum = i + 1
      var wakeupID = "subject-wakeup-" + wakeupNum;
      //console.log(wakeupID);
-     document.getElementById(wakeupID).style.display = "none";
      document.getElementById(wakeupID).style.display = "block";
      //console.log(i);
     }
@@ -786,7 +785,14 @@ function readAudioTxt(){
 
 function initializeWakeups(num){
 
+  var initParentID = "subject-wakeup-" + num;
   var wakeupInputID = "#wakeup-" + num;
+
+  var currentParentID = document.getElementById("wakeup-" + num).parentElement.nodeName; 
+
+  //if parent is parentID, init, else return;
+
+  if(document.getElementById("wakeup-" +num).parentElement.classnName == "user-elem";){
 
   var mySellect = sellect(wakeupInputID, {
             //originList: ['banana', 'apple', 'pineapple', 'papaya', 'grape', 'orange', 'grapefruit', 'guava', 'watermelon', 'melon'],
@@ -797,6 +803,8 @@ function initializeWakeups(num){
   console.log(audioTxtResult);
         
   mySellect.init();
+}
+
 }
 
 //end session
