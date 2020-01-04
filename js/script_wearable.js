@@ -686,9 +686,9 @@ $(function(){
   $("#bluetooth_help").hide();
   $("#session_buttons").hide();
 
-  $("#hypna-depth").change(function() {
-    $("#hypna-latency").val(hypnaDepth[this.value]);
-  })
+  // $("#hypna-depth").change(function() {
+  //   $("#hypna-latency").val(hypnaDepth[this.value]);
+  // })
 
   for (var key in defaults){
     $("#" + key).val(defaults[key]);
@@ -773,11 +773,11 @@ $(function(){
     }
 
     //if device isn't connected on start, alert
-    // if (!isConnected){
-    //   alert('Dormio device is not connected');
-    //   recording != recording;
-    //   return;
-    // }
+    if (!isConnected){
+      alert('Dormio device is not connected');
+      recording != recording;
+      return;
+    }
 
     //if recordings are null
     if ((sleep_msg_recording == null)){
