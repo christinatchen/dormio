@@ -170,7 +170,7 @@ var wakeups = 0;
 var defaults = {
   "time-between-sleep" : 15,
   "loops" : 3,
-  "calibration-time" : 20,
+  "calibration-time" : 3,
   "recording-time" : 30,
   "delta-eda" : 4,
   "delta-flex": 5,
@@ -425,11 +425,12 @@ function startCalibrating() {
   calibrationStatus = "CALIBRATING";
 
   countdown = parseInt($('#calibration-time').val());
+  countdownMin = countdown * 60;
 
   //end timer after calibration time is over
   calibrateTimer = setTimeout(function() {
     endCalibrating();
-  }, countdown * 1000)
+  }, countdownMin * 1000)
 
   //countdown for label
   countdownTimer = setInterval(function() {
