@@ -211,6 +211,17 @@ var calibrateTimer = null;
 var countdown = 0;
 var countdownTimer = null;
 
+var wakeupSelect1;
+var wakeupSelect2;
+var wakeupSelect3;
+var wakeupSelect4;
+var wakeupSelect5;
+var wakeupSelect6;
+var wakeupSelect7;
+var wakeupSelect8;
+var wakeupSelect9;
+var wakeupSelect10;
+
 function addSign(x, mean) {
   var ret = x - mean;
   if (ret > 0) {
@@ -793,15 +804,136 @@ function initializeWakeups(num){
 
   if(currentParentID == "user-elem"){
 
-  var mySellect = sellect(wakeupInputID, {
+    switch (num) {
+
+      case 1:
+
+        var selectWakeup1 = sellect(wakeupInputID, {
             originList : audioTxtResult,
             destinationList: []
         });  
-  console.log(wakeupInputID + " initialized");
-  console.log(audioTxtResult);
+        console.log(wakeupInputID + " initialized");
+        //console.log(audioTxtResult);
         
-  mySellect.init();
-}
+        selectWakeup1.init();
+
+        break;
+
+      case 2:
+
+        var selectWakeup2 = sellect(wakeupInputID, {
+            originList : audioTxtResult,
+            destinationList: []
+        });  
+        console.log(wakeupInputID + " initialized");
+        //console.log(audioTxtResult);
+        
+        selectWakeup2.init();
+
+        break;
+
+      case 3:
+
+        var selectWakeup3 = sellect(wakeupInputID, {
+            originList : audioTxtResult,
+            destinationList: []
+        });  
+        console.log(wakeupInputID + " initialized");
+        //console.log(audioTxtResult);
+        
+        selectWakeup3.init();
+
+        break;
+
+      case 4:
+
+        var selectWakeup4 = sellect(wakeupInputID, {
+            originList : audioTxtResult,
+            destinationList: []
+        });  
+        console.log(wakeupInputID + " initialized");
+        //console.log(audioTxtResult);
+        
+        selectWakeup4.init();
+
+        break;
+
+      case 5:
+
+        var selectWakeup5 = sellect(wakeupInputID, {
+            originList : audioTxtResult,
+            destinationList: []
+        });  
+        console.log(wakeupInputID + " initialized");
+        //console.log(audioTxtResult);
+        
+        selectWakeup5.init();
+
+        break;
+
+      case 6:
+
+        var selectWakeup6 = sellect(wakeupInputID, {
+            originList : audioTxtResult,
+            destinationList: []
+        });  
+        console.log(wakeupInputID + " initialized");
+        //console.log(audioTxtResult);
+        
+        selectWakeup6.init();
+
+        break;
+
+      case 7:
+
+       var selectWakeup7 = sellect(wakeupInputID, {
+            originList : audioTxtResult,
+            destinationList: []
+        });  
+        console.log(wakeupInputID + " initialized");
+        //console.log(audioTxtResult);
+        
+        selectWakeup7.init();
+
+        break;
+
+       case 8:
+        var selectWakeup8 = sellect(wakeupInputID, {
+            originList : audioTxtResult,
+            destinationList: []
+        });  
+        console.log(wakeupInputID + " initialized");
+        //console.log(audioTxtResult);
+        
+        selectWakeup8.init();
+
+        break;
+
+       case 9:
+        var selectWakeup9 = sellect(wakeupInputID, {
+            originList : audioTxtResult,
+            destinationList: []
+        });  
+        console.log(wakeupInputID + " initialized");
+        //console.log(audioTxtResult);
+        
+        selectWakeup9.init();
+
+        break;
+
+       case 10:
+
+       var selectWakeup10 = sellect(wakeupInputID, {
+            originList : audioTxtResult,
+            destinationList: []
+        });  
+        console.log(wakeupInputID + " initialized");
+        //console.log(audioTxtResult);
+        
+        selectWakeup10.init();
+
+        break;
+    }
 
 }
 
