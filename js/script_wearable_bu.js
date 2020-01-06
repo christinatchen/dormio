@@ -394,6 +394,10 @@ $("#start_biosignal").click(function(){
 
   	$("#stop_session").click(function(){
     	endSession();
+
+      var selected = selectWakeup1.getSelected();
+      console.log(selected);
+
   	});
 
  //calibrate
@@ -934,7 +938,7 @@ function initializeWakeups(num){
 
         break;
     }
-
+  }
 }
 
 //end session
@@ -1218,7 +1222,7 @@ function stopRecording() {
 
 function getAudio(blob, encoding, filename) {
     var url = URL.createObjectURL(blob);
-    console.log("filename is:", filename )
+    console.log("filename is:", filename)
     // audioZip.file(filename, blob);
     audioRecording = {"blob":blob, "encoding": encoding, "filename":filename, "url":url}
     return audioRecording;
