@@ -222,6 +222,8 @@ var wakeupSelect8;
 var wakeupSelect9;
 var wakeupSelect10;
 
+var currentSelected;
+
 function addSign(x, mean) {
   var ret = x - mean;
   if (ret > 0) {
@@ -366,7 +368,7 @@ $("#start_biosignal").click(function(){
     // }
 
 
-    $("#dream-subject").prop('disabled', true);
+    $("#user-name").prop('disabled', true);
     for (var key in defaults) {
       $("#" + key).prop('disabled', true);
     }
@@ -380,8 +382,8 @@ $("#start_biosignal").click(function(){
     nowDate = nowDateObj.getFullYear()+'-'+(nowDateObj.getMonth()+1)+'-'+nowDateObj.getDate();
     nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
 
-    fileReadOutput = $("#dream-subject").val() + "||||" + nowDate + "\n";
-    fileParseOutput = $("#dream-subject").val() + "||||"
+    fileReadOutput = $("#user-name").val() + "||||" + nowDate + "\n";
+    fileParseOutput = $("#user-name").val() + "||||"
 
 
     log("Start Session");
@@ -395,8 +397,7 @@ $("#start_biosignal").click(function(){
   	$("#stop_session").click(function(){
     	endSession();
 
-      var selected = selectWakeup1.getSelected();
-      console.log(selected);
+    var currentSelected = selectWakeup1.getSelected();
 
   	});
 
@@ -507,10 +508,13 @@ function endCalibrating() {
   }
 
     //play prompt again
-	if (sleep_msg_recording != null) {
-      sleep_msg_player = new Audio(sleep_msg_recording.url)
-      sleep_msg_player.play()
-    }
+	// if (sleep_msg_recording != null) {
+ //      sleep_msg_player = new Audio(sleep_msg_recording.url)
+ //      sleep_msg_player.play()
+ //    }
+
+ playSelected(currentSelected);
+
 
 minTime = parseInt($('#min-time').val());
 maxTime = parseInt($('#max-time').val());
@@ -631,11 +635,7 @@ function detectSleepOnset(){
 
 function endDetectSleepOnset(){
 
-      //play prompt again
-    if (sleep_msg_recording != null) {
-        sleep_msg_player = new Audio(sleep_msg_recording.url)
-        sleep_msg_player.play()
-    }
+playSelected(currentSelected);
 
     var thing = parseInt($("#hypna-latency").val());
 
@@ -955,7 +955,7 @@ function endSession() {
   fileReadOutput += "-------------------------------\nSession End: " + nowTime;
 
   //zip folders
-  var prefix = $("#dream-subject").val()
+  var prefix = $("#user-name").val()
   var zip = new JSZip();
   var audioZipFolder = zip.folder("audioRecordings")
   zip.file(prefix + ".raw.read.txt", fileReadOutput);
@@ -980,7 +980,7 @@ function endSession() {
 
   log("End Session");
 
-  $("#dream-subject").prop('disabled', false);
+  $("#user-name").prop('disabled', false);
   for (var key in defaults) {
     $("#" + key).prop('disabled', false);
   }
@@ -1232,4 +1232,16 @@ function getAudio(blob, encoding, filename) {
 //Plays the sound
 function play(url) {
   new Audio(url).play();
+}
+
+function playSelected(list){
+
+  //var gongs = 0;
+for (var i = 0; i < list.length; i++){
+  var audio = new Audio('audio/' + list[i] + ".m4a");
+  audio.addEventListener('ended',function(){
+    audio.play()
+  }
+
+}
 }
