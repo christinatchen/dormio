@@ -360,12 +360,26 @@ $("#start_biosignal").click(function(){
       }
     }
 
-    //if device isn't connected on start, alert
-    // if (!isConnected){
-    //   alert('Dormio device is not connected');
-    //   recording != recording;
-    //   return;
-    // }
+   // if device isn't connected on start, alert
+    if (!isConnected){
+      alert('Dormio device is not connected');
+      recording != recording;
+      return;
+    }
+
+        //if recordings are null
+    if ((sleep_msg_recording == null)){
+      alert ('Please record a prompt message');
+      recording != recording;
+      return;
+    }
+
+    //if recordings are null
+    if ((wakeup_msg_recording == null)){
+      alert ('Please record a wakeup message');
+      recording != recording;
+      return;
+    }
 
 
     $("#user-name").prop('disabled', true);
