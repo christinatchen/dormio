@@ -412,6 +412,7 @@ $("#start_biosignal").click(function(){
     	endSession();
 
     var currentSelected = selectWakeup1.getSelected();
+    fileReadOutput += "\n" + currentSelected + " \n";
 
   	});
 
@@ -1330,4 +1331,6 @@ function changeCurrentSelected(num){
         break;
     }
 
+ fileReadOutput += "\n" + currentSelected + " \n";
+ 
 }
