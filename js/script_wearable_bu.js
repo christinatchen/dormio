@@ -507,11 +507,11 @@ function endCalibrating() {
     countdownTimer = null;
   }
 
-    //play prompt again
-	// if (sleep_msg_recording != null) {
- //      sleep_msg_player = new Audio(sleep_msg_recording.url)
- //      sleep_msg_player.play()
- //    }
+    play prompt again
+	if (sleep_msg_recording != null) {
+      sleep_msg_player = new Audio(sleep_msg_recording.url)
+      sleep_msg_player.play()
+    }
 
  playSelected(currentSelected);
 
@@ -635,6 +635,12 @@ function detectSleepOnset(){
 
 function endDetectSleepOnset(){
 
+   // play prompt again
+  if (sleep_msg_recording != null) {
+      sleep_msg_player = new Audio(sleep_msg_recording.url)
+      sleep_msg_player.play()
+    }
+
 playSelected(currentSelected);
 
     var thing = parseInt($("#hypna-latency").val());
@@ -673,6 +679,9 @@ function startWakeup() {
   //increment wakeups and log
   wakeups += 1;
   log("startWakeup #" + wakeups + "/" + $("#loops").val())
+
+  changeCurrentSelected(wakeups);
+
 
   //record wakeup event onto files
   if (recording) {
@@ -724,6 +733,8 @@ function endWakeup() {
       sleep_msg_player.play()
     }
 
+    playSelected(currentSelected);
+
     duringSleep();
 
     //if completed all loops, alarm and end session
@@ -763,6 +774,8 @@ function playPrompt(){
       sleep_msg_player = new Audio(sleep_msg_recording.url)
       sleep_msg_player.play()
     }
+
+    playSelected(currentSelected);
 }
 
 var audioFileTxt = '';
@@ -1244,4 +1257,63 @@ for (var i = 0; i < list.length; i++){
   }
 
 }
+}
+
+function changeCurrentSelected(num){
+
+   switch (num) {
+
+      case 1:
+
+        currentSelected = selectWakeup2.getSelected();
+
+        break;
+
+      case 2:
+
+        currentSelected = selectWakeup3.getSelected();
+
+        break;
+
+      case 3:
+
+        currentSelected = selectWakeup4.getSelected();
+
+        break;
+
+      case 4:
+
+        currentSelected = selectWakeup5.getSelected();
+
+        break;
+
+      case 5:
+
+        currentSelected = selectWakeup6.getSelected();
+
+        break;
+
+      case 6:
+
+        currentSelected = selectWakeup7.getSelected();
+
+        break;
+
+      case 7:
+
+       currentSelected = selectWakeup8.getSelected();
+
+        break;
+
+       case 8:
+        currentSelected = selectWakeup9.getSelected();
+
+        break;
+
+       case 9:
+        currentSelected = selectWakeup10.getSelected();
+
+        break;
+    }
+
 }
