@@ -522,7 +522,7 @@ function endCalibrating() {
     countdownTimer = null;
   }
 
-    play prompt again
+    //play prompt again
 	if (sleep_msg_recording != null) {
       sleep_msg_player = new Audio(sleep_msg_recording.url)
       sleep_msg_player.play()
@@ -822,9 +822,6 @@ function readAudioTxt(){
  xmlhttp.send(null);
 }
 
-// function parseAudioTxt(){
-//   parsedAudioFileTxt = audioFileTxt.split(";");
-// }
 
 
 function initializeWakeups(num){
@@ -1268,11 +1265,11 @@ function playSelected(list){
 for (var i = 0; i < list.length; i++){
   var audio = new Audio('audio/' + list[i] + ".m4a");
   audio.addEventListener('ended',function(){
-    audio.play()
-  }
+    audio.play();
+  })
 
 }
-}
+
 
 function changeCurrentSelected(num){
 
@@ -1334,3 +1331,5 @@ function changeCurrentSelected(num){
  fileReadOutput += "\n" + currentSelected + " \n";
  
 }
+
+};
