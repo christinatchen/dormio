@@ -819,7 +819,8 @@ function readAudioTxt(){
             console.log(audioTxtResult[i]);
           }
 
-      
+        console.log(audioTxtResult);
+      }
     }
   }
  xmlhttp.send(null);
