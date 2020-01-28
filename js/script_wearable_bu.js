@@ -798,7 +798,6 @@ var audioTxtResult = [];
 
 function readAudioTxt(){
 
-  console.log("peanuts");
   // var txt = '';
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.open("GET","audio.txt",true);
@@ -809,14 +808,18 @@ function readAudioTxt(){
   xmlhttp.onreadystatechange = function(){
     if(xmlhttp.readyState===xmlhttp.DONE){
       if(xmlhttp.status===200){
-        console.log(xmlhttp.response);
-        console.log(xmlhttp.responseText);
+        //console.log(xmlhttp.response);
+        //console.log(xmlhttp.responseText);
         audioFileTxt=xmlhttp.responseText + "";
         audioFileTxt=audioFileTxt.replace(/<&#91;^>&#93;*>/g, "");
 
         audioTxtResult = audioFileTxt.split(";");
-        console.log(audioTxtResult);
-      }
+
+        for (var i = 0; i < audioTxtResult.length; i++){
+            console.log(audioTxtResult[i]);
+          }
+
+      
     }
   }
  xmlhttp.send(null);
