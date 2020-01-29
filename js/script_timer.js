@@ -107,8 +107,8 @@ $(function(){
 
   $("#listen-wakeup-message").click(function() {
         if(wakeup_msg_recording != null){
-      wakeup_msg_player = new Audio(wakeup_msg_recording.url)
-      wakeup_msg_player.play()
+      wakeup_msg_player = new Audio(wakeup_msg_recording.url);
+      wakeup_msg_player.play();
     }
   });
 
@@ -152,17 +152,17 @@ $("#start_timer").click(function(){
 
     // if recordings are empty, alert user
 
-    // if ((sleep_msg_recording == null)){
-    //   alert ('Please record a prompt message');
-    //   recording != recording;
-    //   return;
-    // }
+    if ((sleep_msg_recording == null)){
+      alert ('Please record a prompt message');
+      recording != recording;
+      return;
+    }
 
-    // if ((wakeup_msg_recording == null)){
-    //   alert ('Please record a wakeup message');
-    //   recording != recording;
-    //   return;
-    // }
+    if ((wakeup_msg_recording == null)){
+      alert ('Please record a wakeup message');
+      recording != recording;
+      return;
+    }
 
 
     //everything is filled in correctly, so we can begin!!
@@ -261,8 +261,8 @@ function playPrompt(){
 
     //play prompt again
     if (sleep_msg_recording != null) {
-      sleep_msg_player = new Audio(sleep_msg_recording.url)
-      sleep_msg_player.play()
+      sleep_msg_player = new Audio(sleep_msg_recording.url);
+      sleep_msg_player.play();
     }else{
     	console.log(sleep_msg_recording);
     	console.log("no sleep recording");

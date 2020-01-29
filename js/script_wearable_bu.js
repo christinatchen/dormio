@@ -351,11 +351,14 @@ $(function(){
     $("#listen-sleep-message").click(function() {
 
       if(sleep_msg_recording != null){
-      sleep_msg_player = new Audio(sleep_msg_recording.url)
-      sleep_msg_player.play()
+      sleep_msg_player = new Audio(sleep_msg_recording.url);
+      sleep_msg_player.play();
 
       console.log("play sleep message");
+    }else{
+      console.log("what's up");
     }
+
   });
 
   $("#clear-sleep-message").click(function() {
@@ -382,8 +385,8 @@ $(function(){
 
   $("#listen-wakeup-message").click(function() {
         if(wakeup_msg_recording != null){
-      wakeup_msg_player = new Audio(wakeup_msg_recording.url)
-      wakeup_msg_player.play()
+      wakeup_msg_player = new Audio(wakeup_msg_recording.url);
+      wakeup_msg_player.play();
     }
   });
 
