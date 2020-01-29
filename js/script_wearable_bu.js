@@ -1399,6 +1399,4 @@ function changeCurrentSelected(num){
 
  fileReadOutput += "\n" + currentSelected + " \n";
  
-}
-
 };
