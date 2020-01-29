@@ -309,7 +309,7 @@ $(function(){
     } else if (calibrationStatus == "CALIBRATED") {
       startCalibrating();
     }
-  })
+  });
 
   $("#confirm_wakeups").click(function() {
 
@@ -327,7 +327,7 @@ $(function(){
      document.getElementById(wakeupID).style.display = "block";
      //console.log(i);
     }
-  })
+  });
 
    //make record sleep buttons work
 
@@ -349,7 +349,7 @@ $(function(){
      });
 
     $("#listen-sleep-message").click(function() {
-      
+
       if(sleep_msg_recording != null){
       sleep_msg_player = new Audio(sleep_msg_recording.url)
       sleep_msg_player.play()
@@ -1280,7 +1280,7 @@ function startRecording(filename, mode = "dream") {
 
 
    recorder.onComplete = function(recorder, blob) {
-      console.log("Recording.oncCmplete called")
+      console.log("Recording.onComplete called")
       audioRecording = getAudio(blob, recorder.encoding, filename);
 
       if (mode == "wakeup") {
