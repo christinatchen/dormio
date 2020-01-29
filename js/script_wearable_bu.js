@@ -351,15 +351,15 @@ $(function(){
     $("#listen-sleep-message").click(function() {
 
 
-  if (sleep_msg_recording != null) {
+  //if (sleep_msg_recording != null) {
       sleep_msg_player = new Audio(sleep_msg_recording.url)
       sleep_msg_player.play()
-    }
+    //}
 
-      console.log("play sleep message");
-    }else{
-      console.log("what's up");
-    }
+      //console.log("play sleep message");
+    //}else{
+      //console.log("what's up");
+    //}
 
   });
 
