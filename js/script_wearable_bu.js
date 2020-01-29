@@ -224,6 +224,15 @@ var wakeupSelect10;
 
 var currentSelected;
 
+var recording = false;
+var isConnected = false;
+
+var wakeup_msg_recording, sleep_msg_recording;
+var audio_recordings = []
+
+var is_recording_wake = false;
+var is_recording_sleep = false;
+
 function addSign(x, mean) {
   var ret = x - mean;
   if (ret > 0) {
@@ -1092,15 +1101,6 @@ function endSession() {
 }
 
 var g, width, height;
-
-var recording = false;
-var isConnected = false;
-
-var wakeup_msg_recording, sleep_msg_recording;
-var audio_recordings = []
-
-var is_recording_wake = false;
-var is_recording_sleep = false;
 
 var gongs = 0;
 var gong = new Audio('audio/gong.wav');
