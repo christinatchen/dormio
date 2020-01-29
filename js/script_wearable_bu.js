@@ -339,7 +339,7 @@ $("#start_biosignal").click(function(){
     
     //if dream subject is empty, alert
     if ($.trim($("#user-name").val()) == '') {
-      alert('Have to fill suject name');
+      alert('Have to fill subject name');
       recording = !recording;
       return;
     }
