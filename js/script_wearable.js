@@ -695,31 +695,59 @@ $(function(){
   }
 
 
-  $("#record-wakeup-message").click(function() {
+ //make record sleep buttons work
+
+    $("#record-sleep-message").click(function() {
+
+    if(!is_recording_sleep) {
+      console.log("starting to record sleep message");
+      document.getElementById("record-sleep-message").style.background = "rgba(255, 0, 0, 0.3)";
+      $('#record-sleep-message').val("stop");
+      startRecording("sleep.mp3", "sleep");
+      is_recording_sleep = true;
+
+    } else {
+      $('#record-sleep-message').val("record");
+      document.getElementById("record-sleep-message").style.background = "transparent";
+      stopRecording();
+      is_recording_sleep = false;
+    }
+     });
+
+    $("#listen-sleep-message").click(function() {
+      playPrompt();
+  });
+
+  $("#clear-sleep-message").click(function() {
+    sleep_msg_recording = null;
+  });
+
+  //make record wakeup buttons work
+   $("#record-wakeup-message").click(function() {
     if(!is_recording_wake) {
-      console.log("starting to record wake message")
-      $('#record-wakeup-message').val("Stop")
-      startRecording("wakeup.mp3", "wakeup")
+      console.log("starting to record wake message");
+      document.getElementById("record-wakeup-message").style.background = "rgba(255, 0, 0, 0.3)";
+      $('#record-wakeup-message').val("stop");
+      startRecording("wakeup.mp3", "wakeup");
       is_recording_wake = true;
     } else {
-      $('#record-wakeup-message').val("Record")
-      stopRecording()
+      $('#record-wakeup-message').val("record")
+      document.getElementById("record-wakeup-message").style.background = "transparent";
+      stopRecording();
       is_recording_wake = false;
     }
   });
 
-  $("#record-sleep-message").click(function() {
-    if(!is_recording_sleep) {
-      console.log("starting to record sleep message")
-      $('#record-sleep-message').val("Stop")
-      startRecording("sleep.mp3", "sleep")
-      is_recording_sleep = true;
-    } else {
-      $('#record-sleep-message').val("Record")
-      stopRecording()
-      is_recording_sleep = false;
+  $("#listen-wakeup-message").click(function() {
+        if(wakeup_msg_recording != null){
+      wakeup_msg_player = new Audio(wakeup_msg_recording.url)
+      wakeup_msg_player.play()
     }
   });
+
+  $("#clear-wakeup-message").click(function() {
+    wakeup_msg_recording = null;
+});
 
   $('#connect').click(function() {
     if (isWebBluetoothEnabled()) {

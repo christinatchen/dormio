@@ -329,6 +329,60 @@ $(function(){
     }
   })
 
+   //make record sleep buttons work
+
+    $("#record-sleep-message").click(function() {
+
+    if(!is_recording_sleep) {
+      console.log("starting to record sleep message");
+      document.getElementById("record-sleep-message").style.background = "rgba(255, 0, 0, 0.3)";
+      $('#record-sleep-message').val("stop");
+      startRecording("sleep.mp3", "sleep");
+      is_recording_sleep = true;
+
+    } else {
+      $('#record-sleep-message').val("record");
+      document.getElementById("record-sleep-message").style.background = "transparent";
+      stopRecording();
+      is_recording_sleep = false;
+    }
+     });
+
+    $("#listen-sleep-message").click(function() {
+      playPrompt();
+  });
+
+  $("#clear-sleep-message").click(function() {
+    sleep_msg_recording = null;
+  });
+
+  //make record wakeup buttons work
+   $("#record-wakeup-message").click(function() {
+    if(!is_recording_wake) {
+      console.log("starting to record wake message");
+      document.getElementById("record-wakeup-message").style.background = "rgba(255, 0, 0, 0.3)";
+      $('#record-wakeup-message').val("stop");
+      startRecording("wakeup.mp3", "wakeup");
+      is_recording_wake = true;
+    } else {
+      $('#record-wakeup-message').val("record")
+      document.getElementById("record-wakeup-message").style.background = "transparent";
+      stopRecording();
+      is_recording_wake = false;
+    }
+  });
+
+  $("#listen-wakeup-message").click(function() {
+        if(wakeup_msg_recording != null){
+      wakeup_msg_player = new Audio(wakeup_msg_recording.url)
+      wakeup_msg_player.play()
+    }
+  });
+
+  $("#clear-wakeup-message").click(function() {
+    wakeup_msg_recording = null;
+});
+
 // ==============================================================
 //        when start biosignal button is pressed, do this
 //===============================================================
