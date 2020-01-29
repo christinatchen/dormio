@@ -352,11 +352,15 @@ $(function(){
       if(sleep_msg_recording != null){
       sleep_msg_player = new Audio(sleep_msg_recording.url)
       sleep_msg_player.play()
+
+      console.log("play sleep message");
     }
   });
 
   $("#clear-sleep-message").click(function() {
     sleep_msg_recording = null;
+
+    console.log("clear sleep message");
   });
 
   //make record wakeup buttons work
