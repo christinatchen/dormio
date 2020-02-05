@@ -1,11 +1,7 @@
+//bluetooth stuff
 log = function(str) {
   console.log('[' + new Date().toUTCString() + '] ' + str);
 }
-
-//bluetooth stuff
-
-var bluetoothDevice;
-var dataCharacteristic;
 
 function isWebBluetoothEnabled() {
   if (navigator.bluetooth) {
@@ -17,6 +13,9 @@ function isWebBluetoothEnabled() {
     return false;
   }
 }
+
+var bluetoothDevice;
+var dataCharacteristic;
 
 function requestDevice() {
   log('Requesting any Bluetooth Device...');
@@ -158,6 +157,7 @@ function onDisconnected() {
     log('Argh! ' + error);
   });
 }
+
 
 //declare vars
 
@@ -302,10 +302,11 @@ $(function(){
       } else {
         onReadBatteryLevelButtonClick();
         $('#connect').val("Reset")
-        alert("Device is connected.")
+        //alert("Device is connected.")
 
-        //open form to continue process if connect is successful
-        openForm();
+        //open form after 3 seconds to continue process if connect is successful
+        setTimeout(function()
+        {openForm()},3000);
       }
 
       isConnected = !isConnected
