@@ -461,8 +461,8 @@ $("#start_biosignal").click(function(){
       $("#" + key).prop('disabled', true);
     }
 
-    $("#start_buttons").hide();
-    $("#session_buttons").show();
+    $("#calibrate").show();
+    $("#stop_session").show();
 
     recording = true;
 
@@ -1049,8 +1049,9 @@ function initializeWakeups(num){
 function endSession() {
 
   //hide buttons
-  $("#session_buttons").hide();
-  $("#start_buttons").show();
+  $("#calibrate").hide();
+  $("#stop_session").hide();
+
   recording = false;
 
   nowDateObj = new Date();

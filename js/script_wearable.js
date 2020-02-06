@@ -191,10 +191,10 @@ var hypnaDepth = {
   'deep' : 90
 }
 var defaults = {
-  "time-between-sleep" : 15,
-  "hypna-latency" : hypnaDepth['light'],
+  "time-between-sleep" : 7,
+  "hypna-latency" : 30,
   "loops" : 3,
-  "calibration-time" : 20,
+  "calibration-time" : 3,
   "recording-time" : 30,
   "delta-eda" : 4,
   "delta-flex": 5,
@@ -610,8 +610,9 @@ function duringSleep(){
 function endSession() {
 
   //hide buttons
-  $("#session_buttons").hide();
-  $("#start_buttons").show();
+   $("#calibrate").hide();
+   $("#stop_session").hide();
+
   recording = false;
 
   nowDateObj = new Date();
@@ -683,12 +684,10 @@ gong.addEventListener('ended',function() {
 })
 
 $(function(){
-  $("#bluetooth_help").hide();
-  $("#session_buttons").hide();
+  //$("#bluetooth_help").hide();
+   $("#calibrate").hide();
+   $("#stop_session").hide();
 
-  // $("#hypna-depth").change(function() {
-  //   $("#hypna-latency").val(hypnaDepth[this.value]);
-  // })
 
   for (var key in defaults){
     $("#" + key).val(defaults[key]);
@@ -754,11 +753,13 @@ $(function(){
       if (isConnected) {
         onResetButtonClick();
         $('#connect').val("Connect")
-        //$("#session_buttons").hide()
+        $("#calibrate").hide();
+        $("#stop_session").hide();
       } else {
         onReadBatteryLevelButtonClick();
         $('#connect').val("Reset")
-        //$("#session_buttons").show()
+        $("#calibrate").show();
+        $("#stop_session").show();
       }
       isConnected = !isConnected
     }
@@ -826,8 +827,8 @@ $(function(){
       $("#" + key).prop('disabled', true);
     }
 
-    $("#start_buttons").hide();
-    $("#session_buttons").show();
+    $("#calibrate").show();
+    $("#stop_session").show();
 
     recording = true;
 
