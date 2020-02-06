@@ -275,7 +275,6 @@ $(document).ready(function()
 $(function(){
 
   readAudioTxt();
-  // showWakeup1();
 
   //hide calibrate and stop session buttons on load
   $("#calibrate").hide()

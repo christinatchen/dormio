@@ -9,7 +9,6 @@ function isWebBluetoothEnabled() {
     return true;
   } else {
     window.alert('Web Bluetooth API is not available (only available in Chrome)\n');
-    $("#bluetooth_help").show();
     return false;
   }
 }
@@ -255,8 +254,8 @@ $(document).ready(function()
 
 $(function(){
 
-   $("#calibrate").hide();
-   $("#stop_session").hide();
+  $("#calibrate").hide();
+  $("#stop_session").hide();
 
 
   for (var key in defaults){
@@ -331,11 +330,10 @@ $(function(){
         $("#calibrate").show();
         $("#stop_session").show();
       }
-      isConnected = !isConnected
+      isConnected = !isConnected;
     }
   });
 
-  $("#calibrate").hide()
   $("#calibrate").click(function() {
     if (calibrationStatus == "CALIBRATING") {
       endCalibrating();
@@ -397,8 +395,11 @@ $(function(){
       $("#" + key).prop('disabled', true);
     }
 
-    $("#calibrate").show();
-    $("#stop_session").show();
+    //hide the start button so people don't click it again if they ever open the form
+    $("#start-button-container").hide();
+
+    //roll back the complete form to the side
+    setTimeout(closeForm, 1000);
 
     recording = true;
 
@@ -418,109 +419,10 @@ $(function(){
       startCalibrating();
     });
 
+   // $("#stop_session").show();
     $("#stop_session").click(function(){
       endSession();
     });
-
-
-function playPrompt(){
-
-  log("playPrompt");
-
-    //play prompt again
-		if (sleep_msg_recording != null) {
-      sleep_msg_player = new Audio(sleep_msg_recording.url)
-      sleep_msg_player.play()
-    }
-}
-
-//wake up
-function startWakeup() {
-
-  //change button color
-  $("#wakeup").css("background-color", "rgba(0, 255, 0, .4)");
-
-  //add wakeup event to plot
-  g.append("g")
-    .attr("clip-path", "url(#clip)")
-  .append("line")
-    .attr("x1", width)
-    .attr("y1", 0)
-    .attr("x2", width)
-    .attr("y2", height)
-    .attr("class", "line-wakeup")
-  .transition()
-    .duration(6650)
-    .ease(d3.easeLinear)
-    .attr("x1",-1)
-    .attr("x2",-1);
-
-  //increment wakeups and log
-  wakeups += 1;
-  log("startWakeup #" + wakeups + "/" + $("#loops").val())
-
-  //record wakeup event onto files
-  if (recording) {
-    nowDateObj = new Date();
-    nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
-
-    fileReadOutput += "EVENT,wakeup | " + nowTime + "\n";
-    fileParseOutput += "EVENT,wakeup|"
-
-  }
-
-  //play wake up report message
-  if(wakeup_msg_recording != null){
-      wakeup_msg_player = new Audio(wakeup_msg_recording.url)
-      wakeup_msg_player.play()
-
-      //record dream report
-      wakeup_msg_player.onended = () => {
-          startRecording("dream_"+wakeups+"_"+new Date().toISOString() + '.mp3', "dream");
-      }
-  }
-
-  //end wake-up after recording time is over
-  nextWakeupTimer = setTimeout(function() {
-    endWakeup();
-  }, parseInt($("#recording-time").val()) * 1000);
-}
-
-//end wakeup
-function endWakeup() {
-
-  //change button color
-  $("#wakeup").css("background-color", "rgba(0, 0, 0, .1)")
-
-  //log end
-  log("endWakeup #" + wakeups + "/" + $("#loops").val())
-  
-  //stop recording dream report
-  if (wakeup_msg_recording) {
-    stopRecording();
-  }
-
-  //if incomplete #loops, play go to sleep message
-  if (wakeups < parseInt($("#loops").val())) {
-    
-    //play prompt again
-	if (sleep_msg_recording != null) {
-      sleep_msg_player = new Audio(sleep_msg_recording.url)
-      sleep_msg_player.play()
-    }
-
-    duringSleep();
-
-    //if completed all loops, alarm and end session
-  } else {
-    gongs = 0;
-    gong.play();
-
-    nextWakeupTimer = setTimeout(function() {
-      endSession();
-    }, 4000);
-  }
-}
 
 var calibrateTimer = null;
 var countdown = 0;
@@ -632,7 +534,7 @@ function endCalibrating() {
   }
 
     //play prompt again
-	if (sleep_msg_recording != null) {
+  if (sleep_msg_recording != null) {
       sleep_msg_player = new Audio(sleep_msg_recording.url)
       sleep_msg_player.play()
     }
@@ -655,6 +557,106 @@ maxTime = parseInt($('#max-time').val());
       }, minTime * 1000);
 
     }
+}
+
+
+function playPrompt(){
+
+  log("playPrompt");
+
+    //play prompt again
+		if (sleep_msg_recording != null) {
+      sleep_msg_player = new Audio(sleep_msg_recording.url)
+      sleep_msg_player.play()
+    }
+}
+
+//wake up
+function startWakeup() {
+
+  //change button color
+  $("#wakeup").css("background-color", "rgba(0, 255, 0, .4)");
+
+  //add wakeup event to plot
+  g.append("g")
+    .attr("clip-path", "url(#clip)")
+  .append("line")
+    .attr("x1", width)
+    .attr("y1", 0)
+    .attr("x2", width)
+    .attr("y2", height)
+    .attr("class", "line-wakeup")
+  .transition()
+    .duration(6650)
+    .ease(d3.easeLinear)
+    .attr("x1",-1)
+    .attr("x2",-1);
+
+  //increment wakeups and log
+  wakeups += 1;
+  log("startWakeup #" + wakeups + "/" + $("#loops").val())
+
+  //record wakeup event onto files
+  if (recording) {
+    nowDateObj = new Date();
+    nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
+
+    fileReadOutput += "EVENT,wakeup | " + nowTime + "\n";
+    fileParseOutput += "EVENT,wakeup|"
+
+  }
+
+  //play wake up report message
+  if(wakeup_msg_recording != null){
+      wakeup_msg_player = new Audio(wakeup_msg_recording.url)
+      wakeup_msg_player.play()
+
+      //record dream report
+      wakeup_msg_player.onended = () => {
+          startRecording("dream_"+wakeups+"_"+new Date().toISOString() + '.mp3', "dream");
+      }
+  }
+
+  //end wake-up after recording time is over
+  nextWakeupTimer = setTimeout(function() {
+    endWakeup();
+  }, parseInt($("#recording-time").val()) * 1000);
+}
+
+//end wakeup
+function endWakeup() {
+
+  //change button color
+  $("#wakeup").css("background-color", "rgba(0, 0, 0, .1)")
+
+  //log end
+  log("endWakeup #" + wakeups + "/" + $("#loops").val())
+  
+  //stop recording dream report
+  if (wakeup_msg_recording) {
+    stopRecording();
+  }
+
+  //if incomplete #loops, play go to sleep message
+  if (wakeups < parseInt($("#loops").val())) {
+    
+    //play prompt again
+	if (sleep_msg_recording != null) {
+      sleep_msg_player = new Audio(sleep_msg_recording.url)
+      sleep_msg_player.play()
+    }
+
+    duringSleep();
+
+    //if completed all loops, alarm and end session
+  } else {
+    gongs = 0;
+    gong.play();
+
+    nextWakeupTimer = setTimeout(function() {
+      endSession();
+    }, 4000);
+  }
 }
 
 
