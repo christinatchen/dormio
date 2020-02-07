@@ -1367,9 +1367,12 @@ function playSelected(list){
   //var gongs = 0;
 for (var i = 0; i < list.length; i++){
   var audio = new Audio('audio/' + list[i] + ".m4a");
-  audio.addEventListener('ended',function(){
-    audio.play();
-  })
+  console.log(list[i]);
+  console.log(audio);
+  audio.play();
+  // audio.addEventListener('ended',function(){
+  //   audio.play();
+  // })
 
 }
 }
