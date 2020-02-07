@@ -624,29 +624,27 @@ function endCalibrating() {
 
   playPrompt();
 
-
+  
 minTime = parseInt($('#time-until-sleep-min').val());
 maxTime = parseInt($('#time-until-sleep-max').val());
 
-var minTimeSecs = minTime * 60;
-var maxTimeSecs = maxTime * 60;
+      if ((isNaN(+(minTime))) || (isNaN(+(maxTime)))) {
+
+         startDetectSleepOnset();
+         console.log("one or both are empty");
+      } else{
 
 
-    //if either of the values in min or max time are null, detect sleep onset right away
-  if ((minTime == null) || (maxTime == null)){
+        console.log("detect sleep onset after" + minTime + "secs");
 
-        startDetectSleepOnset();
-        console.log("both values null");
+        var minTimeSecs = minTime * 60;
 
-  }else{
-
-      console.log("detect sleep onset after" + minTime + "secs");
-
-      var startSleepDetection = setTimeout(function(){
+        var startSleepDetection = setTimeout(function(){
           startDetectSleepOnset();
       }, minTimeSecs * 1000);
 
-    }
+      }
+
 }
 
 //if both windows are null, do nothing and guess sleep onset right away
@@ -726,22 +724,39 @@ function detectSleepOnset(){
 
     var seconds = Math.round(timeDiff);
 
-    var detectSleepWindow = maxTimeSecs - minTimeSecs;
+    if ((isNaN(+(minTime))) || (isNaN(+(maxTime)))) {
 
-    if (seconds >= detectSleepWindow){
+           //run detectSleepOnset in the next second
+        console.log("continuing to detect sleep");
+        var checkAgain = setTimeout(function() {
+          detectSleepOnset();
+        }, 1000);
 
-      console.log("window elapsed");
-      endDetectSleepOnset();
 
-    }else{
+      } else{
 
-      //run detectSleepOnset in the next second
-      console.log("continuing to detect sleep");
-      var checkAgain = setTimeout(function() {
-      detectSleepOnset();
-      }, 1000);
+        var minTimeSecs = minTime * 60;
+        var maxTimeSecs = maxTime * 60;
 
-    }
+        var detectSleepWindow = maxTimeSecs - minTimeSecs;
+
+       if (seconds >= detectSleepWindow){
+
+         console.log("window elapsed");
+         endDetectSleepOnset();
+
+       }else{
+
+         //run detectSleepOnset in the next second
+        console.log("continuing to detect sleep");
+        var checkAgain = setTimeout(function() {
+          detectSleepOnset();
+        }, 1000);
+
+        }
+
+
+      }
 
   }
 }
