@@ -296,8 +296,8 @@ $(function(){
   readAudioTxt();
 
   //hide calibrate and stop session buttons on load
+    $("#stop_session").hide()
   $("#calibrate").hide()
-  $("#stop_session").hide()
 
   //populate default variables
   for (var key in defaults){
@@ -323,8 +323,7 @@ $(function(){
 
         //open form after 3 seconds to continue process if connect is successful
         setTimeout(function()
-        {openForm()},3000);
-      }
+        {openForm()},10000);
       }
       isConnected = !isConnected;
     }
@@ -501,14 +500,13 @@ $("#start_biosignal").click(function(){
 
 
     $("#calibrate").show();
-    	startCalibrating();
-  	});
-
+    startCalibrating();
     $("#stop_session").show();
+   });
+
   	$("#stop_session").click(function(){
     	endSession();
-
-  	});
+    });
 
  //calibrate
 function startCalibrating() {

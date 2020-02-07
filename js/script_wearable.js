@@ -304,8 +304,7 @@ $(function(){
         document.getElementById("connect").innerHTML = "Reset";
         //open form after 3 seconds to continue process if connect is successful
         setTimeout(function()
-        {openForm()},3000);
-      }
+        {openForm()},10000);
       }
       isConnected = !isConnected;
     }
@@ -454,9 +453,9 @@ $(function(){
 
     $("#calibrate").show();
       startCalibrating();
+    $("#stop_session").show();
     });
 
-    $("#stop_session").show();
     $("#stop_session").click(function(){
       endSession();
     });
