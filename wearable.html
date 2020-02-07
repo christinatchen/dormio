@@ -145,6 +145,27 @@
                  			</span>
             			</div>
 
+                  <div id = "user-time-until-sleep" class = "user-elem">
+                      <label for="time-until-sleep-min">it will take </label>
+                      <input id = "time-until-sleep-min" list="time-until-sleep-min-list" name="time_until_sleep_min">
+              <datalist id="time-until-sleep-list-min">
+                  <option value="5"></option>
+                  <option value="10"></option>
+                  <option value="15"></option>
+              </datalist>
+                      <label> to </label>
+                      <input id = "time-until-sleep-max" list="time-until-sleep-list-max" name="time_until_sleep_max">
+              <datalist id="time-until-sleep-lis-maxt">
+                  <option value="10"></option>
+                  <option value="15"></option>
+                  <option value="25"></option>
+              </datalist>
+                      <label>minutes for you to fall asleep.</label>
+                      <span class="tooltip">
+                        <img src = "img/tooltip.svg">
+                          <span class="tooltiptext">This is the approximate range of time in which you'll fall asleep when you lie down. Dormio will pick a time in this range to give the first prompt.</span>
+                      </span>
+                  </div>
 
             			<div id = "user-time-between-sleep" class = "user-elem">
               				<label for="time-between-sleep">after your first wakeup, it'll take </label>

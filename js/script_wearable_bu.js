@@ -604,8 +604,8 @@ function endCalibrating() {
  playSelected(currentSelected);
 
 
-minTime = parseInt($('#min-time').val());
-maxTime = parseInt($('#max-time').val());
+minTime = parseInt($('#time-until-sleep-min').val());
+maxTime = parseInt($('#time-until-sleep-max').val());
 
     //if either of the values in min or max time are null, detect sleep onset right away
   if ((minTime == null) || (maxTime == null)){
