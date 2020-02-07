@@ -503,7 +503,7 @@ $("#start_biosignal").click(function(){
 
     fileReadOutput += "Session Start: " + nowTime + "\n---------------------------------------------------\n";
 
-    currentSelected = selectWakeup1.getSelected();
+    currentSelected = wakeupSelect1.getSelected();
     fileReadOutput += "\nwords for wakeup 1:" + currentSelected + " \n";
 
 
@@ -1365,53 +1365,53 @@ function changeCurrentSelected(num){
 
       case 1:
 
-        currentSelected = selectWakeup2.getSelected();
+        currentSelected = wakeupSelect2.getSelected();
 
         break;
 
       case 2:
 
-        currentSelected = selectWakeup3.getSelected();
+        currentSelected = wakeupSelect3.getSelected();
 
         break;
 
       case 3:
 
-        currentSelected = selectWakeup4.getSelected();
+        currentSelected = wakeupSelect4.getSelected();
 
         break;
 
       case 4:
 
-        currentSelected = selectWakeup5.getSelected();
+        currentSelected = wakeupSelect5.getSelected();
 
         break;
 
       case 5:
 
-        currentSelected = selectWakeup6.getSelected();
+        currentSelected = wakeupSelect6.getSelected();
 
         break;
 
       case 6:
 
-        currentSelected = selectWakeup7.getSelected();
+        currentSelected = wakeupSelect7.getSelected();
 
         break;
 
       case 7:
 
-       currentSelected = selectWakeup8.getSelected();
+       currentSelected = wakeupSelect8.getSelected();
 
         break;
 
        case 8:
-        currentSelected = selectWakeup9.getSelected();
+        currentSelected = wakeupSelect9.getSelected();
 
         break;
 
        case 9:
-        currentSelected = selectWakeup10.getSelected();
+        currentSelected = wakeupSelect10.getSelected();
 
         break;
     }
