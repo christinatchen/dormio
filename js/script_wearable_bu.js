@@ -1,11 +1,21 @@
-//bluetooth stuff
+//function for logging to console with time/date
+
 log = function(str) {
   console.log('[' + new Date().toUTCString() + '] ' + str);
 }
 
+// ==================================================
+//
+//        bluetooth functions for connecting
+//
+//===================================================
+
+var bluetoothDevice;
+var dataCharacteristic;
+
+//checks to see if web bluetooth is enabled
 function isWebBluetoothEnabled() {
   if (navigator.bluetooth) {
-    $("#bluetooth_help").hide();
     return true;
   } else {
     window.alert('Web Bluetooth API is not available (only available in Chrome)\n');
@@ -14,8 +24,7 @@ function isWebBluetoothEnabled() {
   }
 }
 
-var bluetoothDevice;
-var dataCharacteristic;
+//requesting/connecting to device
 
 function requestDevice() {
   log('Requesting any Bluetooth Device...');
@@ -106,9 +115,11 @@ function handleBatteryLevelChanged(event) {
   if (calibrationStatus == "CALIBRATING" && meanEDA != null) {
     $('#flex').text(flex + " (" + meanFlex + ")");
     $('#eda').text(eda + " (" + meanEDA + ")");
+
   } else if (calibrationStatus == "CALIBRATED") {
     $('#flex').text(flex + " (" + addSign(flex, meanFlex) + ")");
     $('#eda').text(eda + " (" + addSign(eda, meanEDA) + ")");
+
   } else {
     $('#flex').text(flex);
     $('#eda').text(eda);
@@ -116,10 +127,12 @@ function handleBatteryLevelChanged(event) {
 
   //counting beats/changing bg
   if(hr - oldHr > thresh && now - lastBeat > .4){
-    document.getElementById("channel-bpm").style.background = 'rgba(255,0,0,0.8)';
+    //document.getElementById("channel-bpm").style.background = 'rgba(255,0,0,0.8)';
+    document.getElementById("hr-img").src = "img/hr-2.svg";
     lastBeat = new Date().getTime()/1000;
   } else {
-    document.getElementById("channel-bpm").style.background = 'rgba(255,0,0,0.1)';
+    //document.getElementById("channel-bpm").style.background = 'rgba(255,0,0,0.1)';
+    document.getElementById("hr-img").src = "img/hr.svg";
   }
 
   now = new Date().getTime()/1000;
