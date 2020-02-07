@@ -905,9 +905,9 @@ function readAudioTxt(){
 
         audioTxtResult = audioFileTxt.split(";");
 
-        for (var i = 0; i < audioTxtResult.length; i++){
-            console.log(audioTxtResult[i]);
-          }
+        // for (var i = 0; i < audioTxtResult.length; i++){
+        //     console.log(audioTxtResult[i]);
+        //   }
 
         console.log(audioTxtResult);
       }
