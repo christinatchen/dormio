@@ -267,9 +267,6 @@ select {
   color: white;
 }
 
-/*=================
-   form stuff
-*=================*/
 
 /*=================
    form stuff
@@ -324,7 +321,7 @@ select {
 }
 
 #dropdowns{
-  font-size: 28px;
+  font-size: 26px;
 }
 
 #dropdowns input{
