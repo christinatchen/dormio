@@ -275,6 +275,7 @@ $(document).ready(function()
 
 $(function(){
 
+  //read audio text files to populate the dropdown boxes for wakeups
   readAudioTxt();
 
   //hide calibrate and stop session buttons on load
@@ -325,17 +326,13 @@ $(function(){
 
     var numWakeups = $("#loops").val();
     console.log(numWakeups);
-    //readAudioTxt();
-
 
      for (var i = 0; i < numWakeups; i++) {
     initializeWakeups(i + 1);
 
      var wakeupNum = i + 1
      var wakeupID = "subject-wakeup-" + wakeupNum;
-     //console.log(wakeupID);
      document.getElementById(wakeupID).style.display = "block";
-     //console.log(i);
     }
   });
 
@@ -478,15 +475,16 @@ $("#start_biosignal").click(function(){
 
     fileReadOutput += "Session Start: " + nowTime + "\n---------------------------------------------------\n";
 
+    currentSelected = selectWakeup1.getSelected();
+    fileReadOutput += "\nwords for wakeup 1:" + currentSelected + " \n";
+
+
     $("#calibrate").show();
     	startCalibrating();
   	});
 
   	$("#stop_session").click(function(){
     	endSession();
-
-    var currentSelected = selectWakeup1.getSelected();
-    fileReadOutput += "\n" + currentSelected + " \n";
 
   	});
 
@@ -515,12 +513,12 @@ function startCalibrating() {
   calibrationStatus = "CALIBRATING";
 
   countdown = parseInt($('#calibration-time').val());
-  countdownMin = countdown * 60;
+  countdownSecs = countdown * 60;
 
   //end timer after calibration time is over
   calibrateTimer = setTimeout(function() {
     endCalibrating();
-  }, countdownMin * 1000)
+  }, countdownSecs * 1000)
 
   //countdown for label
   countdownTimer = setInterval(function() {
@@ -596,13 +594,7 @@ function endCalibrating() {
     countdownTimer = null;
   }
 
-    //play prompt again
-	if (sleep_msg_recording != null) {
-      sleep_msg_player = new Audio(sleep_msg_recording.url)
-      sleep_msg_player.play()
-    }
-
- playSelected(currentSelected);
+  playPrompt();
 
 
 minTime = parseInt($('#time-until-sleep-min').val());
@@ -728,15 +720,9 @@ function detectSleepOnset(){
 
 function endDetectSleepOnset(){
 
-   // play prompt again
-  if (sleep_msg_recording != null) {
-      sleep_msg_player = new Audio(sleep_msg_recording.url)
-      sleep_msg_player.play()
-    }
+  playPrompt();
 
-playSelected(currentSelected);
-
-    var thing = parseInt($("#hypna-latency").val());
+  var thing = parseInt($("#hypna-latency").val());
 
      console.log("starting wakeup after hypna latency");
 
@@ -821,12 +807,8 @@ function endWakeup() {
   if (wakeups < parseInt($("#loops").val())) {
     
     //play prompt again
-	if (sleep_msg_recording != null) {
-      sleep_msg_player = new Audio(sleep_msg_recording.url)
-      sleep_msg_player.play()
-    }
-
-    playSelected(currentSelected);
+	  
+    playPrompt();
 
     duringSleep();
 
@@ -844,10 +826,11 @@ function endWakeup() {
 function duringSleep(){
 
   var timeBetween = parseInt($('#time-between-sleep').val());
+  var timeBetweenSecs = timeBetween * 60;
 
   var promptHypnagogia = setTimeout(function(){
         playPrompt();
-    },  timeBetween * 1000);
+    },  timeBetweenSecs * 1000);
 
   var hypnaLatency = parseInt($('#hypna-latency').val());
 
@@ -1295,10 +1278,12 @@ function startRecording(filename, mode = "dream") {
         wakeup_msg_recording = audioRecording
         console.log("wakeup_msg_recording is now: ", wakeup_msg_recording)
         new Audio(audioRecording.url).play()
+
       } else if (mode == "sleep") {
         sleep_msg_recording = audioRecording
         console.log("sleep_msg_recording is now: ", sleep_msg_recording)
         new Audio(audioRecording.url).play()
+
       } else {
         console.log("pushed new dream recording: ", audioRecording)
         audio_recordings.push(audioRecording);

@@ -530,10 +530,7 @@ function endCalibrating() {
   }
 
     //play prompt again
-  if (sleep_msg_recording != null) {
-      sleep_msg_player = new Audio(sleep_msg_recording.url)
-      sleep_msg_player.play()
-    }
+  playPrompt();
 
 minTime = parseInt($('#time-until-sleep-min').val());
 maxTime = parseInt($('#time-until-sleep-max').val());
@@ -660,10 +657,7 @@ function detectSleepOnset(){
 function endDetectSleepOnset(){
 
       //play prompt again
-    if (sleep_msg_recording != null) {
-        sleep_msg_player = new Audio(sleep_msg_recording.url)
-        sleep_msg_player.play()
-    }
+    playPrompt();
 
     var thing = parseInt($("#hypna-latency").val());
 
@@ -759,10 +753,7 @@ function endWakeup() {
   if (wakeups < parseInt($("#loops").val())) {
     
     //play prompt again
-	if (sleep_msg_recording != null) {
-      sleep_msg_player = new Audio(sleep_msg_recording.url)
-      sleep_msg_player.play()
-    }
+	 playPrompt();
 
     duringSleep();
 
@@ -781,10 +772,11 @@ function endWakeup() {
 function duringSleep(){
 
   var timeBetween = parseInt($('#time-between-sleep').val());
+  var timeBetweenSecs = timeBetween * 60;
 
   var promptHypnagogia = setTimeout(function(){
         playPrompt();
-    },  timeBetween * 1000);
+    },  timeBetweenSecs * 1000);
 
   var hypnaLatency = parseInt($('#hypna-latency').val());
 
@@ -1043,7 +1035,7 @@ function startRecording(filename, mode = "dream") {
 
 
    recorder.onComplete = function(recorder, blob) {
-      console.log("Recording.oncCmplete called")
+      console.log("Recording.onComplete called")
       audioRecording = getAudio(blob, recorder.encoding, filename);
 
       if (mode == "wakeup") {
