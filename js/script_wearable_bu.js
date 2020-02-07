@@ -550,9 +550,9 @@ function startCalibrating() {
 
   //countdown for label
   countdownTimer = setInterval(function() {
-    countdown--;
-    var minutes = Math.floor(countdown / 60)
-    var seconds = Math.floor(countdown % 60)
+    countdownSecs--;
+    var minutes = Math.floor(countdownSecs / 60)
+    var seconds = Math.floor(countdownSecs % 60)
     $("#calibrate").html("Calibrating... (" + minutes + ":" + ("0"+seconds).slice(-2) + ")")
     updateMeans();
 

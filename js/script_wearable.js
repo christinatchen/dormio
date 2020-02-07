@@ -485,17 +485,18 @@ function startCalibrating() {
   calibrationStatus = "CALIBRATING";
 
   countdown = parseInt($('#calibration-time').val());
+  countdownSecs = countdown * 60;
 
   //end timer after calibration time is over
   calibrateTimer = setTimeout(function() {
     endCalibrating();
-  }, countdown * 1000)
+  }, countdownSecs * 1000)
 
   //countdown for label
   countdownTimer = setInterval(function() {
-    countdown--;
-    var minutes = Math.floor(countdown / 60)
-    var seconds = Math.floor(countdown % 60)
+    countdownSecs--;
+    var minutes = Math.floor(countdownSecs / 60)
+    var seconds = Math.floor(countdownSecs % 60)
     $("#calibrate").html("Calibrating... (" + minutes + ":" + ("0"+seconds).slice(-2) + ")")
     updateMeans();
 
