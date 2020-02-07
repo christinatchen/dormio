@@ -285,7 +285,7 @@ $(document).ready(function()
     {
     alert("To begin, first set your desired thresholds for heart rate, muscle flex, and electrodermal activity on the right. Then, press 'Connect' to connect your dormio wearable device.\n\nNote: To enable Web Bluetooth API, copy chrome://flags/#enable-experimental-web-platform-features to your Chrome address bar.")
     }, 
-    5000);
+    4000);
 
 });
 
@@ -304,30 +304,23 @@ $(function(){
     $("#" + key).val(defaults[key]);
   }
 
-  //when connect button is clicked, do this
-
+   //when connect button is clicked, do this
   $('#connect').click(function() {
 
-  //read input from delta boxes
-  var inputDeltaEDA = parseInt($('#delta-eda').val());
-  var inputDeltaFlex = parseInt($('#delta-flex').val());
-  var inputDeltaHR = parseInt($('#delta-hr').val());
+    //read input from delta boxes
+    var inputDeltaEDA = parseInt($('#delta-eda').val());
+    var inputDeltaFlex = parseInt($('#delta-flex').val());
+    var inputDeltaHR = parseInt($('#delta-hr').val());
 
     if (isWebBluetoothEnabled()) {
       if (isConnected) {
         onResetButtonClick();
-        $('#connect').val("Connect")
+        document.getElementById("connect").innerHTML = "Connect";
       } else {
         onReadBatteryLevelButtonClick();
-        $('#connect').val("Reset")
-        //alert("Device is connected.")
-
-        //open form after 3 seconds to continue process if connect is successful
-        setTimeout(function()
-        {openForm()},3000);
+        document.getElementById("connect").innerHTML = "Reset";
       }
-
-      isConnected = !isConnected
+      isConnected = !isConnected;
     }
   });
 

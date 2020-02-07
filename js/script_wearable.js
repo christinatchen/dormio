@@ -271,20 +271,40 @@ $(document).ready(function()
     {
     alert("To begin, first set your desired thresholds for heart rate, muscle flex, and electrodermal activity on the right. Then, press 'Connect' to connect your dormio wearable device.\n\nNote: To enable Web Bluetooth API, copy chrome://flags/#enable-experimental-web-platform-features to your Chrome address bar.")
     }, 
-    5000);
+    4000);
 
 });
 
 $(function(){
 
+  //hide calibrate and stop session buttons on load
   $("#calibrate").hide();
   $("#stop_session").hide();
 
-
+  //populate default variables
   for (var key in defaults){
     $("#" + key).val(defaults[key]);
   }
 
+  //when connect button is clicked, do this
+  $('#connect').click(function() {
+
+    //read input from delta boxes
+    var inputDeltaEDA = parseInt($('#delta-eda').val());
+    var inputDeltaFlex = parseInt($('#delta-flex').val());
+    var inputDeltaHR = parseInt($('#delta-hr').val());
+
+    if (isWebBluetoothEnabled()) {
+      if (isConnected) {
+        onResetButtonClick();
+        document.getElementById("connect").innerHTML = "Connect";
+      } else {
+        onReadBatteryLevelButtonClick();
+        document.getElementById("connect").innerHTML = "Reset";
+      }
+      isConnected = !isConnected;
+    }
+  });
 
  //make record sleep buttons work
 
@@ -339,23 +359,6 @@ $(function(){
   $("#clear-wakeup-message").click(function() {
     wakeup_msg_recording = null;
 });
-
-  $('#connect').click(function() {
-    if (isWebBluetoothEnabled()) {
-      if (isConnected) {
-        onResetButtonClick();
-        $('#connect').val("Connect")
-        $("#calibrate").hide();
-        $("#stop_session").hide();
-      } else {
-        onReadBatteryLevelButtonClick();
-        $('#connect').val("Reset")
-        $("#calibrate").show();
-        $("#stop_session").show();
-      }
-      isConnected = !isConnected;
-    }
-  });
 
   $("#calibrate").click(function() {
     if (calibrationStatus == "CALIBRATING") {
