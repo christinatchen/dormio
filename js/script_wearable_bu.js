@@ -396,10 +396,18 @@ $(function(){
 //when confirm wakeups is clicked, do this
   $("#confirm_wakeups").click(function() {
 
+    //first, hide all of the wakeups
+    for (var i = 0; i < 10; i++) {
+     var wakeupNum = i + 1
+     var wakeupID = "subject-wakeup-" + wakeupNum;
+     document.getElementById(wakeupID).style.display = "none";
+    }
+
     var numWakeups = $("#loops").val();
     console.log(numWakeups);
 
-     for (var i = 0; i < numWakeups; i++) {
+    //show the appropriate number of wakeups depending on input
+    for (var i = 0; i < numWakeups; i++) {
     initializeWakeups(i + 1);
 
      var wakeupNum = i + 1
