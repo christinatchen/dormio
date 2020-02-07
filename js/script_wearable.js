@@ -542,6 +542,10 @@ function endCalibrating() {
 minTime = parseInt($('#time-until-sleep-min').val());
 maxTime = parseInt($('#time-until-sleep-max').val());
 
+var minTimeSecs = minTime * 60;
+var maxTimeSecs = maxTime * 60;
+
+
     //if either of the values in min or max time are null, detect sleep onset right away
   if ((minTime == null) || (maxTime == null)){
 
@@ -554,10 +558,128 @@ maxTime = parseInt($('#time-until-sleep-max').val());
 
       var startSleepDetection = setTimeout(function(){
           startDetectSleepOnset();
-      }, minTime * 1000);
+      }, minTimeSecs * 1000);
 
     }
 }
+
+
+//if both windows are null, do nothing and guess sleep onset right away
+//if not, we wait for min time to start detecting sleep onset.
+//we allow detect sleep onset to continue for the time between maxtime and mintime
+//if sleep onset isn't true at the time, just have sleep be detected
+
+function startDetectSleepOnset(){
+
+  
+  log("startDetectSleepOnset");
+
+  //record event onto files
+  if (recording) {
+    fileReadOutput += "EVENT, start detect sleep onset |\n"
+    //fileParseOutput += "EVENT,calibrate_start|"
+  }
+
+  startSleepDetectTime = new Date();
+  console.log("detect sleep onset starting at" + startSleepDetectTime);
+
+  detectSleepOnset();
+}
+
+
+function detectSleepOnset(){
+
+  tmpEDA = 0;
+  tmpFlex = 0;
+
+  //accumulate last 100 entries ~approx 10 seconds of data
+  for (var i = 1; i < 101; i++){
+    place = bigBuffer.length - i;
+    tmpEDA += bigBuffer[place][2];
+    tmpFlex += bigBuffer[place][0];
+  }
+
+  //average entries
+  var recentMeanEDA = Math.round(tmpEDA / 100);
+  var recentMeanFlex = Math.round(tmpFlex / 100);
+
+  tmpHR = 0;
+
+  //accumulate last 10 entries ~approx 10 seconds of data
+  for (var i = 1; i < 11; i++){
+    place = bpmBuffer.length - i;
+    tmpHR += bpmBuffer[place];
+  }
+
+  //average entries
+  var recentMeanHR = Math.round(tmpHR / 10);
+
+  //calculate delta from calibration mean
+  var deltaEDA = Math.abs(meanEDA - recentMeanEDA);
+  var deltaFlex = Math.abs(meanFlex - recentMeanFlex);
+  var deltaHR = Math.abs(meanHR - recentMeanHR);
+
+  //retrieve user input delta
+  var inputDeltaEDA = parseInt($('#delta-eda').val());
+  var inputDeltaFlex = parseInt($('#delta-flex').val());
+  var inputDeltaHR = parseInt($('#delta-hr').val());
+
+  //if threshold is reached
+  if (deltaEDA >= inputDeltaEDA || deltaFlex >= inputDeltaFlex || deltaHR >= inputDeltaHR){
+
+    console.log("sleep detected");
+    endDetectSleepOnset();
+
+  }else{
+
+    //check the time now
+    nowTime = new Date();
+
+    var timeDiff = nowTime - startSleepDetectTime; //in ms
+    // strip the ms
+    timeDiff /= 1000;
+
+    var seconds = Math.round(timeDiff);
+
+    var detectSleepWindow = maxTimeSecs - minTimeSecs;
+
+    if (seconds >= detectSleepWindow){
+
+      console.log("window elapsed");
+      endDetectSleepOnset();
+
+    }else{
+
+      //run detectSleepOnset in the next second
+      console.log("continuing to detect sleep");
+      var checkAgain = setTimeout(function() {
+      detectSleepOnset();
+      }, 1000);
+
+    }
+
+  }
+}
+
+function endDetectSleepOnset(){
+
+      //play prompt again
+    if (sleep_msg_recording != null) {
+        sleep_msg_player = new Audio(sleep_msg_recording.url)
+        sleep_msg_player.play()
+    }
+
+    var thing = parseInt($("#hypna-latency").val());
+
+     console.log("starting wakeup after hypna latency");
+
+    //do next wakeup after hypnagogic depth
+      var nextWakeupTimer = setTimeout(function(){
+          startWakeup();
+      }, thing * 1000);
+
+}
+
 
 
 function playPrompt(){
@@ -659,122 +781,6 @@ function endWakeup() {
   }
 }
 
-
-//if both windows are null, do nothing and guess sleep onset right away
-//if not, we wait for min time to start detecting sleep onset.
-//we allow detect sleep onset to continue for the time between maxtime and mintime
-//if sleep onset isn't true at the time, just have sleep be detected
-
-function startDetectSleepOnset(){
-
-  
-  log("startDetectSleepOnset");
-
-  //record event onto files
-  if (recording) {
-    fileReadOutput += "EVENT, start detect sleep onset |\n"
-    //fileParseOutput += "EVENT,calibrate_start|"
-  }
-
-  startSleepDetectTime = new Date();
-  console.log("detect sleep onset starting at" + startSleepDetectTime);
-
-  detectSleepOnset();
-}
-
-
-function detectSleepOnset(){
-
-  tmpEDA = 0;
-	tmpFlex = 0;
-
-	//accumulate last 100 entries ~approx 10 seconds of data
-	for (var i = 1; i < 101; i++){
-		place = bigBuffer.length - i;
-		tmpEDA += bigBuffer[place][2];
-		tmpFlex += bigBuffer[place][0];
-	}
-
-	//average entries
-  var recentMeanEDA = Math.round(tmpEDA / 100);
-  var recentMeanFlex = Math.round(tmpFlex / 100);
-
-  tmpHR = 0;
-
-  //accumulate last 10 entries ~approx 10 seconds of data
-  for (var i = 1; i < 11; i++){
-		place = bpmBuffer.length - i;
-  	tmpHR += bpmBuffer[place];
-  }
-
-  //average entries
-  var recentMeanHR = Math.round(tmpHR / 10);
-
-  //calculate delta from calibration mean
-  var deltaEDA = Math.abs(meanEDA - recentMeanEDA);
-  var deltaFlex = Math.abs(meanFlex - recentMeanFlex);
-  var deltaHR = Math.abs(meanHR - recentMeanHR);
-
-  //retrieve user input delta
-  var inputDeltaEDA = parseInt($('#delta-eda').val());
-  var inputDeltaFlex = parseInt($('#delta-flex').val());
-  var inputDeltaHR = parseInt($('#delta-hr').val());
-
-  //if threshold is reached
-  if (deltaEDA >= inputDeltaEDA || deltaFlex >= inputDeltaFlex || deltaHR >= inputDeltaHR){
-
-    console.log("sleep detected");
-    endDetectSleepOnset();
-
-  }else{
-
-    //check the time now
-    nowTime = new Date();
-
-    var timeDiff = nowTime - startSleepDetectTime; //in ms
-    // strip the ms
-    timeDiff /= 1000;
-
-    var seconds = Math.round(timeDiff);
-
-    var detectSleepWindow = maxTime - minTime;
-
-    if (seconds >= detectSleepWindow){
-
-      console.log("window elapsed");
-      endDetectSleepOnset();
-
-    }else{
-
-      //run detectSleepOnset in the next second
-      console.log("continuing to detect sleep");
-      var checkAgain = setTimeout(function() {
-      detectSleepOnset();
-      }, 1000);
-
-    }
-
-  }
-}
-
-function endDetectSleepOnset(){
-
-      //play prompt again
-    if (sleep_msg_recording != null) {
-        sleep_msg_player = new Audio(sleep_msg_recording.url)
-        sleep_msg_player.play()
-    }
-
-    var thing = parseInt($("#hypna-latency").val());
-
-     console.log("starting wakeup after hypna latency");
-
-    //do next wakeup after hypnagogic depth
-      var nextWakeupTimer = setTimeout(function(){
-          startWakeup();
-      }, thing * 1000);
-
-}
 
 function duringSleep(){
 

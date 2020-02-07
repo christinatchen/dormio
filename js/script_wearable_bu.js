@@ -607,6 +607,10 @@ function endCalibrating() {
 minTime = parseInt($('#time-until-sleep-min').val());
 maxTime = parseInt($('#time-until-sleep-max').val());
 
+var minTimeSecs = minTime * 60;
+var maxTimeSecs = maxTime * 60;
+
+
     //if either of the values in min or max time are null, detect sleep onset right away
   if ((minTime == null) || (maxTime == null)){
 
@@ -619,7 +623,7 @@ maxTime = parseInt($('#time-until-sleep-max').val());
 
       var startSleepDetection = setTimeout(function(){
           startDetectSleepOnset();
-      }, minTime * 1000);
+      }, minTimeSecs * 1000);
 
     }
 }
@@ -701,7 +705,7 @@ function detectSleepOnset(){
 
     var seconds = Math.round(timeDiff);
 
-    var detectSleepWindow = maxTime - minTime;
+    var detectSleepWindow = maxTimeSecs - minTimeSecs;
 
     if (seconds >= detectSleepWindow){
 
