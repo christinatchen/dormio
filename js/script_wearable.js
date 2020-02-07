@@ -118,7 +118,7 @@ function handleBatteryLevelChanged(event) {
   } else if (calibrationStatus == "CALIBRATED") {
     $('#flex').text(flex + " (" + addSign(flex, meanFlex) + ")");
     $('#eda').text(eda + " (" + addSign(eda, meanEDA) + ")");
-    
+
   } else {
     $('#flex').text(flex);
     $('#eda').text(eda);
@@ -126,10 +126,12 @@ function handleBatteryLevelChanged(event) {
 
   //counting beats/changing bg
   if(hr - oldHr > thresh && now - lastBeat > .4){
-    document.getElementById("channel-bpm").style.background = 'rgba(255,0,0,0.8)';
+    //document.getElementById("channel-bpm").style.background = 'rgba(255,0,0,0.8)';
+    document.getElementById("hr-img").src = "img/hr_2.svg";
     lastBeat = new Date().getTime()/1000;
   } else {
-    document.getElementById("channel-bpm").style.background = 'rgba(255,0,0,0.1)';
+    //document.getElementById("channel-bpm").style.background = 'rgba(255,0,0,0.1)';
+    document.getElementById("hr-img").src = "img/hr.svg";
   }
 
   now = new Date().getTime()/1000;
@@ -168,6 +170,29 @@ function onDisconnected() {
   });
 }
 
+function addSign(x, mean) {
+  var ret = x - mean;
+  if (ret > 0) {
+    return "+" + ret;
+  } else {
+    return ret;
+  }
+}
+
+function setBPM(_bpm) {
+  if (calibrationStatus == "CALIBRATING" && meanHR != null) {
+    $('#bpm').text(_bpm + " (" + meanHR + ")");
+  } else if (calibrationStatus == "CALIBRATED") {
+    $('#bpm').text(_bpm + " (" + addSign(_bpm, meanHR) + ")");
+  } else {
+    $('#bpm').text(_bpm);
+  }
+  bpmBuffer.push(_bpm)
+  if (bpmBuffer.length > 180) {
+    bpmBuffer.shift();
+  }
+}
+
 //declare vars
 
 var flex = 0,
@@ -185,12 +210,12 @@ var bigBuffer = [];
 var bpmBuffer = [];
 var bpmInit = false;
 
-var fileReadOutput = "";
-var fileParseOutput = "";
-
 var meanEDA = null;
 var meanFlex = null;
 var meanHR = null;
+
+var fileReadOutput = "";
+var fileParseOutput = "";
 
 var nextWakeupTimer = null;
 var wakeups = 0;
@@ -221,28 +246,19 @@ var maxTime;
 
 var startSleepDetectTime;
 
-function addSign(x, mean) {
-  var ret = x - mean;
-  if (ret > 0) {
-    return "+" + ret;
-  } else {
-    return ret;
-  }
-}
+var calibrateTimer = null;
+var countdown = 0;
+var countdownTimer = null;
 
-function setBPM(_bpm) {
-  if (calibrationStatus == "CALIBRATING" && meanHR != null) {
-    $('#bpm').text(_bpm + " (" + meanHR + ")");
-  } else if (calibrationStatus == "CALIBRATED") {
-    $('#bpm').text(_bpm + " (" + addSign(_bpm, meanHR) + ")");
-  } else {
-    $('#bpm').text(_bpm);
-  }
-  bpmBuffer.push(_bpm)
-  if (bpmBuffer.length > 180) {
-    bpmBuffer.shift();
-  }
-}
+var recording = false;
+var isConnected = false;
+
+var wakeup_msg_recording, sleep_msg_recording;
+var audio_recordings = []
+
+var is_recording_wake = false;
+var is_recording_sleep = false;
+
 
 // ==================================================
 //        on page load, do this
@@ -430,10 +446,6 @@ $(function(){
     $("#stop_session").click(function(){
       endSession();
     });
-
-var calibrateTimer = null;
-var countdown = 0;
-var countdownTimer = null;
 
 //calibrate
 function startCalibrating() {
@@ -856,15 +868,6 @@ function endSession() {
 }
 
 var g, width, height;
-
-var recording = false;
-var isConnected = false;
-
-var wakeup_msg_recording, sleep_msg_recording;
-var audio_recordings = []
-
-var is_recording_wake = false;
-var is_recording_sleep = false;
 
 var gongs = 0;
 var gong = new Audio('audio/gong.wav');

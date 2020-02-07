@@ -128,7 +128,7 @@ function handleBatteryLevelChanged(event) {
   //counting beats/changing bg
   if(hr - oldHr > thresh && now - lastBeat > .4){
     //document.getElementById("channel-bpm").style.background = 'rgba(255,0,0,0.8)';
-    document.getElementById("hr-img").src = "img/hr-2.svg";
+    document.getElementById("hr-img").src = "img/hr_2.svg";
     lastBeat = new Date().getTime()/1000;
   } else {
     //document.getElementById("channel-bpm").style.background = 'rgba(255,0,0,0.1)';
@@ -171,82 +171,6 @@ function onDisconnected() {
   });
 }
 
-
-//declare vars
-
-var fileReadOutput = "";
-var fileParseOutput = "";
-
-var nextWakeupTimer = null;
-var wakeups = 0;
-
-var defaults = {
-  "loops" : 3,
-  "hypna-latency" : 30,
-  "time-between-sleep" : 7,
-  "calibration-time" : 3,
-  "recording-time" : 30,
-  "delta-eda" : 4,
-  "delta-flex": 5,
-  "delta-hr": 6
-}
-
-var flex = 0,
-    hr = 0,
-    oldHr = 0,
-    thresh = 50,
-    bpm = 0,
-    eda = 0;
-var prev = new Date().getTime()/1000;
-var now = new Date().getTime()/1000;
-var lastBeat = new Date().getTime()/1000;
-var delay = 20;
-var buffer = [];
-var bigBuffer = [];
-var bpmBuffer = [];
-var bpmInit = false;
-
-var meanEDA = null;
-var meanFlex = null;
-var meanHR = null;
-
-var calibrationStatus = null;
-
-var nowDateObj;
-var nowDate;
-var nowTime;
-
-var minTime;
-var maxTime;
-
-var startSleepDetectTime;
-
-var calibrateTimer = null;
-var countdown = 0;
-var countdownTimer = null;
-
-var wakeupSelect1;
-var wakeupSelect2;
-var wakeupSelect3;
-var wakeupSelect4;
-var wakeupSelect5;
-var wakeupSelect6;
-var wakeupSelect7;
-var wakeupSelect8;
-var wakeupSelect9;
-var wakeupSelect10;
-
-var currentSelected;
-
-var recording = false;
-var isConnected = false;
-
-var wakeup_msg_recording, sleep_msg_recording;
-var audio_recordings = []
-
-var is_recording_wake = false;
-var is_recording_sleep = false;
-
 function addSign(x, mean) {
   var ret = x - mean;
   if (ret > 0) {
@@ -269,6 +193,86 @@ function setBPM(_bpm) {
     bpmBuffer.shift();
   }
 }
+
+
+//declare vars
+
+var flex = 0,
+    hr = 0,
+    oldHr = 0,
+    thresh = 50,
+    bpm = 0,
+    eda = 0;
+var prev = new Date().getTime()/1000;
+var now = new Date().getTime()/1000;
+var lastBeat = new Date().getTime()/1000;
+var delay = 20;
+var buffer = [];
+var bigBuffer = [];
+var bpmBuffer = [];
+var bpmInit = false;
+
+var meanEDA = null;
+var meanFlex = null;
+var meanHR = null;
+
+var fileReadOutput = "";
+var fileParseOutput = "";
+
+var nextWakeupTimer = null;
+var wakeups = 0;
+
+var defaults = {
+  "loops" : 3,
+  "hypna-latency" : 30,
+  "time-between-sleep" : 7,
+  "calibration-time" : 3,
+  "recording-time" : 30,
+  "delta-eda" : 4,
+  "delta-flex": 5,
+  "delta-hr": 6
+}
+
+var num_threads = 2;
+var MT = new Multithread(num_threads);
+
+var calibrationStatus = null;
+
+var nowDateObj;
+var nowDate;
+var nowTime;
+
+var minTime;
+var maxTime;
+
+var startSleepDetectTime;
+
+var calibrateTimer = null;
+var countdown = 0;
+var countdownTimer = null;
+
+var recording = false;
+var isConnected = false;
+
+var wakeup_msg_recording, sleep_msg_recording;
+var audio_recordings = []
+
+var is_recording_wake = false;
+var is_recording_sleep = false;
+
+var wakeupSelect1;
+var wakeupSelect2;
+var wakeupSelect3;
+var wakeupSelect4;
+var wakeupSelect5;
+var wakeupSelect6;
+var wakeupSelect7;
+var wakeupSelect8;
+var wakeupSelect9;
+var wakeupSelect10;
+
+var currentSelected;
+
 
 // ==================================================
 //        on page load, do this
