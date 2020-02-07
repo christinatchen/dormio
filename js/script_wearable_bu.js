@@ -168,8 +168,9 @@ var nextWakeupTimer = null;
 var wakeups = 0;
 
 var defaults = {
-  "time-between-sleep" : 15,
   "loops" : 3,
+  "hypna-latency" : 30,
+  "time-between-sleep" : 7,
   "calibration-time" : 3,
   "recording-time" : 30,
   "delta-eda" : 4,

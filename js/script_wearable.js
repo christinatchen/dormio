@@ -184,15 +184,11 @@ var meanHR = null;
 var nextWakeupTimer = null;
 var wakeups = 0;
 
-var hypnaDepth = {
-  'light' : 30,
-  'medium' : 60,
-  'deep' : 90
-}
+
 var defaults = {
-  "time-between-sleep" : 7,
-  "hypna-latency" : 30,
   "loops" : 3,
+  "hypna-latency" : 30,
+  "time-between-sleep" : 7,
   "calibration-time" : 3,
   "recording-time" : 30,
   "delta-eda" : 4,
