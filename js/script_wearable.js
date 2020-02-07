@@ -298,9 +298,14 @@ $(function(){
       if (isConnected) {
         onResetButtonClick();
         document.getElementById("connect").innerHTML = "Connect";
+
       } else {
         onReadBatteryLevelButtonClick();
         document.getElementById("connect").innerHTML = "Reset";
+        //open form after 3 seconds to continue process if connect is successful
+        setTimeout(function()
+        {openForm()},3000);
+      }
       }
       isConnected = !isConnected;
     }
@@ -368,6 +373,10 @@ $(function(){
     }
   })
 
+// ==============================================================
+//        when start biosignal button is pressed, do this
+//===============================================================
+
   $("#start_biosignal").click(function(){
 
     // Validations
@@ -402,24 +411,26 @@ $(function(){
       return;
     }
 
-    //if recordings are null
+    //if sleep recordings are null
     if ((sleep_msg_recording == null)){
       alert ('Please record a prompt message');
       recording != recording;
       return;
     }
 
-    //if recordings are null
+    //if wakeup recordings are null
     if ((wakeup_msg_recording == null)){
       alert ('Please record a wakeup message');
       recording != recording;
       return;
     }
 
+    //disable fields on form after start is pressed
     $("#dream-subject").prop('disabled', true);
     for (var key in defaults) {
       $("#" + key).prop('disabled', true);
     }
+
 
     //hide the start button so people don't click it again if they ever open the form
     $("#start-button-container").hide();
@@ -445,7 +456,7 @@ $(function(){
       startCalibrating();
     });
 
-   // $("#stop_session").show();
+    $("#stop_session").show();
     $("#stop_session").click(function(){
       endSession();
     });

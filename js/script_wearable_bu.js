@@ -304,7 +304,7 @@ $(function(){
     $("#" + key).val(defaults[key]);
   }
 
-   //when connect button is clicked, do this
+  //when connect button is clicked, do this
   $('#connect').click(function() {
 
     //read input from delta boxes
@@ -316,33 +316,17 @@ $(function(){
       if (isConnected) {
         onResetButtonClick();
         document.getElementById("connect").innerHTML = "Connect";
+
       } else {
         onReadBatteryLevelButtonClick();
         document.getElementById("connect").innerHTML = "Reset";
+
+        //open form after 3 seconds to continue process if connect is successful
+        setTimeout(function()
+        {openForm()},3000);
+      }
       }
       isConnected = !isConnected;
-    }
-  });
-
-    $("#calibrate").click(function() {
-    if (calibrationStatus == "CALIBRATING") {
-      endCalibrating();
-    } else if (calibrationStatus == "CALIBRATED") {
-      startCalibrating();
-    }
-  });
-
-  $("#confirm_wakeups").click(function() {
-
-    var numWakeups = $("#loops").val();
-    console.log(numWakeups);
-
-     for (var i = 0; i < numWakeups; i++) {
-    initializeWakeups(i + 1);
-
-     var wakeupNum = i + 1
-     var wakeupID = "subject-wakeup-" + wakeupNum;
-     document.getElementById(wakeupID).style.display = "block";
     }
   });
 
@@ -410,6 +394,30 @@ $(function(){
     wakeup_msg_recording = null;
 });
 
+//when confirm wakeups is clicked, do this
+  $("#confirm_wakeups").click(function() {
+
+    var numWakeups = $("#loops").val();
+    console.log(numWakeups);
+
+     for (var i = 0; i < numWakeups; i++) {
+    initializeWakeups(i + 1);
+
+     var wakeupNum = i + 1
+     var wakeupID = "subject-wakeup-" + wakeupNum;
+     document.getElementById(wakeupID).style.display = "block";
+    }
+  });
+
+//when calibrate is clicked, do this
+    $("#calibrate").click(function() {
+    if (calibrationStatus == "CALIBRATING") {
+      endCalibrating();
+    } else if (calibrationStatus == "CALIBRATED") {
+      startCalibrating();
+    }
+  });
+
 // ==============================================================
 //        when start biosignal button is pressed, do this
 //===============================================================
@@ -418,14 +426,14 @@ $("#start_biosignal").click(function(){
 
     // Validations
     
-    //if dream subject is empty, alert
+    //if subject name is empty, alert
     if ($.trim($("#subject-name").val()) == '') {
       alert('Please fill in the subject name.');
       recording = !recording;
       return;
     }
 
-    //if any fields are empty, alert
+    //if any necessary fields are empty, alert
     for (var key in defaults) {
       var tag = "#" + key;
 
@@ -448,28 +456,31 @@ $("#start_biosignal").click(function(){
       return;
     }
 
-        //if recordings are null
+    //if sleep recordings are null
     if ((sleep_msg_recording == null)){
       alert ('Please record a prompt message');
       recording != recording;
       return;
     }
 
-    //if recordings are null
+    //if wakeup recordings are null
     if ((wakeup_msg_recording == null)){
       alert ('Please record a wakeup message');
       recording != recording;
       return;
     }
 
-
+    //disable fields on form after start is pressed
     $("#user-name").prop('disabled', true);
     for (var key in defaults) {
       $("#" + key).prop('disabled', true);
     }
 
-    $("#calibrate").show();
-    $("#stop_session").show();
+    //hide the start button so people don't click it again if they ever open the form
+    $("#start-button-container").hide();
+
+    //roll back the complete form to the side
+    setTimeout(closeForm, 1000);
 
     recording = true;
 
@@ -493,6 +504,7 @@ $("#start_biosignal").click(function(){
     	startCalibrating();
   	});
 
+    $("#stop_session").show();
   	$("#stop_session").click(function(){
     	endSession();
 
