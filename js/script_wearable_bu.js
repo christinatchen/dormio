@@ -931,129 +931,129 @@ function initializeWakeups(num){
 
       case 1:
 
-        var selectWakeup1 = sellect(wakeupInputID, {
+        wakeupSelect1 = sellect(wakeupInputID, {
             originList : audioTxtResult,
             destinationList: []
         });  
         console.log(wakeupInputID + " initialized");
         //console.log(audioTxtResult);
         
-        selectWakeup1.init();
+        wakeupSelect1.init();
 
         break;
 
       case 2:
 
-        var selectWakeup2 = sellect(wakeupInputID, {
+        wakeupSelect2 = sellect(wakeupInputID, {
             originList : audioTxtResult,
             destinationList: []
         });  
         console.log(wakeupInputID + " initialized");
         //console.log(audioTxtResult);
         
-        selectWakeup2.init();
+        wakeupSelect2.init();
 
         break;
 
       case 3:
 
-        var selectWakeup3 = sellect(wakeupInputID, {
+        wakeupSelect3 = sellect(wakeupInputID, {
             originList : audioTxtResult,
             destinationList: []
         });  
         console.log(wakeupInputID + " initialized");
         //console.log(audioTxtResult);
         
-        selectWakeup3.init();
+        wakeupSelect3.init();
 
         break;
 
       case 4:
 
-        var selectWakeup4 = sellect(wakeupInputID, {
+        wakeupSelect4 = sellect(wakeupInputID, {
             originList : audioTxtResult,
             destinationList: []
         });  
         console.log(wakeupInputID + " initialized");
         //console.log(audioTxtResult);
         
-        selectWakeup4.init();
+        wakeupSelect4.init();
 
         break;
 
       case 5:
 
-        var selectWakeup5 = sellect(wakeupInputID, {
+        wakeupSelect5 = sellect(wakeupInputID, {
             originList : audioTxtResult,
             destinationList: []
         });  
         console.log(wakeupInputID + " initialized");
         //console.log(audioTxtResult);
         
-        selectWakeup5.init();
+        wakeupSelect5.init();
 
         break;
 
       case 6:
 
-        var selectWakeup6 = sellect(wakeupInputID, {
+        wakeupSelect6 = sellect(wakeupInputID, {
             originList : audioTxtResult,
             destinationList: []
         });  
         console.log(wakeupInputID + " initialized");
         //console.log(audioTxtResult);
         
-        selectWakeup6.init();
+        wakeupSelect6.init();
 
         break;
 
       case 7:
 
-       var selectWakeup7 = sellect(wakeupInputID, {
+       wakeupSelect7 = sellect(wakeupInputID, {
             originList : audioTxtResult,
             destinationList: []
         });  
         console.log(wakeupInputID + " initialized");
         //console.log(audioTxtResult);
         
-        selectWakeup7.init();
+        wakeupSelect7.init();
 
         break;
 
        case 8:
-        var selectWakeup8 = sellect(wakeupInputID, {
+        wakeupSelect8 = sellect(wakeupInputID, {
             originList : audioTxtResult,
             destinationList: []
         });  
         console.log(wakeupInputID + " initialized");
         //console.log(audioTxtResult);
         
-        selectWakeup8.init();
+        wakeupSelect8.init();
 
         break;
 
        case 9:
-        var selectWakeup9 = sellect(wakeupInputID, {
+        wakeupSelect9 = sellect(wakeupInputID, {
             originList : audioTxtResult,
             destinationList: []
         });  
         console.log(wakeupInputID + " initialized");
         //console.log(audioTxtResult);
         
-        selectWakeup9.init();
+        wakeupSelect9.init();
 
         break;
 
        case 10:
 
-       var selectWakeup10 = sellect(wakeupInputID, {
+       wakeupSelect10 = sellect(wakeupInputID, {
             originList : audioTxtResult,
             destinationList: []
         });  
         console.log(wakeupInputID + " initialized");
         //console.log(audioTxtResult);
         
-        selectWakeup10.init();
+        wakeupSelect10.init();
 
         break;
     }
