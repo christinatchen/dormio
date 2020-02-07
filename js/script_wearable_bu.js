@@ -861,8 +861,9 @@ function duringSleep(){
     },  timeBetweenSecs * 1000);
 
   var hypnaLatency = parseInt($('#hypna-latency').val());
+  var hypnaLatencySecs = hypnaLatency * 60;
 
-  var nextWakeupTime = timeBetween + hypnaLatency;
+  var nextWakeupTime = timeBetweenSecs + hypnaLatencySecs;
 
   var nextWakeupTimer = setTimeout(function(){
         startWakeup();
