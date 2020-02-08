@@ -707,7 +707,7 @@ function detectSleepOnset(){
   var inputDeltaFlex = parseInt($('#delta-flex').val());
   var inputDeltaHR = parseInt($('#delta-hr').val());
 
-  //if threshold is reached
+   //if threshold is reached
   if (deltaEDA >= inputDeltaEDA || deltaFlex >= inputDeltaFlex || deltaHR >= inputDeltaHR){
 
     console.log("sleep detected");
@@ -724,6 +724,8 @@ function detectSleepOnset(){
 
     var seconds = Math.round(timeDiff);
 
+    //if min/max is NOT being applied, simply continue to check detectSleepOnset until thresholds are reached
+
     if ((isNaN(+(minTime))) || (isNaN(+(maxTime)))) {
 
            //run detectSleepOnset in the next second
@@ -732,14 +734,15 @@ function detectSleepOnset(){
           detectSleepOnset();
         }, 1000);
 
-
-      } else{
+    //if min/max IS being applied, check if maxTime has been reached or not
+    } else{
 
         var minTimeSecs = minTime * 60;
         var maxTimeSecs = maxTime * 60;
 
         var detectSleepWindow = maxTimeSecs - minTimeSecs;
 
+      //if maxTime HAS been reached, end detection
        if (seconds >= detectSleepWindow){
 
          console.log("window elapsed");
@@ -754,11 +757,8 @@ function detectSleepOnset(){
         }, 1000);
 
         }
-
-
       }
-
-  }
+    }
 }
 
 function endDetectSleepOnset(){
