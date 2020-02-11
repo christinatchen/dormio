@@ -1444,6 +1444,8 @@ for (var i = 0; i < list.length; i++){
   fileReadOutput += "words played:" + list + " | " + nowTime + "\n";
 }
 
+//whats up
+
 function changeCurrentSelected(num){
 
    switch (num) {
