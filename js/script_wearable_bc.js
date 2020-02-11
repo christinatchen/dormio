@@ -924,19 +924,23 @@ function playPrompt(){
 		if (sleep_msg_recording != null) {
       sleep_msg_player = new Audio(sleep_msg_recording.url)
       sleep_msg_player.play()
-    }
 
-    nowDateObj = new Date();
-    nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
+      nowDateObj = new Date();
+      nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
     
-    fileReadOutput += "EVENT, go to sleep recording| " + nowTime + "\n";
+      fileReadOutput += "EVENT, go to sleep recording| " + nowTime + "\n";
 
-    sleep_msg_player.onended = () => {
-          if (currentSelected !=null){
-        playSelected(currentSelected);
-    }else{
-      console.log("no words to play");
-    }
+      //record dream report
+      sleep_msg_player.onended = () => {
+
+        if (currentSelected !=null){
+          playSelected(currentSelected);
+        }else{
+          console.log("no words to play");
+        }
+        
+      }
+
     }
 }
 
@@ -948,6 +952,7 @@ function playPrompt(){
 //     gong.play()
 //   }
 // })
+
 
 function playWakeup(){
 
