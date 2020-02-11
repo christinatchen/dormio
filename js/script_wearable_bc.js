@@ -938,7 +938,7 @@ function playPrompt(){
           playSelected(currentSelected);
         }else{
           console.log("no words to play");
-        }
+         }
         
       }
 
@@ -1441,10 +1441,10 @@ for (var i = 0; i < list.length; i++){
   var audio = new Audio('audio/' + list[i] + ".m4a");
   console.log(list[i]);
   console.log(audio);
-  audio.play();
-  // audio.addEventListener('ended',function(){
-  //   audio.play();
-  // })
+
+  audio.addEventListener('ended',function(){
+    audio.play();
+    })
   }
 
   nowDateObj = new Date();
@@ -1452,7 +1452,6 @@ for (var i = 0; i < list.length; i++){
     
   fileReadOutput += "words played:" + list + " | " + nowTime + "\n";
 }
-
 
 function changeCurrentSelected(num){
 
