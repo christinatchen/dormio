@@ -1427,17 +1427,32 @@ function play(url) {
 
 function playSelected(list){
 
-for (var i = 0; i < list.length; i++){
-  var audio = new Audio('audio/' + list[i] + ".m4a");
-  console.log(list[i]);
+  var audio = new Audio();
+  i=0;
 
-  audio.play();
-  console.log('played one!');
-
-  audio.addEventListener('ended',function(){
+  audio.addEventListener('ended', function () {
+    i = ++i < list.length ? i : 0;
+    console.log(i)
+    audio.src = playlist[i];
     audio.play();
-    })
-  }
+}, true);
+
+audio.volume = 0.3;
+audio.loop = false;
+audio.src = list[0];
+audio.play();
+
+// for (var i = 0; i < list.length; i++){
+//   var audio = new Audio('audio/' + list[i] + ".m4a");
+//   console.log(list[i]);
+
+//   audio.play();
+//   console.log('played one!');
+
+//   audio.addEventListener('ended',function(){
+//     audio.play();
+//     })
+//   }
 
   nowDateObj = new Date();
   nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
