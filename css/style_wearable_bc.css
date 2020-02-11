@@ -267,6 +267,23 @@ select {
   color: white;
 }
 
+#play-buttons{
+  display: flex;
+  justify-content: space-around;
+  margin-left: 5%;
+}
+
+#play-buttons button{
+  width: 80%;
+  height: 100%;
+  margin: 0%;
+  padding: 5%;
+}
+
+#play-buttons img{
+  width: 75%;
+}
+
 /*=================
    form stuff
 *=================*/

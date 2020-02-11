@@ -271,7 +271,7 @@ var wakeupSelect8;
 var wakeupSelect9;
 var wakeupSelect10;
 
-var currentSelected;
+var currentSelected = null;
 
 
 // ==================================================
@@ -296,7 +296,7 @@ $(function(){
   readAudioTxt();
 
   //hide calibrate and stop session buttons on load
-    $("#stop_session").hide()
+  $("#stop_session").hide()
   $("#calibrate").hide()
 
   //populate default variables
@@ -327,6 +327,20 @@ $(function(){
       }
       isConnected = !isConnected;
     }
+  });
+
+     //when play-sleep button is clicked, do this
+  $('#play-sleep').click(function() {
+
+    playPrompt();
+
+  });
+
+  //when play-sleep button is clicked, do this
+  $('#play-wakeup').click(function() {
+
+    playWakeup();
+
   });
 
    //make record sleep buttons work
@@ -504,7 +518,7 @@ $("#start_biosignal").click(function(){
     fileReadOutput += "Session Start: " + nowTime + "\n---------------------------------------------------\n";
 
     currentSelected = wakeupSelect1.getSelected();
-    fileReadOutput += "\nwords for wakeup 1:" + currentSelected + " \n";
+    fileReadOutput += "\nwords for wakeup 1: " + currentSelected + " \n";
 
 
     $("#calibrate").show();
@@ -521,7 +535,12 @@ function startCalibrating() {
 
   //record calibrate event onto files
   if (recording) {
-    fileReadOutput += "EVENT, calibrate_start |\n"
+
+    nowDateObj = new Date();
+    nowDate = nowDateObj.getFullYear()+'-'+(nowDateObj.getMonth()+1)+'-'+nowDateObj.getDate();
+    nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
+
+    fileReadOutput += "EVENT, calibrate_start | " + nowTime + " \n"
     fileParseOutput += "EVENT,calibrate_start|"
   }
 
@@ -602,7 +621,12 @@ function endCalibrating() {
 
   //log event to files
   if (recording) {
-    fileReadOutput += "EVENT, calibrate_end |" + "Mean Flex: " + meanFlex + ", Mean Heart Rate: " + meanHR + ", Mean EDA:" + meanEDA + "|\n";
+
+    nowDateObj = new Date();
+    nowDate = nowDateObj.getFullYear()+'-'+(nowDateObj.getMonth()+1)+'-'+nowDateObj.getDate();
+    nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
+
+    fileReadOutput += "EVENT, calibrate_end | " + nowTime + "\nMean Flex: " + meanFlex + ", Mean Heart Rate: " + meanHR + ", Mean EDA:" + meanEDA + "|\n";
     fileParseOutput += "EVENT,calibrate_end," + meanFlex + "," + meanHR + "," + meanEDA + "|";
   }
 
@@ -659,7 +683,11 @@ function startDetectSleepOnset(){
 
   //record event onto files
   if (recording) {
-    fileReadOutput += "EVENT, start detect sleep onset |\n"
+    nowDateObj = new Date();
+    nowDate = nowDateObj.getFullYear()+'-'+(nowDateObj.getMonth()+1)+'-'+nowDateObj.getDate();
+    nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
+
+    fileReadOutput += "EVENT, start detect sleep onset | " + nowTime + "\n"
     //fileParseOutput += "EVENT,calibrate_start|"
   }
 
@@ -824,6 +852,11 @@ function startWakeup() {
       wakeup_msg_player.onended = () => {
           startRecording("dream_"+wakeups+"_"+new Date().toISOString() + '.mp3', "dream");
       }
+
+    nowDateObj = new Date();
+    nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
+    
+    fileReadOutput += "EVENT, wakeup played| " + nowTime + "\n";
   }
 
   //end wake-up after recording time is over
@@ -895,7 +928,32 @@ function playPrompt(){
       sleep_msg_player.play()
     }
 
-    playSelected(currentSelected);
+    nowDateObj = new Date();
+    nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
+    
+    fileReadOutput += "EVENT, go to sleep recording| " + nowTime + "\n";
+
+    if (currentSelected !=null){
+        playSelected(currentSelected);
+    }else{
+      console.log("no words to play");
+    }
+}
+
+function playWakeup(){
+
+  log("playWakeup");
+
+    //play prompt again
+    if (wakeup_msg_recording != null) {
+      wakeup_msg_player = new Audio(wakeup_msg_recording.url)
+      wakeup_msg_player.play()
+    }
+
+    nowDateObj = new Date();
+    nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
+    
+    fileReadOutput += "EVENT, wakeup played| " + nowTime + "\n";
 }
 
 var audioFileTxt = '';
@@ -1364,7 +1422,6 @@ function play(url) {
 
 function playSelected(list){
 
-  //var gongs = 0;
 for (var i = 0; i < list.length; i++){
   var audio = new Audio('audio/' + list[i] + ".m4a");
   console.log(list[i]);
@@ -1373,8 +1430,12 @@ for (var i = 0; i < list.length; i++){
   // audio.addEventListener('ended',function(){
   //   audio.play();
   // })
+  }
 
-}
+  nowDateObj = new Date();
+  nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
+    
+  fileReadOutput += "words played:" + list + " | " + nowTime + "\n";
 }
 
 

@@ -310,6 +310,21 @@ $(function(){
     }
   });
 
+     //when play-sleep button is clicked, do this
+  $('#play-sleep').click(function() {
+
+    playPrompt();
+
+  });
+
+  //when play-sleep button is clicked, do this
+  $('#play-wakeup').click(function() {
+
+    playWakeup();
+
+  });
+
+
  //make record sleep buttons work
 
     $("#record-sleep-message").click(function() {
@@ -465,7 +480,12 @@ function startCalibrating() {
 
   //record calibrate event onto files
   if (recording) {
-    fileReadOutput += "EVENT, calibrate_start |\n"
+
+    nowDateObj = new Date();
+    nowDate = nowDateObj.getFullYear()+'-'+(nowDateObj.getMonth()+1)+'-'+nowDateObj.getDate();
+    nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
+
+    fileReadOutput += "EVENT, calibrate_start | " + nowTime + " \n"
     fileParseOutput += "EVENT,calibrate_start|"
   }
 
@@ -546,7 +566,12 @@ function endCalibrating() {
 
   //log event to files
   if (recording) {
-    fileReadOutput += "EVENT, calibrate_end |" + "Mean Flex: " + meanFlex + ", Mean Heart Rate: " + meanHR + ", Mean EDA:" + meanEDA + "|\n";
+
+    nowDateObj = new Date();
+    nowDate = nowDateObj.getFullYear()+'-'+(nowDateObj.getMonth()+1)+'-'+nowDateObj.getDate();
+    nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
+
+    fileReadOutput += "EVENT, calibrate_end | " + nowTime + "\n Mean Flex: " + meanFlex + ", Mean Heart Rate: " + meanHR + ", Mean EDA:" + meanEDA + "|\n";
     fileParseOutput += "EVENT,calibrate_end," + meanFlex + "," + meanHR + "," + meanEDA + "|";
   }
 
@@ -603,8 +628,13 @@ function startDetectSleepOnset(){
 
   //record event onto files
   if (recording) {
-    fileReadOutput += "EVENT, start detect sleep onset |\n"
-    //fileParseOutput += "EVENT,calibrate_start|"
+
+    nowDateObj = new Date();
+    nowDate = nowDateObj.getFullYear()+'-'+(nowDateObj.getMonth()+1)+'-'+nowDateObj.getDate();
+    nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
+
+    fileReadOutput += "EVENT, start detect sleep onset | " + nowTime + " \n"
+    fileParseOutput += "EVENT,calibrate_start|"
   }
 
   startSleepDetectTime = new Date();
@@ -668,6 +698,8 @@ function detectSleepOnset(){
 
     var seconds = Math.round(timeDiff);
 
+    //if min/max is NOT being applied, simply continue to check detectSleepOnset until thresholds are reached
+
     if ((isNaN(+(minTime))) || (isNaN(+(maxTime)))) {
 
            //run detectSleepOnset in the next second
@@ -676,14 +708,15 @@ function detectSleepOnset(){
           detectSleepOnset();
         }, 1000);
 
-
-      } else{
+    //if min/max IS being applied, check if maxTime has been reached or not
+    } else{
 
         var minTimeSecs = minTime * 60;
         var maxTimeSecs = maxTime * 60;
 
         var detectSleepWindow = maxTimeSecs - minTimeSecs;
 
+      //if maxTime HAS been reached, end detection
        if (seconds >= detectSleepWindow){
 
          console.log("window elapsed");
@@ -698,11 +731,8 @@ function detectSleepOnset(){
         }, 1000);
 
         }
-
-
       }
-
-  }
+    }
 }
 
 function endDetectSleepOnset(){
@@ -732,7 +762,29 @@ function playPrompt(){
       sleep_msg_player = new Audio(sleep_msg_recording.url)
       sleep_msg_player.play()
     }
+
+    nowDateObj = new Date();
+    nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
+
+    fileReadOutput += "EVENT, go to sleep recording played| " + nowTime + "\n";
 }
+
+function playWakeup(){
+
+  log("playWakeup");
+
+    //play prompt again
+    if (wakeup_msg_recording != null) {
+      wakeup_msg_player = new Audio(wakeup_msg_recording.url)
+      wakeup_msg_player.play()
+    }
+
+    nowDateObj = new Date();
+    nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
+    
+    fileReadOutput += "EVENT, wakeup played| " + nowTime + "\n";
+}
+
 
 //wake up
 function startWakeup() {
@@ -773,6 +825,11 @@ function startWakeup() {
   if(wakeup_msg_recording != null){
       wakeup_msg_player = new Audio(wakeup_msg_recording.url)
       wakeup_msg_player.play()
+
+      nowDateObj = new Date();
+      nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
+    
+      fileReadOutput += "EVENT, wakeup recording played | " + nowTime + "\n";
 
       //record dream report
       wakeup_msg_player.onended = () => {
