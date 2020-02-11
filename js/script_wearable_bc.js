@@ -283,7 +283,7 @@ var currentSelected = null;
 
 $(document).ready(function()
 {
-//initial alert instructions after page load
+  //initial alert instructions after page load
     setTimeout(function()
     {
     alert("To begin, first set your desired thresholds for heart rate, muscle flex, and electrodermal activity on the right. Then, press 'Connect' to connect your dormio wearable device.\n\n"
@@ -291,6 +291,7 @@ $(document).ready(function()
     }, 
     4000);
 
+});
 
 $(function(){
 
@@ -916,33 +917,33 @@ function duringSleep(){
     }, nextWakeupTime * 1000);
 }
 
-// function playPrompt(){
+function playPrompt(){
 
-//   log("playPrompt");
+  log("playPrompt");
 
-//     //play prompt again
-// 		if (sleep_msg_recording != null) {
-//       sleep_msg_player = new Audio(sleep_msg_recording.url)
-//       sleep_msg_player.play()
+    //play prompt again
+		if (sleep_msg_recording != null) {
+      sleep_msg_player = new Audio(sleep_msg_recording.url)
+      sleep_msg_player.play()
 
-//       nowDateObj = new Date();
-//       nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
+      nowDateObj = new Date();
+      nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
     
-//       fileReadOutput += "EVENT, go to sleep recording| " + nowTime + "\n";
+      fileReadOutput += "EVENT, go to sleep recording| " + nowTime + "\n";
 
-//       //record dream report
-//       sleep_msg_player.onended = () => {
+      //record dream report
+      sleep_msg_player.onended = () => {
 
-//         if (currentSelected !=null){
-//           playSelected(currentSelected);
-//         }else{
-//           console.log("no words to play");
-//         }
+        if (currentSelected !=null){
+          playSelected(currentSelected);
+        }else{
+          console.log("no words to play");
+        }
         
-//       }
+      }
 
-//     }
-// }
+    }
+}
 
 // var gongs = 0;
 // var gong = new Audio('audio/gong.wav');
