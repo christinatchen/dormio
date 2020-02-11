@@ -43,6 +43,9 @@ function onReadBatteryLevelButtonClick() {
   .then(connectDeviceAndCacheCharacteristics)
   .then(_ => {
     log('Reading Dormio Data...');
+    //open form after 3 seconds to continue process if connect is successful
+        setTimeout(function()
+        {openForm()},10000);
     return dataCharacteristic.readValue();
   })
   .catch(error => {
@@ -269,7 +272,8 @@ $(document).ready(function()
   //initial alert instructions after page load
     setTimeout(function()
     {
-    alert("To begin, first set your desired thresholds for heart rate, muscle flex, and electrodermal activity on the right. Then, press 'Connect' to connect your dormio wearable device.\n\nNote: To enable Web Bluetooth API, copy chrome://flags/#enable-experimental-web-platform-features to your Chrome address bar.")
+    alert("To begin, first set your desired thresholds for heart rate, muscle flex, and electrodermal activity on the right. Then, press 'Connect' to connect your dormio wearable device.\n\n"
+      + "After connecting, the form to program your session will open.\n\n" + "Note: To enable Web Bluetooth API, copy chrome://flags/#enable-experimental-web-platform-features to your Chrome address bar.")
     }, 
     4000);
 
@@ -302,9 +306,6 @@ $(function(){
       } else {
         onReadBatteryLevelButtonClick();
         document.getElementById("connect").innerHTML = "Reset";
-        //open form after 3 seconds to continue process if connect is successful
-        setTimeout(function()
-        {openForm()},10000);
       }
       isConnected = !isConnected;
     }
