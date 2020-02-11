@@ -1430,8 +1430,12 @@ function playSelected(list){
 for (var i = 0; i < list.length; i++){
   var audio = new Audio('audio/' + list[i] + ".m4a");
   console.log(list[i]);
+
+  audio.play();
+
+  audio.addEventListener('ended',function(){
     audio.play();
-    audio.addEventListener('ended,'function(){audio.play();})
+    })
   }
 
   nowDateObj = new Date();
