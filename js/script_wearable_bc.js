@@ -1432,9 +1432,14 @@ for (var i = 0; i < list.length; i++){
   console.log(list[i]);
 
   audio.play();
+  console.log('played one!');
 
   audio.addEventListener('ended',function(){
-    audio.play();
+
+     if (i < list.length) {
+        audio.play();
+      }
+
     })
   }
 
