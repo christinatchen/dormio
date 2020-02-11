@@ -1435,11 +1435,7 @@ for (var i = 0; i < list.length; i++){
   console.log('played one!');
 
   audio.addEventListener('ended',function(){
-
-     if (i < list.length) {
-        audio.play();
-      }
-
+    audio.play();
     })
   }
 
