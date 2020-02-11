@@ -227,7 +227,7 @@ var wakeups = 0;
 
 var defaults = {
   "loops" : 3,
-  "hypna-latency" : 30,
+  "hypna-latency" : 3,
   "time-between-sleep" : 7,
   "calibration-time" : 3,
   "recording-time" : 30,
@@ -945,16 +945,6 @@ function playPrompt(){
     }
 }
 
-// var gongs = 0;
-// var gong = new Audio('audio/gong.wav');
-// gong.addEventListener('ended',function() {
-//   gongs += 1;
-//   if (gongs < 3) {
-//     gong.play()
-//   }
-// })
-
-
 function playWakeup(){
 
   log("playWakeup");
@@ -1440,11 +1430,8 @@ function playSelected(list){
 for (var i = 0; i < list.length; i++){
   var audio = new Audio('audio/' + list[i] + ".m4a");
   console.log(list[i]);
-  console.log(audio);
-
-  audio.addEventListener('ended',function(){
     audio.play();
-    })
+    audio.addEventListener('ended,'function(){audio.play();})
   }
 
   nowDateObj = new Date();
