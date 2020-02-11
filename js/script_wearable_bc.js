@@ -931,12 +931,23 @@ function playPrompt(){
     
     fileReadOutput += "EVENT, go to sleep recording| " + nowTime + "\n";
 
-    if (currentSelected !=null){
+    sleep_msg_player.onended = () => {
+          if (currentSelected !=null){
         playSelected(currentSelected);
     }else{
       console.log("no words to play");
     }
+    }
 }
+
+// var gongs = 0;
+// var gong = new Audio('audio/gong.wav');
+// gong.addEventListener('ended',function() {
+//   gongs += 1;
+//   if (gongs < 3) {
+//     gong.play()
+//   }
+// })
 
 function playWakeup(){
 
