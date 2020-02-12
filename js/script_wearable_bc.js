@@ -1429,14 +1429,14 @@ function playSelected(list){
 
   var audio = new Audio('audio/' + list[0] + ".m4a");
 
-  audio.play(); 
   var i = 0;
+  audio.play(); 
 
   audio.addEventListener('ended',function(){
     i += 1;
     console.log(i);
-    if (i< list.length + 1){
-      audio = new Audio('audio/' + list[i] + ".m4a");
+    if (i < list.length + 1){
+      audio.src = 'audio/' + list[i] + ".m4a";
       audio.play();
       console.log('played');
     }
