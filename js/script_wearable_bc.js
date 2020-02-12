@@ -1434,9 +1434,11 @@ function playSelected(list){
 
   audio.addEventListener('ended',function(){
     i += 1;
+    console.log(i);
     if (i< list.length + 1){
       audio = new Audio('audio/' + list[i] + ".m4a");
       audio.play();
+      console.log('played');
     }
     })
 
