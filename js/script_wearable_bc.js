@@ -1443,32 +1443,11 @@ function playSelected(list){
     })
 
 
-// for (var i = 1; i < list.length; i++){
-//   var audio = new Audio('audio/' + list[i] + ".m4a");
-//   console.log(list[i]);
-
-//   audio.play();
-//   console.log('played one!');
-
-//   audio.addEventListener('ended',function(){
-//     audio.play();
-//     })
-//   }
-
   nowDateObj = new Date();
   nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
     
   fileReadOutput += "words played:" + list + " | " + nowTime + "\n";
 }
-
-// var gongs = 0;
-// var gong = new Audio('audio/gong.wav');
-// gong.addEventListener('ended',function() {
-//   gongs += 1;
-//   if (gongs < 3) {
-//     gong.play()
-//   }
-// })
 
 function changeCurrentSelected(num){
 
