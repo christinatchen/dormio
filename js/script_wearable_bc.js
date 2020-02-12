@@ -1427,22 +1427,21 @@ function play(url) {
 
 function playSelected(list){
 
-  var audio = new Audio();
-  i=0;
+  var audio = new Audio('audio/' + list[0] + ".m4a");
 
-  audio.addEventListener('ended', function () {
-    i = ++i < list.length ? i : 0;
-    console.log(i)
-    audio.src = playlist[i];
-    audio.play();
-}, true);
+  audio.play(); 
+  var i = 0;
 
-audio.volume = 0.3;
-audio.loop = false;
-audio.src = list[0];
-audio.play();
+  audio.addEventListener('ended',function(){
+    i += 1;
+    if (i< list.length){
+      audio = new Audio('audio/' + list[i] + ".m4a");
+      audio.play();
+    }
+    })
 
-// for (var i = 0; i < list.length; i++){
+
+// for (var i = 1; i < list.length; i++){
 //   var audio = new Audio('audio/' + list[i] + ".m4a");
 //   console.log(list[i]);
 
@@ -1460,7 +1459,14 @@ audio.play();
   fileReadOutput += "words played:" + list + " | " + nowTime + "\n";
 }
 
-//whats up
+// var gongs = 0;
+// var gong = new Audio('audio/gong.wav');
+// gong.addEventListener('ended',function() {
+//   gongs += 1;
+//   if (gongs < 3) {
+//     gong.play()
+//   }
+// })
 
 function changeCurrentSelected(num){
 
