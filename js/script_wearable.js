@@ -109,7 +109,7 @@ function handleBatteryLevelChanged(event) {
   
   //write stats to read/parse files
   if (recording) {
-    fileReadOutput += "Flex: " + flex + ", Heart Rate: " + hr + ", EDA: " + eda + "|";
+    fileReadOutput += "Flex: " + flex + ", Heart Rate: " + hr + ", EDA: " + eda + "|\n";
     fileParseOutput += flex + "," + hr + "," + eda + "|";
   }
   
