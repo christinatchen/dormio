@@ -226,7 +226,7 @@ var wakeups = 0;
 
 var defaults = {
   "loops" : 3,
-  "hypna-latency" : 30,
+  "hypna-latency" : 3,
   "time-between-sleep" : 7,
   "calibration-time" : 3,
   "recording-time" : 30,
@@ -738,17 +738,17 @@ function detectSleepOnset(){
 
 function endDetectSleepOnset(){
 
-      //play prompt again
-    playPrompt();
+  playPrompt();
 
-    var thing = parseInt($("#hypna-latency").val());
+  var hypnaLatency = parseInt($('#hypna-latency').val());
+  var hypnaLatencySecs = hypnaLatency * 60;
 
      console.log("starting wakeup after hypna latency");
 
     //do next wakeup after hypnagogic depth
       var nextWakeupTimer = setTimeout(function(){
           startWakeup();
-      }, thing * 1000);
+      }, hypnaLatencySecs * 1000);
 
 }
 

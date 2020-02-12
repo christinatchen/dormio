@@ -792,14 +792,15 @@ function endDetectSleepOnset(){
 
   playPrompt();
 
-  var thing = parseInt($("#hypna-latency").val());
+  var hypnaLatency = parseInt($('#hypna-latency').val());
+  var hypnaLatencySecs = hypnaLatency * 60;
 
      console.log("starting wakeup after hypna latency");
 
     //do next wakeup after hypnagogic depth
       var nextWakeupTimer = setTimeout(function(){
           startWakeup();
-      }, thing * 1000);
+      }, hypnaLatencySecs * 1000);
 
 }
 
