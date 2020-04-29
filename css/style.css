@@ -1,8 +1,8 @@
 body {
-    font-size:0.9em;
+    /*font-size:0.9em;*/
     line-height:130%;
     font-family: 'Open Sans', sans-serif;
-	  background-image: url('../img/bg.png'); 
+	background-image: url('../img/bg.png'); 
 }
 
 html, body { height: 100%; width: 100%; margin: 0; padding:0; }
@@ -34,6 +34,10 @@ html, body { height: 100%; width: 100%; margin: 0; padding:0; }
 /*=================
    atoms
 *=================*/
+
+h1, h2, h3, h4, p{
+	color: white;
+}
 
 h1{
   font-size: 60px;
@@ -105,7 +109,6 @@ select {
   top: 0px;
   left: 0px;
   height: 12%;
-  border-bottom: 0.3px solid white;
   display: flex;
   justify-content: space-between;
 }
@@ -222,8 +225,6 @@ select {
 #dropdowns .user-elem{
 	margin: 5% 0% 3% 0%;
 }
-
-
 
 /*=================
    recording stuff
@@ -360,6 +361,7 @@ select {
   visibility: visible;
   z-index:100000; 
 }
+
 /*===========================
 
    index specific stuff
@@ -367,17 +369,13 @@ select {
 *============================*/
 
 #maintext{
-  padding: 3% 0% 0% 0%;
-  height: 60%;
+  padding: 3% 3%;
+  /*height: 60%;*/
   text-align: center;
+  overflow-y: scroll;
 }
 
-#maintext h1, h2, h3, h4{
-  color: white;
-}
-
-
-#maintext button{
+/*#maintext button{
   width: 30%;
   height: 25%;
   margin: 3% 2% 2% 0%;
@@ -392,8 +390,8 @@ select {
     color: white;
 }
 
-#studies{
-  /*padding: 5%;*/
+#studies{*/
+  /*padding: 5%;
   height: 25%;
   text-align: center;
 }
@@ -412,4 +410,4 @@ select {
   font-size: 10px;
   font-weight: bold;
   color: white;
-}
+}*/
