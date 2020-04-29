@@ -120,7 +120,7 @@ $(function(){
 
 //===========================================================================
 
-$("#start_timer").click(function(){
+$("#start_button").click(function(){
     
     // Validations that everything is filled!
 

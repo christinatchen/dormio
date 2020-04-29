@@ -442,7 +442,7 @@ $(function(){
 //        when start biosignal button is pressed, do this
 //===============================================================
 
-$("#start_biosignal").click(function(){
+$("#start_button").click(function(){
 
     // Validations
     

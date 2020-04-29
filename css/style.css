@@ -154,59 +154,7 @@ select {
 	padding: 1%;
 }
 
-/*===========================
 
-   index specific stuff
-
-*============================*/
-
-#maintext{
-  padding: 3% 0% 0% 0%;
-  height: 60%;
-  text-align: center;
-}
-
-#maintext h1, h2, h3, h4{
-  color: white;
-}
-
-
-#maintext button{
-  width: 30%;
-  height: 25%;
-  margin: 3% 2% 2% 0%;
-  text-align: center;
-  background: transparent;
-  border: 2px solid white;
-  cursor:pointer;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-}
-
-#studies{
-  /*padding: 5%;*/
-  height: 25%;
-  text-align: center;
-}
-
-
-#studies button{
-  width: 20%;
-  height: 25%;
-  margin: 1% 0% 0% 0%;
-  text-align: center;
-  background: transparent;
-  border: 1px solid white;
-  cursor:pointer;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  font-size: 10px;
-  font-weight: bold;
-  color: white;
-}
 
 /*=================
    form stuff
@@ -350,6 +298,11 @@ select {
 	margin-left: 0.5%;
 }
 
+
+/*=================
+   start button
+*=================*/
+
 #start-button-container{
 	height: 50%;
 	padding: 1% 0% 1% 0%;
@@ -361,200 +314,12 @@ select {
 	padding: 0px;
 }
 
-#start_timer{
+#start_button{
 	padding: 15px;
 	font-size: 20px;
 	width: 100%;
 }
 
-/*================================
-   countdown for time until sleep
-*================================*/
-
-.timer {
-  width: 825px;
-  height: 260px;
-  display: inline-block;
-  position: absolute;
-  top: 30%;
-  left: 20%;
-  color: white;
-  overflow: hidden;
-}
-
-.timer * {
-  cursor: default;
-}
-
-.timer h3 {
-  width: 100%;
-  font-size: 26px;
-  letter-spacing: 4px;
-  text-align: center;
-}
-
-.timer--clock {
-  width: 100%;
-  height: 100%;
-  top: 50%;
-  position: relative;
-  padding-left: 6px;
-  margin-top: -112px;
-  overflow: hidden;
-}
-.timer--clock .clock-display-grp {
-  width: 100%;
-  position: relative;
-}
-.timer--clock .clock-display-grp .number-grp {
-  width: auto;
-  display: block;
-  height: 156px;
-  float: left;
-  overflow: hidden;
-}
-.timer--clock .clock-display-grp .number-grp .number-grp-wrp {
-  width: 100%;
-  top: -130%;
-  position: relative;
-}
-.timer--clock .clock-display-grp .number-grp .number-grp-wrp .num {
-  width: 100%;
-  position: relative;
-  height: 156px;
-}
-.timer--clock .clock-display-grp .number-grp .number-grp-wrp .num p {
-  width: auto;
-  display: table;
-  font-size: 205px;
-  line-height: 150px;
-  font-weight: bold;
-}
-.timer--clock .clock-separator {
-  width: auto;
-  float: left;
-  display: block;
-  height: 156px;
-  top: -130%;
-}
-.timer--clock .clock-separator p {
-  width: auto;
-  display: table;
-  font-size: 205px;
-  line-height: 150px;
-  font-weight: bold;
-  margin: 0;
-  padding: 0;
-}
-
-/*=================
-   loop clock
-*=================*/
-
-#loop-clock-container{
-  width: 100%;
-  height: 90%;
-  position: relative;
-}
-
-#tick-container{
-  width: 100%;
-  height: 95%;
-  position: absolute;
-  z-index: 100000;
-}
-
-#tick{
-  background-color: white;
-  height: 30%;
-  left: 50%;
-  position: absolute;
-  top: 23%;
-  transform-origin: 50% 100%;
-  width: 3px;
-}
-
-#loop-clock{
-  width: 100%;
-  height: 80%;
-  position: absolute;
-  text-align: center;
-}
-
-#loops-remaining{
-	color: white;
-	width: 100%;
-	height: 5%;
-	text-align: center;
-	/*position: fixed: bottom: 0;*/
-}
-
-#loops-remaining h3 {
-  width: 100%;
-  font-size: 26px;
-  letter-spacing: 4px;
-  text-align: center;
-}
-
-@keyframes rotate {
-  100% {
-    transform: rotateZ(360deg);
-  }
-}
-
-#session-buttons{
-	width: 100%;
-	height: 8%;
-	padding: 2%;
-	display: flex;
-	justify-content: center;
-	position: fixed;
-	bottom: 0;
-}
-
-.bottom-buttons button{
-	width: 20%;
-	height: 100%;
-	margin: 0% 2% 2% 2%;
-	text-align: center;
-	background: transparent;
-	border: 2px solid white;
-	cursor:pointer;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-}
-
-.bottom-buttons button:hover{
-	background: rgba(255, 255, 255, 0.3);
-}
-
-#new-button{
-	width: 100%;
-	height: 100%;
-	padding: 10%;
-	text-align: center;
-	color: white;
-	/*position: fixed;*/
-	/*bottom: 0;*/
-}
-
-#new-button button{
-	width: 50%;
-	height: 20%;
-	margin: 0% 2% 2% 2%;
-	text-align: center;
-	background: transparent;
-	border: 2px solid white;
-	cursor:pointer;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-}
 
 /*=================
        tooltip
@@ -594,4 +359,57 @@ select {
 .tooltip:hover .tooltiptext {
   visibility: visible;
   z-index:100000; 
+}
+/*===========================
+
+   index specific stuff
+
+*============================*/
+
+#maintext{
+  padding: 3% 0% 0% 0%;
+  height: 60%;
+  text-align: center;
+}
+
+#maintext h1, h2, h3, h4{
+  color: white;
+}
+
+
+#maintext button{
+  width: 30%;
+  height: 25%;
+  margin: 3% 2% 2% 0%;
+  text-align: center;
+  background: transparent;
+  border: 2px solid white;
+  cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+#studies{
+  /*padding: 5%;*/
+  height: 25%;
+  text-align: center;
+}
+
+
+#studies button{
+  width: 20%;
+  height: 25%;
+  margin: 1% 0% 0% 0%;
+  text-align: center;
+  background: transparent;
+  border: 1px solid white;
+  cursor:pointer;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: bold;
+  color: white;
 }
