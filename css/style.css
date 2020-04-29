@@ -1,8 +1,9 @@
 body {
     font-size:0.9em;
     line-height:130%;
-    font-family: 'Arimo', sans-serif;
-	background-image: url('../img/bg.png'); 
+    font-family: 'Open Sans', sans-serif;
+    font-weight: normal;
+	  background-image: url('../img/bg.png'); 
 }
 
 html, body { height: 100%; width: 100%; margin: 0; padding:0; }
@@ -54,7 +55,7 @@ input[type=text] {
 }
 
 input[type=submit] {
-	background-color: transparent;
+	  background-color: transparent;
     border: 2px solid;
     color: #fff;
     padding:5px 15px; 
