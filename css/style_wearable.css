@@ -3,7 +3,6 @@
 *=================*/
 
 #channels {
-  /*height: 20%;*/
   display: flex;
   flex-direction: column;
   width: 13%;
@@ -25,24 +24,6 @@
 /*=================
    things in main
 *=================*/
-
-/* opener */
-
-#opener{
-  width: 2%;
-  background-color: #000;
-  height: 100%;
-  cursor: pointer;
-  border-left: 0.3px solid white;
-  border-right: 0.3px solid white;
-  display: flex;
-  justify-content: center;
-}
-
-#opener img{
-  width: 100%;
-}
-
 
 /* channels */
 
