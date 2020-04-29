@@ -2,7 +2,6 @@ body {
     font-size:0.9em;
     line-height:130%;
     font-family: 'Open Sans', sans-serif;
-    font-weight: normal;
 	  background-image: url('../img/bg.png'); 
 }
 
@@ -130,20 +129,28 @@ input[type=submit] {
   text-align: center;
 }
 
-#maintext h1, h2, h3{
+#maintext h1, h2, h3, h4{
   color: white;
 }
 
 h1{
   font-size: 60px;
+  font-weight: normal;
 }
 
 h2{
-  font-size: 18px;
+  font-size: 36px;
+  font-weight: normal;
 }
 
 h3{
+  font-size: 24px;
+  font-weight: normal;
+}
+
+h4{
   font-size: 14px;
+  font-weight: normal;
 }
 
 #maintext button{
