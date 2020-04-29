@@ -96,7 +96,7 @@
         			     		<label for = "record-wakeup">record wakeup message </label>
         				    	<span class="tooltip">
                  		   	  <img src = "img/tooltip.svg">
-                  		  	<span class="tooltiptext">A message to wake yourself up and request a dream report. could be something like, "tell me what you're thinking about."</span>
+                  		  	<span class="tooltiptext">a message to wake yourself up and request a dream report. could be something like, "tell me what you're thinking about."</span>
                  			</span>
 
         					     <div class = "recording-content" id = "record-wakeup">
@@ -128,7 +128,7 @@
               				<label> dreams.</label>
               				<span class="tooltip">
                  				<img src = "img/tooltip.svg">
-                  			<span class="tooltiptext">This is how many times you want to be woken up and fall back asleep.</span>
+                  			<span class="tooltiptext">this is how many times you want to be woken up and fall back asleep.</span>
                  			</span>
             			  </div> <!-- close user loops -->
 
@@ -143,7 +143,7 @@
               				<label> minutes.</label>
               				<span class="tooltip">
                  				<img src = "img/tooltip.svg">
-                  			<span class="tooltiptext">This is the amount of time that you'll stay in a state of light sleep (hypnagogia) before the Dormio system prompts you again to remind you what to dream about.</span>
+                  			<span class="tooltiptext">this is the amount of time that you'll stay in a state of light sleep (hypnagogia) before dormio prompts you again to remind you what to dream about.</span>
                  			</span>
             		  	</div> <!-- close hypna-latency -->
 
@@ -165,7 +165,7 @@
               				<label>minutes for you to fall asleep.</label>
               				<span class="tooltip">
                  				<img src = "img/tooltip.svg">
-                  			<span class="tooltiptext">This is about how long it will take you to fall asleep when you lie down. Dormio will pick a time in this range to give the first prompt.</span>
+                  			<span class="tooltiptext">this is about how long it will take you to fall asleep when you lie down. dormio will pick a time in this range to give the first prompt.</span>
                  			</span>
             			  </div> <!-- close time until sleep -->
 
@@ -180,7 +180,7 @@
               				<label> minutes to fall asleep again.</label>
               				<span class="tooltip">
                  				<img src = "img/tooltip.svg">
-                  			<span class="tooltiptext">This is how long it will take for you to fall asleep again after being awoken by Dormio and reporting your dream.</span>
+                  			<span class="tooltiptext">this is how long it will take for you to fall asleep again after being awoken by dormio and reporting your dream.</span>
                  			</span>
             			  </div> <!-- close time between sleep -->
 
@@ -213,6 +213,10 @@
 		      </div>  <!-- close overlay -->
 
 		      <div id = "opener" onclick="openForm()"><img src="img/right-arrow.svg"></div>
+
+        <div id = "before-timer">
+          <h3 style = "text-align: center; font-size: 18px;">go to sleep...</h3>
+        </div> <!-- close before timer -->
 
     		<!-- countdown timer for time until sleep -->
         	<div class="timer" id = "countdown-timer">
@@ -328,7 +332,7 @@
       			<div id = "loop-clock"></div> <!-- close loop clock -->
   	  		</div> <!-- close loop-clock-container -->
 
-  	  		 <div class ="bottom-buttons" id = "session-buttons">
+  	  		<div class ="bottom-buttons" id = "session-buttons">
 		        <button id="stop_session">stop session</button>
         		<button id="wakeup">wakeup</button>
       		</div> <!-- close session buttons -->

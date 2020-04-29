@@ -50,6 +50,7 @@ var is_recording_sleep = false;
 $(function(){
 
   //hide currently unnecessary components
+  $("#before-timer").hide();
   $("#loop-clock-container").hide();
   $("#session-buttons").hide();
   $("#new-button").hide();
@@ -116,13 +117,15 @@ $(function(){
     wakeup_msg_recording = null;
 });
 
-// ======================================================
+// ==========================================================================
+
 //        when start timer button is pressed, do this
-//=======================================================
+
+//===========================================================================
 
 $("#start_timer").click(function(){
     
-    // Validations that everything is filled
+    // Validations that everything is filled!
 
     
     //if dream subject is empty, alert user
@@ -165,7 +168,7 @@ $("#start_timer").click(function(){
     }
 
 
-    //everything is filled in correctly, so we can begin!!
+    //if it passes above, everything is filled in correctly, so we can begin!!
 
 
     //disable the input fields during the session
@@ -179,6 +182,10 @@ $("#start_timer").click(function(){
 
     //roll back the complete form to the side
     setTimeout(closeForm, 1000);
+
+    //hide timer and display go to sleep message instead
+    $("#countdown-timer").hide();
+    $("before-timer").show();
 
     //get the time and date of the click to write the start date/time
     nowDateObj = new Date();
@@ -243,8 +250,17 @@ $("#start_timer").click(function(){
     recordingTime = parseInt($("#recording-time").val()); 
     loops = parseInt($("#loops").val());
 
-    //start countdown timer for time until sleep
-    initTimer(timeUntilSleepString);
+    //show timer after a minute to give user time to lay down
+    var showTimer = setTimeout(function() {
+      $("#countdown-timer").show();
+    }, 60 * 1000);
+
+    //start timer after a minute
+    var startTimer = setTimeout(function() {
+      initTimer(timeUntilSleepString);
+    }, 60 * 1000);
+
+    // initTimer(timeUntilSleepString);
     $("#session-buttons").show();
 
     //play prompt
