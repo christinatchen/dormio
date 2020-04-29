@@ -35,11 +35,33 @@ html, body { height: 100%; width: 100%; margin: 0; padding:0; }
    atoms
 *=================*/
 
+h1{
+  font-size: 60px;
+  font-weight: normal;
+}
+
+h2{
+  font-size: 36px;
+  font-weight: normal;
+}
+
+h3{
+  font-size: 24px;
+  font-weight: normal;
+}
+
+h4{
+  font-size: 14px;
+  font-weight: normal;
+}
+
+p{
+  font-size: 12px;
+}
+
 input {
     background-color: transparent;
     border: 2px solid;
-    /*height: 20px;*/
-    /*width: 160px;*/
     color: #fff;
 }
 
@@ -63,6 +85,16 @@ input[type=submit] {
     border-radius: 5px; 
 }
 
+select {
+  width: 100px;
+}
+
+/*===========================
+
+   universal main divs
+
+*============================*/
+
 #container{
   height: 100%;
   width: 100%;
@@ -77,6 +109,34 @@ input[type=submit] {
   display: flex;
   justify-content: space-between;
 }
+
+#main{
+  display: flex;
+  width: 100%;
+  height: 88%;
+}
+
+#opener{
+  width: 2%;
+  background-color: #000;
+  height: 100%;
+  cursor: pointer;
+  border-left: 0.3px solid white;
+  border-right: 0.3px solid white;
+  display: flex;
+  justify-content: center;
+}
+
+#opener img{
+  width: 100%;
+}
+
+
+/*===========================
+
+   header stuff
+
+*============================*/
 
 #icon {
   height: 100%;
@@ -94,34 +154,11 @@ input[type=submit] {
 	padding: 1%;
 }
 
+/*===========================
 
-#main{
-	display: flex;
-	width: 100%;
-	height: 88%;
-}
+   index specific stuff
 
-#opener{
-	width: 2%;
-	background-color: #000;
-	height: 100%;
-	cursor: pointer;
-	border-left: 0.3px solid white;
-	border-right: 0.3px solid white;
-	display: flex;
-	justify-content: center;
-}
-
-#opener img{
-	width: 100%;
-}
-
-#content{
-  display: flex;
-  height: 100%;
-  width: 98%;
-  /*position: static;*/
-}
+*============================*/
 
 #maintext{
   padding: 3% 0% 0% 0%;
@@ -133,25 +170,6 @@ input[type=submit] {
   color: white;
 }
 
-h1{
-  font-size: 60px;
-  font-weight: normal;
-}
-
-h2{
-  font-size: 36px;
-  font-weight: normal;
-}
-
-h3{
-  font-size: 24px;
-  font-weight: normal;
-}
-
-h4{
-  font-size: 14px;
-  font-weight: normal;
-}
 
 #maintext button{
   width: 30%;

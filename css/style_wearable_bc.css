@@ -1,53 +1,8 @@
-body {
-    font-size:0.9em;
-    line-height:130%;
-    font-family: 'Arimo', sans-serif;
-  background-image: url('../img/bg.png'); 
-}
-
-html, body { height: 100%; width: 100%; margin: 0; padding:0; }
-
-/*=================
-   scrollbar
-*=================*/
-
-/* width */
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1; 
-}
- 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888; 
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555; 
-}
 
 
 /*=================
    atoms
 *=================*/
-
-h1{
-  font-size: 60px;
-}
-
-h2{
-  font-size: 18px;
-}
-
-h3{
-  font-size: 14px;
-}
-
 
 input {
     background-color: transparent;
