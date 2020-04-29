@@ -1,28 +1,30 @@
 <!DOCTYPE html>
+
 <html>
+
 <head>
   <meta charset="utf-8">
+  <meta name="description" content="dormio">
+  <meta name="author" content="Christina Chen">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>dormio | home</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Arimo&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-	<link href="https://fonts.googleapis.com/css?family=Arimo&display=swap" rel="stylesheet">
-
-
-  <link rel="stylesheet" type="text/css" href="css/style.css">
   <script src="js/multithread.js"></script>
   <script src="js/d3.v4.min.js"></script>
   <script src="js/FileSaver.min.js"></script>
   <script src="js/jszip.min.js"></script>
   <script src="js/hr.js"></script>
-
   <script src="js/script.js"></script>
-
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
   	google.charts.load('current', {packages: ['corechart']});
-  //google.charts.setOnLoadCallback(drawChart);
   </script>
 
 </head>
@@ -34,43 +36,31 @@
     	<div id = "header">
       		<img src="img/icon.png" id="icon">
       		<div id = "links">
-      			<a href="https://www.media.mit.edu/">
-  					<img src="img/ml_symbol.png" id="ml">
-				</a>
-				<a href="https://www.media.mit.edu/groups/fluid-interfaces/overview/">
-  					<img src="img/fluid_symbol.png" id="fluid">
-				</a>
-      		</div>
+      			<a href="https://www.media.mit.edu/"><img src="img/ml_symbol.png" id="ml"></a>
+				<a href="https://www.media.mit.edu/groups/fluid-interfaces/overview/"><img src="img/fluid_symbol.png" id="fluid"></a>
+      		</div> <!-- close header links-->
     	</div> <!-- close header-->
 
     	<div id = "main">
 
     		<div id = "content" style = "display: block;">  
 
-            <div id = "maintext">
-            <h1>welcome to dormio.</h1>
-            <h2>designed by Fluid Interfaces at the MIT Media Lab, this interface gives you the opportunity to interact with your dreams.</h2>
+            	<div id = "maintext">
+            		<h1>welcome to dormio.</h1>
+            		<h2>designed by Fluid Interfaces at the MIT Media Lab, this interface gives you the opportunity to interact with your dreams.</h2>
+            		<h3>To begin, please select your session type.</h3>
+		            <a href="timer.html"><button>timer session</button></a>
+        		    <a href="wearable.html"><button>wearable session</button></a>
+        		</div> <!-- close maintext-->
 
-            <h3>To begin, please select your session type.</h3>
-
-
-            <a href="timer.html"><button>timer session</button></a>
-            <a href="wearable.html"><button>wearable session</button></a>
-        </div>
-
-        <div id = "studies">
-
-            <h3> is your study using dormio? click the button below to go to your customized session.</h3>
-            <a href = "wearablebc.html"><button id = "studybuttons">bc tmr study</button></a>
-          </div>
+        		<div id = "studies">
+            		<h3> is your study using dormio? click the button below to go to your customized session.</h3>
+          		    <a href = "wearablebc.html"><button id = "studybuttons">bc tmr study</button></a>
+        		</div> <!-- close studies-->
 			  
-
-	       </div> <!-- end content -->
-
-	</div> <!-- end main -->
-</div><!-- end big container -->
+	       </div> <!-- close content -->
+		</div> <!-- close main -->
+	</div><!-- close container -->
+	
 </body>
-
-
-
 </html>
