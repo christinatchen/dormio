@@ -184,8 +184,8 @@ $("#start_timer").click(function(){
     setTimeout(closeForm, 1000);
 
     //hide timer and display go to sleep message instead
-    $("#countdown-timer").hide();
     $("before-timer").show();
+    $("#countdown-timer").hide();
 
     //get the time and date of the click to write the start date/time
     nowDateObj = new Date();

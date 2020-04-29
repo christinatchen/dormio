@@ -320,6 +320,16 @@ h3{
 	width: 100%;
 }
 
+/*=================
+   before timer
+*=================*/
+
+#before-timer{
+  width: 100%;
+  height: 90%;
+  position: relative;
+}
+
 /*================================
    countdown for time until sleep
 *================================*/
