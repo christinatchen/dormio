@@ -44,9 +44,6 @@ var is_recording_sleep = false;
 //        on page load, do this
 //==================================================
 
-  //initTimer("0000"); // other ways --> "0:15" "03:5" "5:2"
-
-
 $(function(){
 
   //hide currently unnecessary components
