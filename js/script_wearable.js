@@ -1180,3 +1180,33 @@ function getAudio(blob, encoding, filename) {
 function play(url) {
   new Audio(url).play();
 }
+
+function openForm() {
+  $("#other").hide();
+  document.getElementById("userform").style.width = "100%";
+  setTimeout(function(){
+    $("#opener").hide();
+    showCloser();
+  }, 500);
+}
+
+function showCloser(){
+  document.getElementById("closer").style.display = "flex";
+  document.getElementById("closer").style.position = "fixed";
+  document.getElementById("closer").style.property = "justify-content: center";
+}
+
+function closeForm() {
+  document.getElementById("userform").style.width = "0%";
+  document.getElementById("closer").style.display = "none";
+  setTimeout(function(){
+    $("#other").show();
+    $("#opener").show();
+  }, 500);
+}
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}

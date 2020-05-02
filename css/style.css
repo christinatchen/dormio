@@ -13,17 +13,17 @@ html, body { height: 100%; width: 100%; margin: 0; padding:0; }
 
 /* width */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 3px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #888; 
 }
  
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #666; 
 }
 
 /* Handle on hover */
@@ -80,13 +80,28 @@ input[type=text] {
 }
 
 input[type=submit] {
-	  background-color: transparent;
+	background-color: transparent;
     border: 2px solid;
     color: #fff;
     padding:5px 15px; 
     cursor:pointer;
     -webkit-border-radius: 5px;
     border-radius: 5px; 
+}
+
+button{
+  width: 30%;
+  height: 20%;
+  margin: 3% 2% 2% 0%;
+  text-align: center;
+  background: transparent;
+  border: 2px solid white;
+  cursor:pointer;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
 }
 
 select {
@@ -102,6 +117,8 @@ select {
 #container{
   height: 100%;
   width: 100%;
+  /*overflow-x: hidden;*/
+  overflow: hidden;
 }
 
 #header {
@@ -124,8 +141,8 @@ select {
   background-color: #000;
   height: 100%;
   cursor: pointer;
-  border-left: 0.3px solid white;
-  border-right: 0.3px solid white;
+  /*border-left: 0.3px solid white;
+  border-right: 0.3px solid white;*/
   display: flex;
   justify-content: center;
 }
@@ -134,6 +151,11 @@ select {
   width: 100%;
 }
 
+#other{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
 
 /*===========================
 
@@ -142,22 +164,21 @@ select {
 *============================*/
 
 #icon {
-  height: 100%;
-  top: 5%;
+  height: 75%;
+  width: 10%;
+  padding: 1%;
 }
 
 #links{
 	width: 10%;
 	display: flex;
-	margin-right: 2%;
+	padding: 1%;
 }
 
 #links img{
 	width: 100%;
 	padding: 1%;
 }
-
-
 
 /*=================
    form stuff
@@ -167,20 +188,19 @@ select {
   width: 0;
   height: 100%;
   position: fixed;
+  transition: 0.5s;
+  display: flex;
   z-index: 1;
-  background-color: rgb(0,0,0);
   overflow-x: hidden;
   transition: 0.5s;
   display: flex;
-  /*overflow-y: scroll;*/
 
 }
 
 .overlay-content {
   width: 98%;
-  height: 100%;
   overflow-y: scroll;
-  background-image: url('../img/bg.png');
+  /*background-image: url('../img/bg.png');*/
   position: relative;
   align-content: center;
   flex-direction: column;
@@ -194,10 +214,8 @@ select {
 	width: 2%;
 	height: 100%;
 	right:0;
-	background-color: #000;
+	background-color: transparent;
 	cursor: pointer;
-	border-left: 0.3px solid white;
-	border-right: 0.3px solid white;
 	display: none;
 }
 
@@ -272,7 +290,7 @@ select {
   width: 100%;
   height: 60%;
   font-size:20px;
-  font-style: 'Arimo';
+  font-style: 'Open Sans';
   letter-spacing: 1px;
   background-color: rgba(255,255,255, 0.5);
 }
@@ -286,7 +304,7 @@ select {
 .small-button{
     width: 100%;
     height: 100%; 
-  	font-style: 'Arimo';
+  	font-style: 'Open Sans';
   	letter-spacing: 1px;
   	margin-top: 1%;
 }
@@ -337,7 +355,8 @@ select {
   margin-left: 3px;
   margin-top: 2px;
 }
-/**/
+
+
 /* Tooltip text */
 .tooltip .tooltiptext {
   visibility: hidden;
@@ -370,44 +389,19 @@ select {
 
 #maintext{
   padding: 3% 3%;
-  /*height: 60%;*/
   text-align: center;
+  width: 100%;
+  opacity: 85%;
   overflow-y: scroll;
 }
 
-/*#maintext button{
-  width: 30%;
-  height: 25%;
-  margin: 3% 2% 2% 0%;
-  text-align: center;
-  background: transparent;
-  border: 2px solid white;
-  cursor:pointer;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-}
-
-#studies{*/
-  /*padding: 5%;
-  height: 25%;
-  text-align: center;
+#below{
+	height: 50%;
+	padding: 5%;
 }
 
 
-#studies button{
-  width: 20%;
-  height: 25%;
-  margin: 1% 0% 0% 0%;
-  text-align: center;
-  background: transparent;
-  border: 1px solid white;
-  cursor:pointer;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  font-size: 10px;
-  font-weight: bold;
-  color: white;
-}*/
+#below button{
+	height: 25%;
+	margin-top: 0%;
+}

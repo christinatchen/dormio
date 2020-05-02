@@ -14,7 +14,7 @@
 
 .timer {
   width: 825px;
-  height: 275px;
+  height: 285px;
   display: inline-block;
   position: absolute;
   top: 30%;
@@ -50,7 +50,7 @@
 .timer--clock .clock-display-grp .number-grp {
   width: auto;
   display: block;
-  height: 156px;
+  height: 160px;
   float: left;
   overflow: hidden;
 }

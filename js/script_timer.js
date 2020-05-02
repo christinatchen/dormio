@@ -182,7 +182,6 @@ $("#start_button").click(function(){
 
     //hide timer and display go to sleep message instead
     $("#before-timer").show();
-    $("#countdown-timer").hide();
 
     //get the time and date of the click to write the start date/time
     nowDateObj = new Date();
@@ -694,8 +693,12 @@ function countdownStopped() {
 }
 
 function openForm() {
+  $("#other").hide();
   document.getElementById("userform").style.width = "100%";
-  setTimeout(showCloser, 500);
+  setTimeout(function(){
+    $("#opener").hide();
+    showCloser();
+  }, 500);
 }
 
 function showCloser(){
@@ -707,7 +710,10 @@ function showCloser(){
 function closeForm() {
   document.getElementById("userform").style.width = "0%";
   document.getElementById("closer").style.display = "none";
-
+  setTimeout(function(){
+    $("#other").show();
+    $("#opener").show();
+  }, 300);
 }
 
 function getRandomInt(min, max) {

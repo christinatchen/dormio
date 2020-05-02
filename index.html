@@ -21,10 +21,6 @@
   <script src="js/FileSaver.min.js"></script>
   <script src="js/jszip.min.js"></script>
   <script src="js/hr.js"></script>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript">
-  	google.charts.load('current', {packages: ['corechart']});
-  </script>
 
 </head>
 
@@ -33,7 +29,7 @@
 	<div id = "container">
     
     	<div id = "header">
-      		<img src="img/icon.png" id="icon">
+      		<a href = "index.html"><img src="img/icon.png" id="icon"></a>
       		<div id = "links">
       			<a href="https://www.media.mit.edu/"><img src="img/ml_symbol.png" id="ml"></a>
 				<a href="https://www.media.mit.edu/groups/fluid-interfaces/overview/"><img src="img/fluid_symbol.png" id="fluid"></a>
@@ -43,18 +39,23 @@
     	<div id = "main">
 
             	<div id = "maintext">
-            		<h1 style = "font-size: 180px;">welcome</h1>
-            		<h1 style = "font-size: 180px;">to dormio</h1>
-            		<h3>designed by Fluid Interfaces at the MIT Media Lab, this interface gives you the opportunity to interact with your dreams.</h2>
-            		<!-- <h4>To begin, please select your session type.</h3>
-		            <a href="timer.html"><button>timer session</button></a>
-        		    <a href="wearable.html"><button>wearable session</button></a> -->
+            		<h1 style = "font-size: 130px;">welcome to</h1>
+            		<h1 style = "font-size: 200px;">dormio</h1>
+            		<h3>an opportunity to interact with your dreams</h3>
+            		<div id = "below">
+            			<h4>select a session type to get started</h4>
+		            	<a href="timer.html"><button>timer session</button></a>
+        		    	<a href="wearable.html"><button>wearable session</button></a>
+
+        		    	<h4> is your study using dormio? click the button below to go to your customized session.</h4>
+          		   		<a href = "wearablebc.html"><button id = "studybuttons">bc tmr study</button></a>
+        			</div>
         		</div> <!-- close maintext-->
 
-        		<!-- <div id = "studies">
+        		 <!-- <div id = "studies">
             		<h4> is your study using dormio? click the button below to go to your customized session.</h3>
           		    <a href = "wearablebc.html"><button id = "studybuttons">bc tmr study</button></a>
-        		</div>  --><!-- close studies-->
+        		</div>   --><!-- close studies-->
 			  
 		</div> <!-- close main -->
 	</div><!-- close container -->

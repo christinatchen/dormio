@@ -18,6 +18,7 @@
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+  <script src="js/WebAudioRecorder.min.js"></script>
   <script src="js/multithread.js"></script>
   <script src="js/d3.v4.min.js"></script>
   <script src="js/FileSaver.min.js"></script>
@@ -36,7 +37,7 @@
 	<div id = "container">
     
     	<div id = "header">
-      		<img src="img/icon.png" id="icon">
+      		<a href = "index.html"><img src="img/icon.png" id="icon"></a>
       		<div id = "links">
       			<a href="https://www.media.mit.edu/"><img src="img/ml_symbol.png" id="ml"></a>
 				    <a href="https://www.media.mit.edu/groups/fluid-interfaces/overview/"><img src="img/fluid_symbol.png" id="fluid"></a>
@@ -56,7 +57,7 @@
 			    	    <div id="user-name" class="user-elem">
         				  <label>what is your name?</label>
         				  <input type="text" name="name" id="name">
-      			   	</div>
+      			   	</div> <!-- close name -->
 
                 <!-- subject -->
       			   	<div id="user-dream-subject" class="user-elem">
@@ -66,7 +67,7 @@
                   	<span class="tooltiptext">the subject that you want to dream about. could be a word, like "elephants", or a phrase, like "elephants at the beach." </span>
                  	</span>
         				  <input type="text" name="dream_subject" id="dream-subject">
-      			   	</div>
+      			   	</div> <!-- close subject -->
       				
                  <!-- big recording box-->
       				  <div class = "recording-container user-elem">
@@ -195,7 +196,7 @@
               				<label> seconds.</label>
               				<span class="tooltip">
                  				<img src = "img/tooltip.svg">
-                  			<span class="tooltiptext">This is how long Dormio will record your dream report for.</span>
+                  			<span class="tooltiptext">This is how long dormio will record your dream report for.</span>
                  			</span>
             			</div> <!-- close recording time -->
 
@@ -214,11 +215,13 @@
 
 		      <div id = "opener" onclick="openForm()"><img src="img/right-arrow.svg"></div>
 
-        <div id = "before-timer">
+        <div id = "other">
+
+          <div id = "before-timer">
           <h1 style = "text-align: center; font-size: 60px;">g o  t o  s l e e p . . . </h1>
           <h2>dormio will wake you soon</h2>
         </div> <!-- close before timer -->
-
+        
     		<!-- countdown timer for time until sleep -->
         	<div class="timer" id = "countdown-timer">
             	<h3>time until sleep</h3>
@@ -342,32 +345,9 @@
       			<h1 style="font-size: 60px;">session ended.</h1>
 		        <button onclick="location.reload();" id="new_session">start a new timer session</button>
       		</div> <!-- close new button -->
-
+        </div>
 	</div> <!-- end main -->
 </div><!-- end big container -->
-
-
-<script src="js/WebAudioRecorder.min.js"></script>
-
-<script>
-function openForm() {
-  document.getElementById("userform").style.width = "100%";
-  setTimeout(showCloser, 500);
-}
-
-function showCloser(){
-	document.getElementById("closer").style.display = "flex";
-	document.getElementById("closer").style.position = "fixed";
-	document.getElementById("closer").style.property = "justify-content: center";
-}
-
-function closeForm() {
-  document.getElementById("userform").style.width = "0%";
-  document.getElementById("closer").style.display = "none";
-
-}
-</script>
-
 </body>
 
 
