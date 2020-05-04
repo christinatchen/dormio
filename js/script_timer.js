@@ -181,6 +181,7 @@ $("#start_button").click(function(){
     setTimeout(closeForm, 1000);
 
     //hide timer and display go to sleep message instead
+    $("#countdown-timer").hide();
     $("#before-timer").show();
 
     //get the time and date of the click to write the start date/time
@@ -246,8 +247,9 @@ $("#start_button").click(function(){
     recordingTime = parseInt($("#recording-time").val()); 
     loops = parseInt($("#loops").val());
 
-    //show/start timer after a minute to give user time to lay down 
+    //show start timer after a minute to give user time to lay down 
     var startTimer = setTimeout(function() {
+      $("#before-timer").hide();
       $("#countdown-timer").show(); 
       initTimer(timeUntilSleepString);
       $("#session-buttons").show();
