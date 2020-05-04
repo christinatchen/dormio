@@ -580,7 +580,7 @@ function drawChart() {
       pieSliceText: 'label',
       pieSliceTextStyle: {color: 'white', fontName: "Arial" , fontSize: "12"},
       chartArea: {width:'80%',height:'85%'},
-      colors: ['#330036', '#4F0333','#4C0F47'],
+      colors: ['transparent', 'transparent','transparent'],
       // enableInteractivity: false
         };
     
