@@ -16,10 +16,10 @@
 
 .timer {
   width: 825px;
-  height: 285px;
+  height: 300px;
   display: inline-block;
   position: absolute;
-  top: 20%;
+  top: 18%;
   left: 18%;
   color: white;
   overflow: hidden;
@@ -31,7 +31,7 @@
 
 .timer h3 {
   width: 100%;
-  font-size: 26px;
+  font-size: 20px;
   letter-spacing: 4px;
   text-align: center;
 }
@@ -90,41 +90,18 @@
   padding: 0;
 }
 
-#loops-remaining h3 {
-  width: 100%;
-  font-size: 26px;
-  letter-spacing: 4px;
-  text-align: center;
-}
-
-
 #session-buttons{
+  text-align: center;
 	width: 100%;
 	height: 8%;
 	padding: 2%;
 	display: flex;
-	justify-content: center;
 	position: fixed;
 	bottom: 0;
 }
 
-.bottom-buttons button{
-	width: 20%;
-	height: 100%;
-	margin: 0% 2% 2% 2%;
-	text-align: center;
-	background: transparent;
-	border: 2px solid white;
-	cursor:pointer;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-}
-
-.bottom-buttons button:hover{
-	background: rgba(255, 255, 255, 0.3);
+#bottombuttons{
+  display: inline-block;
 }
 
 #new-button{

@@ -183,6 +183,9 @@ $("#start_button").click(function(){
     $("#countdown-timer").hide();
     $("#before-timer").show();
 
+    //play prompt
+    playPrompt();
+
     //get the time and date of the click to write the start date/time
     nowDateObj = new Date();
     nowDate = nowDateObj.getFullYear()+'-'+(nowDateObj.getMonth()+1)+'-'+nowDateObj.getDate();
@@ -228,14 +231,12 @@ $("#start_button").click(function(){
       $("#countdown-timer").show(); 
       initTimer(timeUntilSleepString);
       document.getElementById("labeltimer").innerHTML = "time until sleep";
+      document.getElementById("loops-remaining").innerHTML = "dreams left to catch: " + loops;
       $("#session-buttons").show();
     }, 60 * 1000);
 
-    //play prompt
-    playPrompt();
-
     nextWakeupTimer = setTimeout(function() {
-      firstWakeup();
+      runHypnaLatency();
     }, timeUntilSleep * 1000);
   });
 
@@ -253,9 +254,7 @@ function playPrompt(){
     }
 }
 
-function firstWakeup(){
-
-  document.getElementById("loops-remaining").innerHTML = "<h3>dreams left to catch: " + loops + "</h3>";
+function runHypnaLatency(){
 
   var hypnaLatencyString = convertTimerStringSeconds(hypnaLatency);
 
@@ -267,6 +266,18 @@ function firstWakeup(){
     startWakeup();
   }, (hypnaLatency) * 1000);
 
+}
+
+function duringSleep(){
+
+    document.getElementById("labeltimer").innerHTML = "time between sleep";
+
+    var timeBetweenSleepString = convertTimerStringSeconds(timeBetweenSleep);
+    initTimer(timeBetweenSleepString);
+
+  var nextWakeupTimer = setTimeout(function(){
+        runHypnaLatency();
+    }, nextWakeupTime * 1000);
 }
 
 //wake up
@@ -325,18 +336,12 @@ function endWakeup() {
 
   //if incomplete #loops, play go to sleep message
   if (wakeups < loops) {
+
     playPrompt();
 
     document.getElementById("loops-remaining").innerHTML = "dreams left to catch: " + (loops-wakeups);
 
-    document.getElementById("labeltimer").innerHTML = "time between sleep";
-    var timeBetweenSleepString = convertTimerStringMinutes(timeBetweenSleepMin);
-    initTimer(timeBetweenSleepString);
-
-    //do next wakeup after time between sleeps
-    nextWakeupTimer = setTimeout(function() {
-      startWakeup();
-    }, timeBetweenSleep * 1000);
+    duringSleep();
 
     //if completed all loops, alarm and end session
   } else {
