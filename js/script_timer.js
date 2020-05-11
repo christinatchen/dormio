@@ -48,7 +48,6 @@ $(function(){
 
   //hide currently unnecessary components
   $("#before-timer").hide();
-  $("#loop-clock-container").hide();
   $("#session-buttons").hide();
   $("#new-button").hide();
 
@@ -208,32 +207,8 @@ $("#start_button").click(function(){
 
     //convert to seconds for the code to handle
     timeUntilSleep = timeUntilSleepRandom * 60;
-   // console.log(timeUntilSleep);
-    
-    //convert to a string for the countdown timer
 
-    if (timeUntilSleepRandom > 61){
-    	var timeUntilSleepDecimal = timeUntilSleepRandom/60 + "";
-
-    	var timeUntilSleepNum = Math.round(10 * timeUntilSleepDecimal)/10 + "";
-
-    	var res = timeUntilSleepNum.split(".");
-
-  	  	var hrString = res[0];
-
-  	  	var minString = "0." + res[1];
-  	  	console.log("minString" + minString)
-
-  	  	var minNum = parseFloat(minString) * 60;
-  	  	console.log("minNum" + minNum);
-
-
-   		var timeUntilSleepString = hrString + ":" + minNum + ":00";
-
-	}else{
-
-		var timeUntilSleepString = "00:" + timeUntilSleepRandom + ":00";
-	}
+    var timeUntilSleepString = convertTimerStringMinutes(timeUntilSleepRandom);
     
 
     console.log(timeUntilSleepString);
@@ -252,6 +227,7 @@ $("#start_button").click(function(){
       $("#before-timer").hide();
       $("#countdown-timer").show(); 
       initTimer(timeUntilSleepString);
+      document.getElementById("labeltimer").innerHTML = "time until sleep";
       $("#session-buttons").show();
     }, 60 * 1000);
 
@@ -279,14 +255,12 @@ function playPrompt(){
 
 function firstWakeup(){
 
-  //hide the first countdown timer
-  $("#countdown-timer").hide();
-
-  //show the loop-clock
-  $("#loop-clock-container").show();
   document.getElementById("loops-remaining").innerHTML = "<h3>dreams left to catch: " + loops + "</h3>";
 
-  drawChart();
+  var hypnaLatencyString = convertTimerStringSeconds(hypnaLatency);
+
+  document.getElementById("labeltimer").innerHTML = "hypna latency";
+  initTimer(hypnaLatencyString);
   playPrompt();
 
   var nextWakeupTimer = setTimeout(function(){
@@ -325,6 +299,10 @@ function startWakeup() {
       }
   }
 
+  var recordingString = convertTimerStringSeconds(recordingTime);
+  document.getElementById("labeltimer").innerHTML = "recording time";
+  initTimer(recordingString);
+
   //end wake-up after recording time is over
   nextWakeupTimer = setTimeout(function() {
     endWakeup();
@@ -349,8 +327,11 @@ function endWakeup() {
   if (wakeups < loops) {
     playPrompt();
 
-    document.getElementById("loops-remaining").innerHTML = "<h3>dreams left to catch: " + (loops-wakeups) + "</h3>";
+    document.getElementById("loops-remaining").innerHTML = "dreams left to catch: " + (loops-wakeups);
 
+    document.getElementById("labeltimer").innerHTML = "time between sleep";
+    var timeBetweenSleepString = convertTimerStringMinutes(timeBetweenSleepMin);
+    initTimer(timeBetweenSleepString);
 
     //do next wakeup after time between sleeps
     nextWakeupTimer = setTimeout(function() {
@@ -359,8 +340,6 @@ function endWakeup() {
 
     //if completed all loops, alarm and end session
   } else {
-  	  document.getElementById("tick").style = 'animation: none';
-
     gongs = 0;
     gong.play();
 
@@ -377,7 +356,6 @@ function endSession() {
   //hide buttons
   $("#session-buttons").hide();
   $("#countdown-timer").hide();
-  $("#loop-clock-container").hide();
 
   console.log("hidden");
 
@@ -549,47 +527,6 @@ function play(url) {
   new Audio(url).play();
 }
 
-//define the chart package
-//google.charts.load('current', {'packages':['corechart']});
-//set what is supposed to happen when the page loads. You typically want a state of the chart to show on load, but in this case, there is no data on load.
-//google.charts.setOnLoadCallback(drawChart);
-     
-//submit requires text inputs to use parseInt to work as numbers
-
-function drawChart() {
-  hyp = parseInt(document.getElementById('hypna-latency').value);
-  rc = parseInt(document.getElementById('recording-time').value);
-  tbs = parseInt(document.getElementById('time-between-sleep').value);
-
-  //get the full number of minutes for the loop
-  fullClock = hypnaLatency + recordingTime + timeBetweenSleep;
-  
-  document.getElementById("tick").style = 'animation: rotate ' + fullClock + 's infinite linear';
-
-  //replace data with variable names
-  var data = google.visualization.arrayToDataTable([
-    ['Cycle', 'Sleep'],
-    ['hypna latency',     hypnaLatency],
-    ['recording time',     recordingTime],
-    ['time between sleep',  timeBetweenSleep],
-        ]);
-    var options = {
-      backgroundColor: "transparent",
-      // legend: '{position: 'labeled'}',
-      legend: 'none',
-      pieSliceText: 'label',
-      pieSliceTextStyle: {color: 'white', fontName: "Arial" , fontSize: "12"},
-      chartArea: {width:'80%',height:'85%'},
-      colors: ['transparent', 'transparent','transparent'],
-      // enableInteractivity: false
-        };
-    
-    //the id is the DOM location to draw the chart    
-    var chart = new google.visualization.PieChart(document.getElementById('loop-clock'));
-    chart.draw(data, options);
-  }
-
-
 TweenLite.defaultEase = Expo.easeOut;
 
 var reloadBtn = document.querySelector('.reload');
@@ -690,10 +627,6 @@ function countdownFinished() {
    }, 1000);
 }
 
-function countdownStopped() {
-   console.log(timeNumbers);
-}
-
 function openForm() {
   $("#other").hide();
   document.getElementById("userform").style.width = "100%";
@@ -722,4 +655,61 @@ function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function convertTimerStringMinutes(int){
+
+      if (int > 61){
+      var intDecimal = int/60 + "";
+
+      var intNum = Math.round(10 * intDecimal)/10 + "";
+
+      var res = intNum.split(".");
+
+        var hrString = res[0];
+
+        var minString = "0." + res[1];
+        console.log("minString" + minString)
+
+        var minNum = parseFloat(minString) * 60;
+        console.log("minNum" + minNum);
+
+
+      var timerString = hrString + ":" + minNum + ":00";
+
+  }else{
+
+    var timerString = "00:" + int + ":00";
+  }
+
+  return timerString;
+}
+
+function convertTimerStringSeconds(int){
+
+      if (int > 61){
+
+      var intDecimal = int/60 + "";
+
+      var intNum = Math.round(10 * intDecimal)/10 + "";
+
+      var res = intNum.split(".");
+
+        var minString = res[0];
+
+        var secString = "0." + res[1];
+        console.log("minString" + minString)
+
+        var secNum = parseFloat(secString) * 60;
+        console.log("minNum" + minNum);
+
+
+      var timerString = "00:" + minString + ":" + secNum;
+
+  }else{
+
+    var timerString = "00:00:" + int;
+  }
+
+  return timerString;
 }

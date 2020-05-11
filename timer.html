@@ -33,9 +33,6 @@
   <script src="js/hr.js"></script>
   <script src="js/script_timer.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript">
-  	google.charts.load('current', {packages: ['corechart']});
-  </script>
 
 </head>
 
@@ -231,7 +228,7 @@
         
     		<!-- countdown timer for time until sleep -->
         	<div class="timer" id = "countdown-timer">
-            	<h3>time until sleep</h3>
+            	<h3 id = "labeltimer"></h3>
              
              	<div class="timer--clock">
                 <div class="hours-group clock-display-grp">
@@ -334,14 +331,8 @@
               			</div><!-- close second-number-grp -->	
             		</div> <!-- close seconds-group -->
           		</div> 
+              <h3 id = "loops-remaining"></h3>
       		</div> <!-- close timer -->
-
-     		<!-- countdown pie chart clock for loop -->
-      		<div id = "loop-clock-container">
-      			<div id="tick-container"><div id ="tick"></div></div>
-      			<div id = "loops-remaining"></div>
-      			<div id = "loop-clock"></div> <!-- close loop clock -->
-  	  		</div> <!-- close loop-clock-container -->
 
   	  		<div class ="bottom-buttons" id = "session-buttons">
 		        <button id="stop_session">stop session</button>
