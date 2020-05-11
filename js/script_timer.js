@@ -256,6 +256,8 @@ function playPrompt(){
 
 function runHypnaLatency(){
 
+  log("start hypnaLatency");
+
   var hypnaLatencyString = convertTimerStringSeconds(hypnaLatency);
 
   document.getElementById("labeltimer").innerHTML = "hypna latency";
@@ -270,6 +272,8 @@ function runHypnaLatency(){
 
 function duringSleep(){
 
+  log("start timeBetweenSleep");
+
     document.getElementById("labeltimer").innerHTML = "time between sleep";
 
     var timeBetweenSleepString = convertTimerStringSeconds(timeBetweenSleep);
@@ -277,7 +281,7 @@ function duringSleep(){
 
   var nextWakeupTimer = setTimeout(function(){
         runHypnaLatency();
-    }, nextWakeupTime * 1000);
+    }, timeBetweenSleep * 1000);
 }
 
 //wake up
