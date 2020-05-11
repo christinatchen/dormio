@@ -90,6 +90,10 @@
   padding: 0;
 }
 
+#loops-remaining{
+  padding: 1%;
+}
+
 #session-buttons{
   text-align: center;
 	width: 100%;
@@ -100,8 +104,19 @@
 	bottom: 0;
 }
 
-#bottombuttons{
-  display: inline-block;
+#sessionbuttons button{
+  width: 50%;
+  height: 15%;
+  margin: 0% 2% 2% 2%;
+  text-align: center;
+  background: transparent;
+  border: 2px solid white;
+  cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
 }
 
 #new-button{

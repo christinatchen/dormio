@@ -349,7 +349,8 @@ function endWakeup() {
 
     //if completed all loops, alarm and end session
   } else {
-    gongs = 0;
+
+    document.getElementById("loops-remaining").innerHTML = "dreams left to catch: 0";
     gong.play();
 
     nextWakeupTimer = setTimeout(function() {
