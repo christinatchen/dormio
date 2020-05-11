@@ -529,8 +529,6 @@ function play(url) {
 
 TweenLite.defaultEase = Expo.easeOut;
 
-var reloadBtn = document.querySelector('.reload');
-
 var timerEl = document.querySelector('.timer');
 
 function initTimer (t) {
@@ -620,11 +618,7 @@ function initTimer (t) {
 }
 
 function countdownFinished() {
-   setTimeout(function () {
-      TweenMax.set(reloadBtn, { scale: 0.8, display: 'block' });
-      TweenMax.to(timerEl, 1, { opacity: 0.2 });
-      TweenMax.to(reloadBtn, 0.5, { scale: 1, opacity: 1 }); 
-   }, 1000);
+   initTimer("0:00");
 }
 
 function openForm() {
@@ -701,7 +695,7 @@ function convertTimerStringSeconds(int){
         console.log("minString" + minString)
 
         var secNum = parseFloat(secString) * 60;
-        console.log("minNum" + minNum);
+        console.log("secNum" + secNum);
 
 
       var timerString = "00:" + minString + ":" + secNum;
