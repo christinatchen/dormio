@@ -197,6 +197,13 @@
   stroke-dasharray: 10,10;
 }
 
+.line-event {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.5);
+  stroke-width: 3px;
+  stroke-dasharray: 10,10;
+}
+
 .rect-calibration {
   fill: rgba(0, 0, 0, 0.2);
   stroke: none;

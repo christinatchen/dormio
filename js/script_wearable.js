@@ -760,7 +760,7 @@ function endDetectSleepOnset(){
 
     nextWakeupTimer = setTimeout(function() {
       runHypnaLatency();
-    }, timeUntilSleep * 1000);
+    }, hypnaLatency * 1000);
 
 }
 
@@ -1099,8 +1099,23 @@ document.addEventListener('keydown', function (event) {
     nowDateObj = new Date();
     nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
 
-    fileReadOutput += "EVENT " + key + " | " + nowTime + "\n";
-    fileParseOutput += "EVENT," + key + "|";
+      //add event to plot
+       g.append("g")
+      .attr("clip-path", "url(#clip)")
+      .append("line")
+      .attr("x1", width)
+      .attr("y1", 0)
+      .attr("x2", width)
+      .attr("y2", height)
+      .attr("class", "line-event")
+      .transition()
+      .duration(6650)
+      .ease(d3.easeLinear)
+      .attr("x1",-1)
+      .attr("x2",-1);
+
+      fileReadOutput += "EVENT " + key + " | " + nowTime + "\n";
+      fileParseOutput += "EVENT," + key + "|";
 
     }
 });
