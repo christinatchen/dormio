@@ -254,20 +254,20 @@ function playPrompt(){
     }
 }
 
-function runHypnaLatency(){
+function playWakeup(){
 
-  log("start hypnaLatency");
+  log("playWakeup");
 
-  var hypnaLatencyString = convertTimerStringSeconds(hypnaLatency);
+    //play prompt again
+    if (wakeup_msg_recording != null) {
+      wakeup_msg_player = new Audio(wakeup_msg_recording.url)
+      wakeup_msg_player.play()
+    }
 
-  document.getElementById("labeltimer").innerHTML = "hypna latency";
-  initTimer(hypnaLatencyString);
-  playPrompt();
-
-  var nextWakeupTimer = setTimeout(function(){
-    startWakeup();
-  }, (hypnaLatency) * 1000);
-
+    nowDateObj = new Date();
+    nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
+    
+    fileReadOutput += "EVENT, wakeup played| " + nowTime + "\n";
 }
 
 function duringSleep(){
@@ -282,6 +282,22 @@ function duringSleep(){
   var nextWakeupTimer = setTimeout(function(){
         runHypnaLatency();
     }, timeBetweenSleep * 1000);
+}
+
+function runHypnaLatency(){
+
+  log("start hypnaLatency");
+
+  var hypnaLatencyString = convertTimerStringSeconds(hypnaLatency);
+
+  document.getElementById("labeltimer").innerHTML = "hypna latency";
+  initTimer(hypnaLatencyString);
+  playPrompt();
+
+  var nextWakeupTimer = setTimeout(function(){
+    startWakeup();
+  }, (hypnaLatency) * 1000);
+
 }
 
 //wake up
@@ -304,9 +320,7 @@ function startWakeup() {
   }
 
   //play wake up report message
-  if(wakeup_msg_recording != null){
-      wakeup_msg_player = new Audio(wakeup_msg_recording.url)
-      wakeup_msg_player.play()
+  playWakeup();
 
       //record dream report
       wakeup_msg_player.onended = () => {

@@ -198,6 +198,44 @@ function setBPM(_bpm) {
 
 //declare vars
 
+var fileReadOutput = "";
+var fileParseOutput = "";
+
+var nextWakeupTimer = null;
+var wakeups = 0;
+
+var defaults = {
+  "loops" : 3,
+  "hypna-latency" : 3,
+  "time-between-sleep" : 7,
+  "calibration-time" : 3,
+  "recording-time" : 30,
+  "delta-eda" : 4,
+  "delta-flex": 5,
+  "delta-hr": 6
+}
+
+var num_threads = 2;
+var MT = new Multithread(num_threads);
+
+var nowDateObj;
+var nowDate;
+var nowTime;
+
+var timeBetweenSleep;
+var hypnaLatency;
+var recordingTime;
+var loops;
+
+var recording = false;
+var isConnected = false;
+
+var wakeup_msg_recording, sleep_msg_recording;
+var audio_recordings = []
+
+var is_recording_wake = false;
+var is_recording_sleep = false;
+
 var flex = 0,
     hr = 0,
     oldHr = 0,
@@ -217,32 +255,7 @@ var meanEDA = null;
 var meanFlex = null;
 var meanHR = null;
 
-var fileReadOutput = "";
-var fileParseOutput = "";
-
-var nextWakeupTimer = null;
-var wakeups = 0;
-
-
-var defaults = {
-  "loops" : 3,
-  "hypna-latency" : 3,
-  "time-between-sleep" : 7,
-  "calibration-time" : 3,
-  "recording-time" : 30,
-  "delta-eda" : 4,
-  "delta-flex": 5,
-  "delta-hr": 6
-}
-
-var num_threads = 2;
-var MT = new Multithread(num_threads);
-
 var calibrationStatus = null;
-
-var nowDateObj;
-var nowDate;
-var nowTime;
 
 var minTime;
 var maxTime;
@@ -252,15 +265,6 @@ var startSleepDetectTime;
 var calibrateTimer = null;
 var countdown = 0;
 var countdownTimer = null;
-
-var recording = false;
-var isConnected = false;
-
-var wakeup_msg_recording, sleep_msg_recording;
-var audio_recordings = []
-
-var is_recording_wake = false;
-var is_recording_sleep = false;
 
 
 // ==================================================
@@ -440,6 +444,8 @@ $(function(){
       return;
     }
 
+    //if it passes above, everything is filled in correctly, so we can begin!!
+
     //disable fields on form after start is pressed
     $("#dream-subject").prop('disabled', true);
     for (var key in defaults) {
@@ -461,6 +467,15 @@ $(function(){
 
     fileReadOutput = $("#dream-subject").val() + "||||" + nowDate + "\n";
     fileParseOutput = $("#dream-subject").val() + "||||"
+
+    //parse time between sleep and convert to seconds
+    var timeBetweenSleepMin = parseInt($("#time-between-sleep").val());
+    timeBetweenSleep = timeBetweenSleepMin * 60;
+
+    //parse hypna latency, recording time and #loops
+    hypnaLatency = parseInt($("#hypna-latency").val()) * 60;
+    recordingTime = parseInt($("#recording-time").val()); 
+    loops = parseInt($("#loops").val());
 
 
     log("Start Session");
@@ -595,8 +610,8 @@ function endCalibrating() {
     //play prompt again
   playPrompt();
 
-minTime = parseInt($('#time-until-sleep-min').val());
-maxTime = parseInt($('#time-until-sleep-max').val());
+  minTime = parseInt($('#time-until-sleep-min').val());
+  maxTime = parseInt($('#time-until-sleep-max').val());
 
       if ((isNaN(+(minTime))) || (isNaN(+(maxTime)))) {
 
@@ -605,7 +620,7 @@ maxTime = parseInt($('#time-until-sleep-max').val());
       } else{
 
 
-        console.log("detect sleep onset after" + minTime + "secs");
+        console.log("detecting sleep onset after" + minTime + "secs");
 
         var minTimeSecs = minTime * 60;
 
@@ -740,19 +755,14 @@ function endDetectSleepOnset(){
 
   playPrompt();
 
-  var hypnaLatency = parseInt($('#hypna-latency').val());
-  var hypnaLatencySecs = hypnaLatency * 60;
 
-     console.log("starting wakeup after hypna latency");
+     console.log("start hypna latency");
 
-    //do next wakeup after hypnagogic depth
-      var nextWakeupTimer = setTimeout(function(){
-          startWakeup();
-      }, hypnaLatencySecs * 1000);
+    nextWakeupTimer = setTimeout(function() {
+      runHypnaLatency();
+    }, timeUntilSleep * 1000);
 
 }
-
-
 
 function playPrompt(){
 
@@ -784,6 +794,29 @@ function playWakeup(){
     nowTime = nowDateObj.getHours() + ":" + nowDateObj.getMinutes() + ":" + nowDateObj.getSeconds();
     
     fileReadOutput += "EVENT, wakeup played| " + nowTime + "\n";
+}
+
+function duringSleep(){
+
+  var nextWakeupTimer = setTimeout(function(){
+        runHypnaLatency();
+    }, timeBetweenSleep * 1000);
+}
+
+function runHypnaLatency(){
+
+  log("start hypnaLatency");
+
+  // var hypnaLatencyString = convertTimerStringSeconds(hypnaLatency);
+
+  // document.getElementById("labeltimer").innerHTML = "hypna latency";
+  // initTimer(hypnaLatencyString);
+  playPrompt();
+
+  var nextWakeupTimer = setTimeout(function(){
+    startWakeup();
+  }, (hypnaLatency) * 1000);
+
 }
 
 
@@ -841,7 +874,7 @@ function startWakeup() {
   //end wake-up after recording time is over
   nextWakeupTimer = setTimeout(function() {
     endWakeup();
-  }, parseInt($("#recording-time").val()) * 1000);
+  }, recordingTime * 1000);
 }
 
 //end wakeup
@@ -859,7 +892,7 @@ function endWakeup() {
   }
 
   //if incomplete #loops, play go to sleep message
-  if (wakeups < parseInt($("#loops").val())) {
+  if (wakeups < loops) {
     
     //play prompt again
 	 playPrompt();
@@ -877,25 +910,6 @@ function endWakeup() {
   }
 }
 
-
-function duringSleep(){
-
-  var timeBetween = parseInt($('#time-between-sleep').val());
-  var timeBetweenSecs = timeBetween * 60;
-
-  var promptHypnagogia = setTimeout(function(){
-        playPrompt();
-    },  timeBetweenSecs * 1000);
-
-  var hypnaLatency = parseInt($('#hypna-latency').val());
-  var hypnaLatencySecs = hypnaLatency * 60;
-
-  var nextWakeupTime = timeBetweenSecs + hypnaLatencySecs;
-
-  var nextWakeupTimer = setTimeout(function(){
-        startWakeup();
-    }, nextWakeupTime * 1000);
-}
 
 //end session
 function endSession() {
