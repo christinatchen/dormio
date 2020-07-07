@@ -51,6 +51,15 @@ $(function(){
   $("#session-buttons").hide();
   $("#new-button").hide();
 
+  $("#opener").click(function() {
+    openForm();
+  });
+
+  $("#closer").click(function() {
+    closeForm();
+  });
+
+
   //pull out form 
   setTimeout(openForm, 1000);
 
@@ -326,7 +335,6 @@ function startWakeup() {
       wakeup_msg_player.onended = () => {
           startRecording("dream_"+wakeups+"_"+new Date().toISOString() + '.mp3', "dream");
       }
-  }
 
   var recordingString = convertTimerStringSeconds(recordingTime);
   document.getElementById("labeltimer").innerHTML = "recording time";

@@ -289,6 +289,14 @@ $(function(){
   $("#calibrate").hide();
   $("#stop_session").hide();
 
+    $("#opener").click(function() {
+    openForm();
+  });
+
+  $("#closer").click(function() {
+    closeForm();
+  });
+
   //populate default variables
   for (var key in defaults){
     $("#" + key).val(defaults[key]);
